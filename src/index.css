@@ -11,3 +11,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/*스크롤스파이 */
+
+#category-nav a{
+  text-decoration: none; /* 텍스트에 대한 밑줄 제거 */
+  color: white; /* 링크의 색상을 부모 요소로 상속 */
+  cursor: pointer; /* 마우스 커서를 손가락 형태로 변경 */
+}
+
+#category-nav .here{
+  color:brown;
+}
