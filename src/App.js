@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Form, ListGroup, Offcanvas, Navbar, Nav, Button } from 'react-bootstrap';
 import Badge from 'react-bootstrap/Badge';
 import Stack from 'react-bootstrap/Stack';
-import { Link, scroller } from 'react-scroll';
+import { Events, Link, scroller } from 'react-scroll';
 
 function Header() {
 
@@ -92,102 +92,85 @@ function Hamburger() {
 
 function Category() {
 
+  let targetSection = '';
   let isScrolling = false;
 
-  const handleSetActive = (td) => {
-    console.log('호출됨')
-    if(isScrolling) return;
-    scrollNav(`${td}test`)
+  Events.scrollEvent.register('begin',function(to,element){
+    scrollNav(to+"-nav")
+    targetSection = to;
+    isScrolling = true;
+    console.log("스크롤시작됨 element") 
+  })
+
+  const handleSetActive = (to) => {
+    if(isScrolling){
+      if(`${to}` == targetSection){
+        isScrolling=false;
+        console.log("스크롤끝") 
+      }
+      return;
+    }
+    console.log("hadleSetActive 호출됨")
+    scrollNav(`${to}-nav`)
   };
 
   //바스크롤
-  const scrollNav = (navId) => {
+  const scrollNav = (sectionNav) => {
 
-    isScrolling = true;
-
-    const element = document.getElementById(`${navId}`);
+    const element = document.getElementById(sectionNav);
 
     if(element){
+      //이전 badge 의 active 지우기
+      const activeElements = document.getElementsByClassName("nav-active")
+      for(const activeElement of activeElements){
+        activeElement.classList.remove('nav-active');
+      }
 
-      const container = document.getElementById('ttt'); // 스크롤이 발생하는 부모 엘리먼트
-      const targetLeft = element.offsetLeft-50; 
+      //선택한 badge에 actvie 부여하기
+      element.parentNode.classList.add("nav-active")
+
+      const container = document.getElementById('scroll-nav');
+      //화면 중앙에 오게
+      const targetLeft = element.offsetLeft+(element.offsetWidth/2) - (container.clientWidth / 2);
   
       container.scrollTo({
-        left: targetLeft-10,
+        left: targetLeft,
         behavior: 'smooth',
         ignoreCancelEvents: true
       });
     }
-  
   }
 
-  //섹션스크롤
-  const scrollSec = (td) =>{
-    scroller.scrollTo(td,{
-      offset:-200,
-      ignoreCancelEvents: true
-    })
-    isScrolling = false;
-  }
-
-
-  const btnclicked = (td) => {
-    scrollNav(`${td}test`)
-    //scrollSec(td)
-  }
 
   return (
-    <div id="ttt" className='overflow-auto border-bottom' >
-
+    <div id="scroll-nav" className='overflow-auto border-bottom' >
       <Navbar>
         <Nav navbarScroll>
-          <Stack direction="horizontal" gap={2} className='p-2 fs-3' id='category-nav'>
-            <Badge pill bg="primary">
-              <Link to="section1" offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={false} id='section1test' onClick={() =>btnclicked('section1')}>고구마</Link>
+          <Stack direction="horizontal" gap={2} className='p-2 fs-1' id="scroll-nav-stack">
+            <Badge pill bg="defalut" className='border'>
+              <Link to="section1"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section1-nav'>고구마</Link>
             </Badge>
-            <Badge pill bg="secondary">
-              <Link td="section2"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section2test' onClick={() =>btnclicked('section2')}>토마토</Link>
+            <Badge pill bg="defalut" className='border'>
+              <Link to="section2"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section2-nav'>토마토</Link>
             </Badge>
-            <Badge pill bg="success">
-              <Link td="section3"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section3test' onClick={() =>btnclicked('section3')}>고추</Link>
+            <Badge pill bg="defalut" className='border'>
+              <Link to="section3"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section3-nav'>고추</Link>
             </Badge>
-            <Badge pill bg="secondary">
-              <Link td="section4"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section4test' onClick={() =>btnclicked('section4')}>호박</Link>
+            <Badge pill bg="defalut" className='border'>
+              <Link to="section4"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section4-nav'>호박</Link>
             </Badge>
-            <Badge pill bg="primary">
-              <Link td="section5"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section5test' onClick={() =>btnclicked('section5')}>과일</Link>
+            <Badge pill bg="defalut" className='border'>
+              <Link to="section5"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section5-nav'>과일</Link>
             </Badge>
-            <Badge pill bg="secondary">
-              <Link td="section6"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section6test' onClick={() =>btnclicked('section6')}>채소</Link>
+            <Badge pill bg="defalut" className='border'>
+              <Link to="section6"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section6-nav'>채소</Link>
             </Badge>
-            <Badge pill bg="success"> 
-              <Link td="section7"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section7test' onClick={() =>btnclicked('section7')}>쌈채</Link>
+            <Badge pill bg="defalut" className='border'> 
+              <Link to="section7"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section7-nav'>쌈채</Link>
             </Badge>
-            <Badge pill bg="primary">
-              <Link td="section8"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section8test' onClick={() =>btnclicked('section8')}>오이</Link>
+            <Badge pill bg="defalut" className='border'>
+              <Link to="section8"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section8-nav'>오이</Link>
             </Badge>
-            <Badge pill bg="primary">
-              <Link td="section8"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section8test'>오이</Link>
-            </Badge>
-            <Badge pill bg="primary">
-              <Link td="section8"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section8test'>오이</Link>
-            </Badge>
-            <Badge pill bg="primary">
-              <Link td="section8"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section8test'>오이</Link>
-            </Badge>
-            <Badge pill bg="primary">
-              <Link td="section8"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section8test'>오이</Link>
-            </Badge>
-            <Badge pill bg="primary">
-              <Link td="section8"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section8test'>오이</Link>
-            </Badge>
-            <Badge pill bg="primary">
-              <Link td="section8"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section8test'>오이</Link>
-            </Badge>
-            <Badge pill bg="primary">
-              <Link td="section8"  offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section8test'>오이</Link>
-            </Badge>
-
           </Stack>
         </Nav>
       </Navbar>
