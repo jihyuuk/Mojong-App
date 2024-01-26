@@ -1,70 +1,76 @@
-# Getting Started with Create React App
+# React 상품 판매 앱 만들기
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 1. 간단 개요
+장바구니에 아이템을 담고 실제 영수증으로 출력 할 수 있는 앱   
+(배달의 민족을 참고하였습니다.)
+<br>
 
-## Available Scripts
+## 2. 개발환경
 
-In the project directory, you can run:
+ ### 프론트
+> ### React
+> - BootStrap
+> - React-Scroll
 
-### `npm start`
+  ### 서버
+> ### Spring Boot
+> - Security
+> - JPA
+> - MySQL
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<br>
+<br>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 3. 앱 개발 이유
 
-### `npm test`
+모종 판매는 야외에서 혼잡하고 정신 없는 환경에서 이뤄지며, 크게 다음과 같은 문제점이 있습니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<br>
 
-### `npm run build`
+**1. 계산기를 통한 판매** 
+> 상품 가격을 일일이 계산기를 사용하여 더해야 하는 번거로움이 있었습니다. 가격을 외우고 있지 않으면 표지판을 확인하러 가야했으며, 계산 중에 입력 오류를 확인하기 어려웠고 어떤 것을 계산했고 어떤 것을 아직 계산 안 했는지 판별하기 어려웠습니다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**2. 수기로 작성하는 영수증** 
+> 고객에게는 수기로 작성된 간이 영수증을 제공해야 했습니다. 이로 인해 많은 시간과 노력이 소요되었고, 모든 상품에 대해 상품명, 단가, 합계를 일일이 계산하여 기재해야 했습니다.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**3. 계산 결과에 대한 불신** 
+> 계산기를 통한 판매와 수기로 작성된 영수증으로 인해 고객들 중에서는 직접 다시 계산하는 분들이 있었습니다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**4. 기록 부재** 
+> 거래 기록이 남지 않아 사후에 문제 제기가 들어왔을 때 대처가 불가능했습니다.
 
-### `npm run eject`
+<br>
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+이러한 어려움과 복잡성을 해결하기 위해, 업무 효율성을 향상시키기 위해 개발을 결심하게 되었습니다.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<br>
+<br>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 4. 기대효과
+1. 정확하고 빠른 계산
+2. 상품의 가격을 외울 필요가 없다
+3. 기록으로 인한 사후대처 가능 
+4. 영수증 출력으로 인한 시간,비용 감소
+5. 알바생도 가능
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+<br>
+<br>
 
-## Learn More
+## 5. 구현 기능
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. **검색**
+2. **장바구니**
+   - 기타 상품 직접 추가 기능
+3. **영수증 출력**
+4. **회원**
+    - 로그인
+    - 본인 기록만 열람 가능
+    - 임시저장
+5. **관리자**
+    - 회원관리
+    - 상품관리
+    - 모든 기록 열람 가능
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
