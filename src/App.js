@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, ListGroup, Offcanvas, Navbar, Nav } from 'react-bootstrap';
+import { Form, ListGroup, Offcanvas, Navbar, Nav, Button } from 'react-bootstrap';
 import Badge from 'react-bootstrap/Badge';
 import Stack from 'react-bootstrap/Stack';
 import { Link, scroller } from 'react-scroll';
@@ -14,14 +14,14 @@ function Header() {
 
         <Form.Control size="lg" type="text" className='flex-grow-1 px-2' placeholder="🔍 검색하기" />
 
-        <Link variant="default" className='position-relative'>
+        <Button variant="default" className='position-relative'>
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-cart2" viewBox="0 0 16 16">
             <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l1.25 5h8.22l1.25-5zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0" />
           </svg>
           <div className='z-1 position-absolute top-0 start-50'>
             <span className="badge rounded-pill bg-danger">3</span>
           </div>
-        </Link>
+        </Button>
 
       </div>
     </header>
@@ -36,14 +36,15 @@ function Hamburger() {
 
   return (
     <>
-      <Link variant="default" onClick={toggleShow}>
+      <Button variant="default" onClick={toggleShow}>
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-list" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
         </svg>
-      </Link>
+      </Button>
       <Offcanvas show={show} onHide={handleClose} backdrop={true} scroll={true} style={{ width: '60%', maxWidth: '300px' }}>
         <Offcanvas.Header closeLink>
           <Offcanvas.Title className='fw-bold fs-4'>조은정님</Offcanvas.Title>
+          <Button variant="default" className="btn-close" onClick={handleClose}></Button>
         </Offcanvas.Header>
         <Offcanvas.Body className='d-flex flex-column'>
           <ListGroup variant='flush fs-5'>
@@ -77,9 +78,9 @@ function Hamburger() {
             </ListGroup.Item>
           </ListGroup>
 
-          <Link variant="outline-danger" className='mt-auto mb-3'>
+          <Button variant="outline-danger" className='mt-auto mb-3'>
             로그아웃
-          </Link>
+          </Button>
 
 
         </Offcanvas.Body>
