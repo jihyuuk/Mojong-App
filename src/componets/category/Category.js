@@ -54,40 +54,37 @@ function Category() {
     }
 
 
+    function CategoryList() {
+
+        const categories = ["고구마", "호박", "토마토", "고추"];
+
+        const list = categories.map((category, index) => {
+            return (
+                <Badge key={index} pill bg="defalut" className='border'>
+                    <Link to={`section${index}`} offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id={`section${index}-nav`}>{category}</Link>
+                </Badge>
+            );
+        });
+
+        return (
+            <>
+                {list}
+            </>
+        );
+    }
+
+
     return (
         <div id="scroll-nav" className='overflow-auto border-bottom' >
             <Navbar>
                 <Nav navbarScroll>
                     <Stack direction="horizontal" gap={2} className='p-2 fs-1' id="scroll-nav-stack">
-                        <Badge pill bg="defalut" className='border'>
-                            <Link to="section1" offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section1-nav'>고구마</Link>
-                        </Badge>
-                        <Badge pill bg="defalut" className='border'>
-                            <Link to="section2" offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section2-nav'>토마토</Link>
-                        </Badge>
-                        <Badge pill bg="defalut" className='border'>
-                            <Link to="section3" offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section3-nav'>고추</Link>
-                        </Badge>
-                        <Badge pill bg="defalut" className='border'>
-                            <Link to="section4" offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section4-nav'>호박</Link>
-                        </Badge>
-                        <Badge pill bg="defalut" className='border'>
-                            <Link to="section5" offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section5-nav'>과일</Link>
-                        </Badge>
-                        <Badge pill bg="defalut" className='border'>
-                            <Link to="section6" offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section6-nav'>채소</Link>
-                        </Badge>
-                        <Badge pill bg="defalut" className='border'>
-                            <Link to="section7" offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section7-nav'>쌈채</Link>
-                        </Badge>
-                        <Badge pill bg="defalut" className='border'>
-                            <Link to="section8" offset={-200} spy={true} onSetActive={handleSetActive} ignoreCancelEvents={true} id='section8-nav'>오이</Link>
-                        </Badge>
+
+                        <CategoryList></CategoryList>
+
                     </Stack>
                 </Nav>
             </Navbar>
-
-
         </div>
     )
 
