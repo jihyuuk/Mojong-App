@@ -3,6 +3,7 @@ import Header from './componets/header/Header';
 import Category from './componets/category/Category';
 import Section from './componets/section/section';
 import { fetchData } from './domain/TestDatas';
+import AddCartModal from './componets/modal/AddCartModal';
 
 export const DataContext = createContext(); 
 
@@ -31,6 +32,7 @@ function App() {
           <Section></Section>
 
           <footer style={{ height: 200}}>
+            <AddCartModal></AddCartModal>
           </footer>
 
         </div>

@@ -7,6 +7,17 @@
   margin: auto;
 }
 
+/* input type=number 증감 화살표 없애기 */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 /*스크롤스파이 */
 #scroll-nav-stack a{
   color:black;
@@ -22,3 +33,9 @@
   color: white;
 }
 
+/* AddCart 모달의 Input */
+#AddCartInput{
+  color:transparent;
+  text-shadow:0 0 0 black;
+  width: 3em;
+}
