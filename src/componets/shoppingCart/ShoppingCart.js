@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { ShoppingCartContext } from '../../App';
 
 function ShoppingCart() {
+
+    const {cart, setCart} = useContext(ShoppingCartContext);
+
     return (
         <div>
 
@@ -21,8 +25,17 @@ function ShoppingCart() {
             </header>
 
             {/* 바디 */}
-            <div className='fs-5 text-secondary' style={{ width: '100%', height: '25em', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            {/* <div className='fs-5 text-secondary' style={{ width: '100%', height: '25em', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 비어있습니다
+            </div> */}
+
+            <div>
+                {cart.map((item,index)=>(
+                    <div key={index}>
+                        {item.name} {item.price} {item.count}
+                    </div>
+                ))}
+
             </div>
 
         </div>
