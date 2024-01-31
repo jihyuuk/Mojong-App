@@ -1,18 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 
-function AddCartModal(item) {
+function AddCartModal(props) {
 
-    //모달 열기,닫기 관련
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const item = props.item;
+    const show = props.show;
+    const handleClose = props.handleClose;
 
     //데이터 관련
     const [value, setValue] = useState('');
     const [count, setCount] = useState(0);
     const [total, setTotal] = useState(0);
-    const price = 500;
+    const [name, setName] = useState('');
+    const [price, setPrice] = useState(0);
+
+
+    //처음 로딩시
+    useEffect(()=>{
+        if(show){
+            setName(item.name);
+            setPrice(item.price);
+
+        //value변경시 -> count변경 - > total 변경됨
+        setValue('');
+    }
+    },[show])
+
 
     //인풋 value 바뀌면 count도 변경
     useEffect(() => {
@@ -59,27 +72,19 @@ function AddCartModal(item) {
 
     return (
         <>
-            <Button variant="primary" onClick={handleShow}>
-                Launch demo modal
-            </Button>
 
             <Modal show={show} onHide={handleClose}>
 
                 {/* 헤더 */}
                 <Modal.Header closeButton>
-                    <Modal.Title className='fw-bold'>칼탄파워</Modal.Title>
+                    <Modal.Title className='fw-bold ps-3 fs-2'>{name}</Modal.Title>
                 </Modal.Header>
 
                 {/* 바디 */}
                 <Modal.Body>
-                    <div className='d-flex fs-5 fw-semibold justify-content-center gap-3'>
-                      <p className='mb-0'>단가 : {price}원</p>
-                      <div className='vr'></div>
-                      <p className='mb-0'>수량 : {count}개</p>
-                    </div>
-                    
+                <p className="fs-5 mb-0 text-center"><span className='fw-semibold'>단가</span> : {price}원 X {count}개</p>
                     <hr></hr>
-                    <p className='text-end fs-3 fw-bold p-1 mb-0'>합계: {total}원 </p>
+                    <p className='text-center fs-3 fw-bold mb-0'>합계: {total}원 </p>
                     <hr></hr>
 
                     {/* 수량 */}
@@ -123,7 +128,7 @@ function AddCartModal(item) {
 
                 {/* 푸터 */}
                 <Modal.Footer>
-                    <Button variant="primary" onClick={handleClose} className='m-auto'>
+                    <Button variant="primary" onClick={handleClose} className='m-auto fs-4'>
                         장바구니에 담기
                     </Button>
                 </Modal.Footer>

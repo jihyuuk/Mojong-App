@@ -23,9 +23,9 @@ function HamburgerBtn(){
         <Offcanvas show={show} onHide={handleClose} backdrop={true} scroll={true} style={{ width: '60%', maxWidth: '300px' }}>
 
            {/* 헤더 */}
-          <Offcanvas.Header closeLink>
+          <Offcanvas.Header closeButton>
             <Offcanvas.Title className='fw-bold fs-4'>{user}</Offcanvas.Title>
-            <Button variant="default" className="btn-close" onClick={handleClose}></Button>
+            {/* <Button variant="default" className="btn-close" onClick={handleClose}></Button> */}
           </Offcanvas.Header>
 
             {/* 목록 */}

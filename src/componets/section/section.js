@@ -1,10 +1,23 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { ListGroup } from "react-bootstrap";
 import { DataContext } from '../../App';
+import AddCartModal from '../modal/AddCartModal';
 
 function Section() {
 
   const datas = useContext(DataContext);
+
+      //모달 열기,닫기 관련
+      const [clickedItem,setClickedItem] = useState();
+      const [show, setShow] = useState(false);
+      const handleClose = () => setShow(false);
+      const handleShow = () => setShow(true);
+
+      const handleClick = (item) => {
+        setClickedItem(item);
+        handleShow();
+      }
+  
 
   return (
     <>
@@ -17,7 +30,7 @@ function Section() {
            {/* 카테고리의 아이템들 출력 부분*/}
           {data.items.map((item, itemIndex) => (
   
-            <ListGroup.Item key={itemIndex} className='fs-5 fw-semibold py-3'>
+            <ListGroup.Item key={itemIndex} className='fs-5 fw-semibold py-3 item' onClick={()=>{handleClick(item)}} >
               <div className='d-flex align-items-center'>
                 <span className='m-0 me-2'>{item.name}</span> 
               </div>
@@ -28,6 +41,9 @@ function Section() {
           ))}
   
         </ListGroup>))}
+
+          {/* 모달 */}
+        <AddCartModal item={clickedItem} show={show} handleClose={handleClose}></AddCartModal>
     </>
   )
 

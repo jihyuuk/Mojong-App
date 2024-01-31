@@ -13,6 +13,7 @@ function App() {
   // 서버에서 데이터 받아오기
   const [data,setData] = useState([]);
 
+
   useEffect(()=>{
 
     setData(fetchData());
@@ -32,7 +33,6 @@ function App() {
           <Section></Section>
 
           <footer style={{ height: 200}}>
-            <AddCartModal></AddCartModal>
           </footer>
 
         </div>
