@@ -30,22 +30,24 @@ function AddCartModal(item) {
     }, [count]);
 
     //더하기 버튼
-    const handlePlus = () => {
-        setCount(count + 1);
+    const handlePlus = (param) => {
+        setValue(Number(value + param));
     }
     //빼기버튼
     const handleMinus = () => {
-        if (count <= 0) {
-            setCount(0);
-            return;
+        const newValue = Number(value - 1);
+
+        if (newValue <= 0) {
+            setValue('');
+        } else {
+            setValue(newValue);
         }
-        setCount(count - 1);
     }
 
     //값 입력
     const handleInput = (e) => {
         const input = parseInt(e.target.value, 0);
-        console.log("입력값 : "+input)
+        console.log("입력값 : " + input)
         if (isNaN(input) || input <= 0) {
             //백스페이스 또는 0 입력시
             setValue('');
@@ -70,9 +72,14 @@ function AddCartModal(item) {
 
                 {/* 바디 */}
                 <Modal.Body>
-                    <p className='fs-6 mb-0 p-1'>단가 : {price}원</p>
-                    <p className='fw-bold p-1 mb-0'>합계 : {total}원 </p>
-
+                    <div className='d-flex fs-5 fw-semibold justify-content-center gap-3'>
+                      <p className='mb-0'>단가 : {price}원</p>
+                      <div className='vr'></div>
+                      <p className='mb-0'>수량 : {count}개</p>
+                    </div>
+                    
+                    <hr></hr>
+                    <p className='text-end fs-3 fw-bold p-1 mb-0'>합계: {total}원 </p>
                     <hr></hr>
 
                     {/* 수량 */}
@@ -96,7 +103,7 @@ function AddCartModal(item) {
                             autoFocus
                         />
 
-                        <Button variant='default' className='border' onClick={handlePlus}>
+                        <Button variant='default' className='border' onClick={() => handlePlus(1)}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus" viewBox="0 0 16 16">
                                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
                             </svg>
@@ -104,8 +111,11 @@ function AddCartModal(item) {
                     </div>
 
                     {/* 버튼 */}
-                    <div>
-                        <Button></Button>
+                    <div className='d-flex justify-content-center gap-3 mt-4'>
+                        <Button variant="outline-primary" className='rounded-pill' onClick={() => handlePlus(5)}>+5</Button>
+                        <Button variant="outline-primary" className='rounded-pill' onClick={() => handlePlus(10)}>+10</Button>
+                        <Button variant="outline-primary" className='rounded-pill' onClick={() => handlePlus(50)}>+50</Button>
+                        <Button variant="outline-primary" className='rounded-pill' onClick={() => handlePlus(72)}>+72</Button>
                     </div>
 
 
