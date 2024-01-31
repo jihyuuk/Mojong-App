@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Badge, Nav, Navbar, Stack } from 'react-bootstrap';
 import { Events, Link } from 'react-scroll';
-import { DataContext } from '../../App';
+import { DataContext } from '../../../App';
 
 //바 스크롤중에 hadleSetActive동작 막기위함
 let targetSection = '';
@@ -18,7 +18,7 @@ Events.scrollEvent.register('begin', function (to, element) {
 //현재 시청 섹션 변경시 호출됨
 const handleSetActive = (to) => {
     if (isScrolling) {
-        if (`${to}` == targetSection) {
+        if (`${to}` === targetSection) {
             isScrolling = false;
             console.log("스크롤끝")
         }

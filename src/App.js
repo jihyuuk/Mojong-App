@@ -1,20 +1,18 @@
 import React, { useEffect, useState, createContext } from 'react';
-import Header from './componets/header/Header';
-import Category from './componets/category/Category';
-import Section from './componets/section/section';
 import { fetchData } from './domain/TestDatas';
-import AddCartModal from './componets/modal/AddCartModal';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from './componets/home/Home';
 
-export const DataContext = createContext(); 
+export const DataContext = createContext();
 
 
 function App() {
 
   // 서버에서 데이터 받아오기
-  const [data,setData] = useState([]);
+  const [data, setData] = useState([]);
 
 
-  useEffect(()=>{
+  useEffect(() => {
 
     setData(fetchData());
 
@@ -22,21 +20,17 @@ function App() {
 
 
   return (
-    <DataContext.Provider value={data}>
-        <div id='mojong-app' className='bg-body-tertiary'>
-
-          <div className='sticky-top bg-white'>
-            <Header></Header>
-            <Category></Category>
-          </div>
-
-          <Section></Section>
-
-          <footer style={{ height: 200}}>
-          </footer>
-
-        </div>
-    </DataContext.Provider>
+    <div id='mojong-app' className='bg-body-tertiary'>
+      <DataContext.Provider value={data}>
+        <BrowserRouter>
+          <Routes>
+            {/* 홈 화면 */}
+            <Route path='/' element={<Home/>}></Route>
+            {/* <Route path='/shopping-cart' element={}></Route> */}
+          </Routes>
+        </BrowserRouter>
+      </DataContext.Provider>
+    </div>
   );
 }
 

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { ListGroup } from "react-bootstrap";
-import { DataContext } from '../../App';
 import AddCartModal from '../modal/AddCartModal';
+import { DataContext } from '../../../App';
 
 function Section() {
 
