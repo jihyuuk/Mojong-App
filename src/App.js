@@ -2,6 +2,7 @@ import React, { useEffect, useState, createContext } from 'react';
 import { fetchData } from './domain/TestDatas';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './componets/home/Home';
+import ShoppingCart from './componets/shoppingCart/ShoppingCart';
 
 export const DataContext = createContext();
 
@@ -13,9 +14,7 @@ function App() {
 
 
   useEffect(() => {
-
     setData(fetchData());
-
   }, []);
 
 
@@ -26,7 +25,7 @@ function App() {
           <Routes>
             {/* 홈 화면 */}
             <Route path='/' element={<Home/>}></Route>
-            {/* <Route path='/shopping-cart' element={}></Route> */}
+            <Route path='/shopping-cart' element={<ShoppingCart/>}></Route>
           </Routes>
         </BrowserRouter>
       </DataContext.Provider>
