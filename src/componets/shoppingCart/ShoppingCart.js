@@ -1,14 +1,38 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import CartView from './cart/CartView';
 import ReceiptView from './receipt/ReceiptView';
+import { ShoppingCartContext } from '../../App';
 
 function ShoppingCart() {
 
+    // 뷰관련
     const [nowView,setNowView] = useState('cartView');
     const recepitView = 'recepitView';
     const cartView = 'cartView';
+
+    //장바구니관련
+    const {cart} = useContext(ShoppingCartContext);
+    const [totalQuantity, setTotalQuantity] = useState(0);
+    const [total, setTotal] = useState(0);
+    // cart이 변경될 때마다 총합을 계산
+    useEffect(() => {
+        let calculatedTotal = 0;
+        let quantityTotal = 0;
+
+        cart.forEach(item => {
+            // 장바구니 아이템 순회하면서 총합 계산
+            calculatedTotal += (Number(item.price) * Number(item.count));
+            //총 수량 개산
+            quantityTotal += item.count;
+        });
+
+        // 총합 업데이트
+        setTotal(calculatedTotal);
+        setTotalQuantity(quantityTotal);
+    }, [cart]);
+
 
     return (
         <div className='bg-white'>
@@ -44,8 +68,8 @@ function ShoppingCart() {
 
 
             {/* 내용 */}
-            {nowView === cartView && <CartView/>};
-            {nowView === recepitView && <ReceiptView/>};
+            {nowView === cartView && <CartView totalQuantity={totalQuantity} total={total} />}
+            {nowView === recepitView && <ReceiptView total={total}/>}
             
         </div>
     );

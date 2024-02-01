@@ -2,28 +2,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Button, Form, ListGroup } from 'react-bootstrap';
 import { ShoppingCartContext } from '../../../App';
 
-function CartView() {
+function CartView(props) {
 
     const { cart, setCart } = useContext(ShoppingCartContext);
-    const [totalQuantity, setTotalQuantity] = useState(0);
-    const [total, setTotal] = useState(0);
-
-    // cart이 변경될 때마다 총합을 계산
-    useEffect(() => {
-        let calculatedTotal = 0;
-        let quantityTotal = 0;
-
-        cart.forEach(item => {
-            // 장바구니 아이템 순회하면서 총합 계산
-            calculatedTotal += (Number(item.price) * Number(item.count));
-            //총 수량 개산
-            quantityTotal += item.count;
-        });
-
-        // 총합 업데이트
-        setTotal(calculatedTotal);
-        setTotalQuantity(quantityTotal);
-    }, [cart]);
+    const total = props.total;
+    const totalQuantity = props.totalQuantity;
 
 
     //삭제버튼클릭시
@@ -82,7 +65,7 @@ function CartView() {
                                 <p className='fw-bold p-1'>합계 : {item.price * item.count}원 </p>
 
                                 {/* 수량 */}
-                                <div className='d-flex justify-content-center gap-2 my-2'>
+                                <div className='d-flex justify-content-center gap-2'>
                                     {/* 감소버튼 */}
                                     <Button variant='default' className='border' onClick={() => handleMinus(item)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-dash" viewBox="0 0 16 16">

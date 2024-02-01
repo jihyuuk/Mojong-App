@@ -2,7 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
 import { ShoppingCartContext } from '../../../App';
 
-function ReceiptView() {
+function ReceiptView(props) {
+
+    const {cart} = useContext(ShoppingCartContext);
+    const total = props.total;
 
     return (
         <div>
@@ -35,55 +38,18 @@ function ReceiptView() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td className='text-center'>1</td>
-                            <td>청양고추</td>
-                            <td className='text-center'>2</td>
-                            <td className='text-end'>400</td>
-                            <td className='text-end'>800</td>
-                        </tr>
-                        <tr>
-                            <td className='text-center'>2</td>
-                            <td>오이고추</td>
-                            <td className='text-center'>15</td>
-                            <td className='text-end'>500</td>
-                            <td className='text-end'>2,500</td>
-                        </tr>
-                        <tr>
-                            <td className='text-center'>3</td>
-                            <td>오이고추</td>
-                            <td className='text-center'>15</td>
-                            <td className='text-end'>500</td>
-                            <td className='text-end'>2,500</td>
-                        </tr>
-                        <tr>
-                            <td className='text-center'>4</td>
-                            <td>오이고추</td>
-                            <td className='text-center'>15</td>
-                            <td className='text-end'>500</td>
-                            <td className='text-end'>2,500</td>
-                        </tr>
-                        <tr>
-                            <td className='text-center'>5</td>
-                            <td>오이고추</td>
-                            <td className='text-center'>15</td>
-                            <td className='text-end'>500</td>
-                            <td className='text-end'>2,500</td>
-                        </tr>
-                        <tr>
-                            <td className='text-center'>6</td>
-                            <td>오이고추</td>
-                            <td className='text-center'>15</td>
-                            <td className='text-end'>500</td>
-                            <td className='text-end'>2,500</td>
-                        </tr>
-                        <tr>
-                            <td className='text-center'>7</td>
-                            <td>오이고추</td>
-                            <td className='text-center'>15</td>
-                            <td className='text-end'>500</td>
-                            <td className='text-end'>2,500</td>
-                        </tr>
+                        {
+                            cart.map((item,index)=>(
+                                <tr>
+                                <td className='text-center'>{index+1}</td>
+                                <td>{item.name}</td>
+                                <td className='text-center'>{item.count}</td>
+                                <td className='text-end'>{item.price}</td>
+                                <td className='text-end'>{item.price*item.count}</td>
+                            </tr>
+                            ))
+                        }
+
                     </tbody>
 
                     <tfoot>
@@ -91,7 +57,7 @@ function ReceiptView() {
                             <td colSpan={5}>
                                 <div className='d-flex justify-content-between fw-semibold fs-6 py-2'>
                                     <span>총 합계 금액</span>
-                                    <span>134,000</span>
+                                    <span>{total}</span>
                                 </div>
                             </td>
                         </tr>
