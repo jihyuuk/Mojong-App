@@ -2,6 +2,7 @@ import React from 'react';
 import Category from './category/Category';
 import Header from './header/Header';
 import Section from './section/Section';
+import GoToCart from './bottomBtn/GoToCart';
 
 function Home() {
     return (
@@ -14,6 +15,8 @@ function Home() {
 
             {/* 센션*/}
             <Section></Section>
+
+            <GoToCart></GoToCart>
 
             {/* 푸터*/}
             <footer style={{ height: 200 }}>

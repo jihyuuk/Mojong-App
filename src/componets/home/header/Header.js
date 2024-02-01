@@ -28,7 +28,7 @@ function Header() {
                         {/* 수량 벳지 */}
                         {cart.length !== 0 &&
                             <div className='z-1 position-absolute top-0 start-50'>
-                                <Badge pill bg="danger">{cart.length}</Badge>
+                                <Badge bg="danger" className='rounded-circle'>{cart.length}</Badge>
                             </div>
                         }
                     </Button>
