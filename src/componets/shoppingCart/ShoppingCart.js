@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import CartView from './cart/CartView';
+import ReceiptView from './receipt/ReceiptView';
 
 function ShoppingCart() {
+
+    const [nowView,setNowView] = useState('cartView');
+    const recepitView = 'recepitView';
+    const cartView = 'cartView';
 
     return (
         <div className='bg-white'>
@@ -26,12 +31,12 @@ function ShoppingCart() {
             {/* 장바구니, 영수증 버튼 */}
             <Container fluid className='border-bottom'>
                 <Row>
-                    <Col className='text-center py-2 '>
+                    <Col className={`text-center py-2  ${nowView === cartView ? 'fw-bold border-bottom border-dark border-3' : ''}`}  onClick={()=>setNowView(cartView)}>
                         <span className='text-center'>장바구니</span>
                     </Col>
-                    <Col className="col-auto border p-0">
+                    <Col className="col-auto border-end p-0">
                     </Col>
-                    <Col  className='text-center py-2  fw-bold border-bottom border-dark border-3'>
+                    <Col  className={`text-center py-2  ${nowView === recepitView ? 'fw-bold border-bottom border-dark border-3' : ''}`} onClick={()=>setNowView(recepitView)}>
                         <span className='text-center'>영수증 미리보기</span>
                     </Col>
                 </Row>
@@ -39,8 +44,9 @@ function ShoppingCart() {
 
 
             {/* 내용 */}
-            <CartView></CartView>
-
+            {nowView === cartView && <CartView/>};
+            {nowView === recepitView && <ReceiptView/>};
+            
         </div>
     );
 }
