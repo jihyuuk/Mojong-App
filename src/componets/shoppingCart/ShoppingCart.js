@@ -1,14 +1,13 @@
-import React, { useContext } from 'react';
-import { Button } from 'react-bootstrap';
+import React from 'react';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { ShoppingCartContext } from '../../App';
+import CartView from './cart/CartView';
 
 function ShoppingCart() {
 
-    const {cart, setCart} = useContext(ShoppingCartContext);
-
     return (
-        <div>
+        <div className='bg-white'>
+
 
             {/* 헤더 */}
             <header className='border-bottom sticky-top bg-white fw-bold fs-3 p-2 d-flex align-items-center'>
@@ -24,19 +23,23 @@ function ShoppingCart() {
                 <p className='ms-3 mb-0'>장바구니</p>
             </header>
 
-            {/* 바디 */}
-            {/* <div className='fs-5 text-secondary' style={{ width: '100%', height: '25em', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                비어있습니다
-            </div> */}
+            {/* 장바구니, 영수증 버튼 */}
+            <Container fluid className='border-bottom'>
+                <Row>
+                    <Col className='text-center py-2 '>
+                        <span className='text-center'>장바구니</span>
+                    </Col>
+                    <Col className="col-auto border p-0">
+                    </Col>
+                    <Col  className='text-center py-2  fw-bold border-bottom border-dark border-3'>
+                        <span className='text-center'>영수증 미리보기</span>
+                    </Col>
+                </Row>
+            </Container>
 
-            <div>
-                {cart.map((item,index)=>(
-                    <div key={index}>
-                        {item.name} {item.price} {item.count}
-                    </div>
-                ))}
 
-            </div>
+            {/* 내용 */}
+            <CartView></CartView>
 
         </div>
     );
