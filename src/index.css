@@ -1,8 +1,13 @@
+html{
+  background-color: #e9ecef;
+}
+
 #root{
   background-color: #e9ecef;
 }
 
 #mojong-app{
+  height: 100%;
   max-width: 768px;
   margin: auto;
 }

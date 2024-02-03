@@ -10,7 +10,7 @@ function ReceiptView(props) {
     return (
         <div>
             {/* 바디 */}
-            <div className='m-2 p-2  border'>
+            <div className='m-3 p-3 bg-white  border rounded-3 shadow'>
 
                 <p className='fw-semibold fs-1 text-center mt-2'>영 수 증</p>
                 <div className='fs-6'>
