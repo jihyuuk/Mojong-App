@@ -3,6 +3,7 @@ import { fetchData } from './domain/TestDatas';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './componets/home/Home';
 import ShoppingCart from './componets/shoppingCart/ShoppingCart';
+import LoginPage from './componets/login/LoginPage';
 
 export const DataContext = createContext();
 export const ShoppingCartContext = createContext();
@@ -29,6 +30,7 @@ function App() {
               {/* 홈 화면 */}
               <Route path='/' element={<Home />}></Route>
               <Route path='/shopping-cart' element={<ShoppingCart />}></Route>
+              <Route path='/login' element={<LoginPage />}></Route>
             </Routes>
           </BrowserRouter>
         </ShoppingCartContext.Provider>
