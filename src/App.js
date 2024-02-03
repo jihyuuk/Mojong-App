@@ -5,9 +5,11 @@ import Home from './componets/home/Home';
 import ShoppingCart from './componets/shoppingCart/ShoppingCart';
 import LoginPage from './componets/login/LoginPage';
 import JoinPage from './componets/login/JoinPage';
+import PrivateRoute from './componets/router/PrivateRouter';
 
-export const DataContext = createContext();
-export const ShoppingCartContext = createContext();
+export const DataContext = createContext(null);
+export const ShoppingCartContext = createContext(null);
+export const AuthContext = createContext(null);
 
 function App() {
 
@@ -16,7 +18,19 @@ function App() {
   //장바구니
   const [cart,setCart] = useState([]);
 
+  //jwt존재 여부 판별
+  // useEffect(()=>{
 
+  //   const storedToken = localStorage.getItem("token");
+  //   if(storedToken){
+  //     //토큰있는 경우만
+  //     setToken(storedToken);
+  //   }
+
+  // },[]);
+
+
+  //데이터 가져오기
   useEffect(() => {
     setData(fetchData());
   }, []);
@@ -28,9 +42,13 @@ function App() {
         <ShoppingCartContext.Provider value={{cart,setCart}}>
           <BrowserRouter>
             <Routes>
-              {/* 홈 화면 */}
-              <Route path='/' element={<Home />}></Route>
-              <Route path='/shopping-cart' element={<ShoppingCart />}></Route>
+              {/* 로그인 필요 O */}
+              <Route element={<PrivateRoute/>}>
+                <Route path='/' element={<Home/>}></Route>
+                <Route path='/shopping-cart' element={<ShoppingCart />}></Route>
+              </Route>
+              
+              {/* 로그인 필요 X */}
               <Route path='/login' element={<LoginPage />}></Route>
               <Route path='/join' element={<JoinPage />}></Route>
             </Routes>
