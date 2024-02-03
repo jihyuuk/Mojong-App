@@ -8,14 +8,12 @@ function Home() {
     return (
         <>
             {/* 헤더 상단 */}
-            <div className='sticky-top bg-white'>
-                <Header></Header>
-                <Category></Category>
-            </div>
+            <Header></Header>
 
             {/* 센션*/}
             <Section></Section>
 
+            {/*하단 장바구니 버튼 */}
             <GoToCart></GoToCart>
 
             {/* 푸터*/}
