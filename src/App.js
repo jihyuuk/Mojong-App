@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './componets/home/Home';
 import ShoppingCart from './componets/shoppingCart/ShoppingCart';
 import LoginPage from './componets/login/LoginPage';
+import JoinPage from './componets/login/JoinPage';
 
 export const DataContext = createContext();
 export const ShoppingCartContext = createContext();
@@ -31,6 +32,7 @@ function App() {
               <Route path='/' element={<Home />}></Route>
               <Route path='/shopping-cart' element={<ShoppingCart />}></Route>
               <Route path='/login' element={<LoginPage />}></Route>
+              <Route path='/join' element={<JoinPage />}></Route>
             </Routes>
           </BrowserRouter>
         </ShoppingCartContext.Provider>
