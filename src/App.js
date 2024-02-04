@@ -83,8 +83,8 @@ function App() {
     } catch (error) {
       if (error.response && error.response.status === 403) {
         //토큰 지우기
-        localStorage.clear();
         setToken();
+        localStorage.removeItem('jwtToken');
         console.error('권한이 없습니다.');
       } else {
         console.error('서버 연결 중 오류 발생.', error.message);
