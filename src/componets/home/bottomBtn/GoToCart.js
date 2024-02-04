@@ -22,7 +22,7 @@ function GoToCart() {
             {
                 cart.length !== 0 &&
                 <div className='text-center sticky-bottom pb-4'>
-                    <Link to='/shopping-cart' className='btn btn-primary fs-4 py-2 px-3 shadow'>
+                    <Link to='/shopping-cart' replace={true} className='btn btn-primary fs-4 py-2 px-3 shadow'>
                     {total}원 · 장바구니 보기
                     </Link>
                 </div>

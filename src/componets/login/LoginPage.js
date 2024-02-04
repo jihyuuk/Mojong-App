@@ -57,7 +57,7 @@ function LonginPage() {
                 //토큰 스토리지에 저장
                 localStorage.setItem('jwtToken',getToken);
                 //리다이렉트
-                navigate("/");
+                navigate('/',{replace:true});
             }
 
         } catch (error) {
