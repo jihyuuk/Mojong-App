@@ -12,12 +12,25 @@ function Header() {
 
     //검색창 관련
     const [input, setInput] = useState('');
+    const [clearBtn, setClearBtn] = useState(false);
+
     //다른 곳 클릭시 연관 검색어 안보이게 하기
     const [show, setShow] = useState(true);
 
     const handleInput = (e) => {
         const value = e.target.value.trim();
+
+        //값이 있으면 클리어버튼 보여주기
+        if(value.length > 0){
+            setClearBtn(true);
+        } 
         setInput(value);
+    }
+
+    //클리어 버튼 클릭시
+    const handleClear = () => {
+        setInput('');
+        setClearBtn(false);
     }
 
     return (
@@ -28,7 +41,14 @@ function Header() {
                     {/* 햄버거 버튼 */}
                     <HamburgerBtn></HamburgerBtn>
                     {/* 검색창 */}
-                    <Form.Control size="lg" id='searchBar' type="search" className='flex-grow-1 px-2' placeholder="🔍 검색하기" onInput={handleInput}  onClick={()=>setShow(true)}/>
+                    <div className='flex-grow-1 position-relative d-flex align-items-center' >
+                        <Form.Control size="lg" id='searchBar' type="text" className='pe-5' placeholder="🔍 검색하기" onInput={handleInput} value={input} onClick={() => setShow(true)} />
+                        {clearBtn &&
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-x  position-absolute end-0 me-2 h-100" viewBox="0 0 16 16" onClick={handleClear}>
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                        </svg>
+                        }
+                    </div>
 
                     {/* 장바구니 아이콘 */}
                     <Link to="/shopping-cart" replace={true}>
