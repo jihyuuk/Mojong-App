@@ -1,12 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ListGroup } from 'react-bootstrap';
 import { DataContext } from '../../../App';
+import AddCartModal from '../modal/AddCartModal';
 
 function SearchField(props) {
 
+    //전체데이터
     const data = useContext(DataContext);
+    //검색데이터
     const input = props.input;
     const [findData, setFindData] = useState([]);
+
+    //보여주기 여부
+    const show = props.show;
+    const setShow = props.setShow;
+
+
+    //모달관련    
+    const [modalItem, setModalItem] = useState();
+    const [showModal, setShowModal] = useState(false);
+    const modalClose = () => { setShowModal(false) };
 
 
     //input이 바뀔때마다
@@ -30,27 +43,42 @@ function SearchField(props) {
         setFindData(finds);
     }, [input]);
 
+    //검색아이템 클릭시
+    const handleClick = (item) => {
+        setModalItem(item);
+        setShowModal(true);
+    }
+
+    //검색창닫기
+    const showColse = () => {
+        setShow(false)
+        const searchBar = document.getElementById('searchBar');
+        searchBar.blur();
+    }
+
+    if (!show || input.length <= 0) {
+        return <></>;
+    }
+
     return (
-        <>
-            {input.length > 0 &&
-                <div className='position-absolute top-0 start-0 z-1' style={{ width: '100%' }}>
-                    <div className='mx-2'>
-                        <ListGroup variant="flush" className='rounded-bottom-4 shadow'>
-                            {findData.length <= 0 &&
-                                <ListGroup.Item variant="light" className='py-3'>
-                                    검색 결과 없음
-                                </ListGroup.Item>}
-                                
-                            {findData.map((item, index) => (
-                                <ListGroup.Item key={index} variant="light" className='py-3'>
-                                    {item.name}
-                                </ListGroup.Item>
-                            ))}
-                        </ListGroup>
-                    </div>
-                </div>
-            }
-        </>
+        <div className='position-absolute top-0 start-0 z-1 bg-secondary bg-opacity-25' style={{ width: '100%' }}>
+            <div>
+                <ListGroup variant="flush" className='shadow'>
+                    {findData.length <= 0 &&
+                        <ListGroup.Item variant="light" className='py-3'>
+                            검색 결과 없음
+                        </ListGroup.Item>}
+
+                    {findData.map((item, index) => (
+                        <ListGroup.Item key={index} variant="light" className='py-3' onClick={() => handleClick(item)}>
+                            {item.name}
+                        </ListGroup.Item>
+                    ))}
+                </ListGroup>
+                <AddCartModal item={modalItem} show={showModal} handleClose={modalClose} />
+            </div>
+            <div className='vh-100' onClick={showColse} onTouchMove={showColse}></div>
+        </div>
 
     );
 

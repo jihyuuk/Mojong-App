@@ -9,7 +9,11 @@ import Category from '../category/Category';
 function Header() {
 
     const { cart } = useContext(ShoppingCartContext);
+
+    //검색창 관련
     const [input, setInput] = useState('');
+    //다른 곳 클릭시 연관 검색어 안보이게 하기
+    const [show, setShow] = useState(true);
 
     const handleInput = (e) => {
         const value = e.target.value.trim();
@@ -24,7 +28,7 @@ function Header() {
                     {/* 햄버거 버튼 */}
                     <HamburgerBtn></HamburgerBtn>
                     {/* 검색창 */}
-                    <Form.Control size="lg" type="search" className='flex-grow-1 px-2' placeholder="🔍 검색하기" onInput={handleInput}/>
+                    <Form.Control size="lg" id='searchBar' type="search" className='flex-grow-1 px-2' placeholder="🔍 검색하기" onInput={handleInput}  onClick={()=>setShow(true)}/>
 
                     {/* 장바구니 아이콘 */}
                     <Link to="/shopping-cart" replace={true}>
@@ -45,7 +49,8 @@ function Header() {
                 </div>
 
                 <div className='position-relative'>
-                    <SearchField input={input}></SearchField>
+                    {/* 연관검색어 */}
+                    <SearchField input={input} setShow={setShow} show={show}></SearchField>
                     {/* 카테고리 */}
                     <Category></Category>
                 </div>
