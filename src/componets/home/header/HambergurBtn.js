@@ -1,13 +1,28 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, ListGroup, Offcanvas } from 'react-bootstrap';
+import { TokenContext } from '../../../App';
+import { useNavigate } from 'react-router-dom';
 
 function HamburgerBtn(){
+
+    const {setToken} = useContext(TokenContext);
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const toggleShow = () => setShow((s) => !s);
 
     const [user,setUser] = useState('조은정님');
+
+    //로그아웃 핸들링
+    const navigate = useNavigate();
+    const handleLogout = () => {
+      //저장소에 토큰 지우기
+      localStorage.removeItem('jwtToken');
+      //전역 토큰 지우기
+      setToken();
+      //로그인 페이지로 리다이렉트
+      navigate('/',{replace:true});
+    }
   
     return (
       <>
@@ -62,7 +77,7 @@ function HamburgerBtn(){
             </ListGroup>
   
             {/* 로그아웃버튼 */}
-            <Button variant="outline-danger" className='mt-auto mb-3'>
+            <Button variant="outline-danger" className='mt-auto mb-3' onClick={handleLogout}>
               로그아웃
             </Button>
           </Offcanvas.Body>
