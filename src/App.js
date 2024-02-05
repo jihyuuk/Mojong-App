@@ -56,7 +56,7 @@ function App() {
     //    201: 모종데이터,새토큰
     //    403: 존재하는 토큰 지우기
     try {
-      const response = await axios.get('http://192.168.0.3:8080/init', {
+      const response = await axios.get(process.env.REACT_APP_API_URL+'/items', {
         headers: {
           'Authorization': jwtToken
         }
@@ -64,7 +64,7 @@ function App() {
 
       if (response.status === 200) {
         //데이터 불러오기성공시
-        setData(response.data.mojongData);
+        setData(response.data);
 
       } else if (response.status === 201) {
         //토큰갱신
@@ -72,7 +72,7 @@ function App() {
         localStorage.setItem('jwtToken', newToken);
         setToken(newToken);
 
-        setData(response.data.mojongData);
+        setData(response.data);
         console.log("토큰이 갱신되었습니다.");
 
       } else {
@@ -99,8 +99,8 @@ function App() {
   //로딩화면
   if (loading) {
     return (
-      <div class="d-flex flex-column justify-content-center" style={{paddingTop:'18em'}}>
-        <div class="spinner-border m-auto" role="status">
+      <div className="d-flex flex-column justify-content-center" style={{paddingTop:'18em'}}>
+        <div className="spinner-border m-auto" role="status">
         </div>
         <p className='fs-5 text-center mt-3'>데이터 불러오는 중...</p>
       </div>

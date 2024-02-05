@@ -35,7 +35,7 @@ function JoinPage() {
     //서버연동
     const fetchJoin = async () => {
         try {
-            const response = await axios.post('http://192.168.0.3:8080/join', `username=${username}&password=${pwd}`, {
+            const response = await axios.post(process.env.REACT_APP_API_URL+'/join', `username=${username}&password=${pwd}`, {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }

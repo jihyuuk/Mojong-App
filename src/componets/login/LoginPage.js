@@ -42,7 +42,7 @@ function LonginPage() {
 
         //서버 로그인 요청
         try {
-            const response = await axios.post('http://192.168.0.3:8080/login', `username=${username}&password=${password}`, {
+            const response = await axios.post(process.env.REACT_APP_API_URL+'/login', `username=${username}&password=${password}`, {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
