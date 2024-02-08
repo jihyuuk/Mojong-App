@@ -9,6 +9,7 @@ function SearchField(props) {
     const data = useContext(DataContext);
     //검색데이터
     const input = props.input;
+    const setInput = props.setInput
     const [findData, setFindData] = useState([]);
 
     //보여주기 여부
@@ -19,7 +20,10 @@ function SearchField(props) {
     //모달관련    
     const [modalItem, setModalItem] = useState();
     const [showModal, setShowModal] = useState(false);
-    const modalClose = () => { setShowModal(false) };
+    const modalClose = () => { 
+        setShowModal(false);
+        setInput(''); 
+    };
 
 
     //input이 바뀔때마다
@@ -61,24 +65,33 @@ function SearchField(props) {
     }
 
     return (
-        <div className='position-absolute top-0 start-0 z-1 bg-secondary bg-opacity-25' style={{ width: '100%' }}>
-            <div>
-                <ListGroup variant="flush" className='shadow'>
-                    {findData.length <= 0 &&
-                        <ListGroup.Item variant="light" className='py-3'>
-                            검색 결과 없음
-                        </ListGroup.Item>}
+        <>
+            {/* 연관검색어 */}
+            <div className='position-relative' >
+                <div className='position-absolute top-0 start-0 w-100 z-2'>
+                    <ListGroup variant="flush" className='shadow'>
+                        {findData.length <= 0 &&
+                            <ListGroup.Item variant="light" className='py-3'>
+                                검색 결과 없음
+                            </ListGroup.Item>}
 
-                    {findData.map((item, index) => (
-                        <ListGroup.Item key={index} variant="light" className='py-3' onClick={() => handleClick(item)}>
-                            {item.name}
-                        </ListGroup.Item>
-                    ))}
-                </ListGroup>
-                <AddCartModal item={modalItem} show={showModal} handleClose={modalClose} />
+                        {findData.map((item, index) => (
+                            <ListGroup.Item key={index} variant="light" className='py-3' onClick={() => handleClick(item)}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search me-2 text-secondary" viewBox="0 0 16 16">
+                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                                </svg>
+                                {item.name}
+                            </ListGroup.Item>
+                        ))}
+                    </ListGroup>
+                    <AddCartModal item={modalItem} show={showModal} handleClose={() => {modalClose()}} />
+                </div>
             </div>
-            <div className='vh-100' onClick={showColse} onTouchMove={showColse}></div>
-        </div>
+
+
+            {/* 기타배경 */}
+            <div className='position-absolute top-0 start-0 bg-secondary bg-opacity-50 w-100 h-100  z-1' onClick={() => showColse()} onTouchMove={() => showColse()}></div>
+        </>
 
     );
 
