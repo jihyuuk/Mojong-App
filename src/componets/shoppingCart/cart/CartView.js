@@ -33,18 +33,16 @@ function CartView(props) {
     }
 
 
+    if(cart.length <= 0){
+        return(
+        <div className='fs-5 text-secondary h-100 d-flex align-items-center justify-content-center' >
+            비어있습니다
+        </div>
+        );
+    }
+
     return (
-        <div>
-            {/* 바디 */}
-            {cart.length === 0 &&
-                <div className='fs-5 text-secondary' style={{ width: '100%', height: '25em', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    비어있습니다
-                </div>
-            }
-
-            {cart.length > 0 && <>
-
-                <div>
+                <div className='bg-white'>
                     <ListGroup variant='flush'>
 
                         {/* 카테고리의 아이템들 출력 부분*/}
@@ -111,8 +109,6 @@ function CartView(props) {
                     <hr />
 
                 </div>
-            </>}
-        </div>
     );
 
 }

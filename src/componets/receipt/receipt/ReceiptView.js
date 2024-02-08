@@ -8,8 +8,6 @@ function ReceiptView(props) {
     const total = props.total;
 
     return (
-        <div>
-            {/* 바디 */}
             <div className='m-3 p-3 bg-white  border rounded-3 shadow'>
 
                 <p className='fw-semibold fs-1 text-center mt-2'>영 수 증</p>
@@ -65,7 +63,6 @@ function ReceiptView(props) {
                 </Table>
             </div>
 
-        </div>
     );
 }
 
