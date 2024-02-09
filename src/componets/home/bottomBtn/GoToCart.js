@@ -5,29 +5,27 @@ import { ShoppingCartContext } from '../../../App';
 function GoToCart() {
 
     const { cart } = useContext(ShoppingCartContext);
-    const [total , setTotal] = useState(0);
+    const [total, setTotal] = useState(0);
 
-    useEffect(()=>{
+    useEffect(() => {
         let tempTotal = 0;
         cart.forEach(item => {
-            tempTotal += item.price*item.count;
+            tempTotal += item.price * item.count;
         });
         setTotal(tempTotal);
-    },[cart]);
+    }, [cart]);
+
+
+    if (cart.length <= 0) {
+        return (<></>);
+    }
 
     return (
-        <>
-            {cart.length === 0 && <div></div>}
-
-            {
-                cart.length !== 0 &&
-                <div className='text-center sticky-bottom pb-4'>
-                    <Link to='/shopping-cart' replace={true} className='btn btn-primary fs-4 py-2 px-3 shadow'>
-                    {total}원 · 장바구니 보기
-                    </Link>
-                </div>
-            }
-        </>
+        <div className='text-center p-3 border bg-white'>
+            <Link to='/shopping-cart' replace={true} className='btn btn-success w-100 fs-4 fw-semibold p-2 rounded-3'>
+                {total}원 <span className='fw-medium'>계산하기</span>
+            </Link>
+        </div>
     );
 }
 
