@@ -1,51 +1,49 @@
-import React, { useContext, useState } from 'react';
-import { ListGroup } from "react-bootstrap";
-import AddCartModal from '../modal/AddCartModal';
-import { DataContext } from '../../../App';
+import React from 'react';
 
-function Section() {
+function Section(props) {
 
-  const datas = useContext(DataContext);
+    const items = props.items;
 
-      //모달 열기,닫기 관련
-      const [clickedItem,setClickedItem] = useState();
-      const [show, setShow] = useState(false);
-      const handleClose = () => setShow(false);
-      const handleShow = () => setShow(true);
+    //모달 열기,닫기 관련
+    // const [clickedItem, setClickedItem] = useState();
+    // const [show, setShow] = useState(false);
+    // const handleClose = () => setShow(false);
+    // const handleShow = () => setShow(true);
 
-      const handleClick = (item) => {
-        setClickedItem(item);
-        handleShow();
-      }
-  
+    // const handleClick = (item) => {
+    //     setClickedItem(item);
+    //     handleShow();
+    // }
 
-  return (
-    <>
-      {datas.map((data, index) => (
+    return (
+        <div className='content overflow-auto h-100 px-2 pb-5'>
 
-        <ListGroup key={index} id={`section${index}`} variant='flush' className='border-top shadow-sm my-2 bg-white'>
-          {/* 카테고리 출력부분 */}
-          <ListGroup.Item className='fs-3 fw-bold text-bold border-0 py-3'>{data.category}</ListGroup.Item>
-  
-           {/* 카테고리의 아이템들 출력 부분*/}
-          {data.items.map((item, itemIndex) => (
-  
-            <ListGroup.Item key={itemIndex} className='fs-5 fw-semibold py-3 item' onClick={()=>{handleClick(item)}} >
-              <div className='d-flex align-items-center'>
-                <span className='m-0 me-2'>{item.name}</span> 
-              </div>
-              <p className='fw-light fs-6 mb-0 p-1'>{item.description}</p>
-              <p className='fw-medium p-1 mb-0'>{item.price}원</p>
-            </ListGroup.Item>
-  
-          ))}
-  
-        </ListGroup>))}
+            <div className='p-2 fw-midium text-secondary'>총 <span className='fw-semibold'>{items.length}</span>개</div>
 
-          {/* 모달 */}
-        <AddCartModal item={clickedItem} show={show} handleClose={handleClose}></AddCartModal>
-    </>
-  )
+            <div className='row row-cols-2 row-cols-md-3 g-2'>
+
+                {items.map((item, index) => (
+
+                    <div key={index} className='col'>
+                        <div className='card h-100 shadow-sm'>
+                            <div className='card-body'>
+                                <div className='fs-4 fw-semibold'>{item.name}</div>
+                                <div className='text-secondary my-2'>{item.description}</div>
+                            </div>
+                            <div className='card-footer text-center'>
+                                <div className='fs-5'>{item.price}원</div>
+                            </div>
+                        </div>
+                    </div>
+
+                ))}
+
+            </div>
+
+
+
+        </div>
+    )
 
 }
 
