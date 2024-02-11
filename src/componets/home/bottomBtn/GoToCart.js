@@ -21,10 +21,12 @@ function GoToCart() {
     }
 
     return (
-        <div className='text-center p-3 border bg-white'>
-            <Link to='/shopping-cart' replace={true} className='btn btn-success w-100 fs-4 fw-semibold p-2 rounded-3'>
-                {total}원 <span className='fw-medium'>계산하기</span>
-            </Link>
+        <div id='goToCart-btn'>
+            <div className='text-center p-3 border bg-white'>
+                <Link to='/shopping-cart' replace={true} className='btn btn-success w-100 fs-4 fw-semibold p-2 rounded-3'>
+                    {total}원 <span className='fw-medium'>계산하기</span>
+                </Link>
+            </div>
         </div>
     );
 }

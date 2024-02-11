@@ -23,23 +23,25 @@ function Home() {
     useEffect(() => { }, [])//처음 마운트 될때만 실행
 
     return (
-        <div className='d-flex flex-column h-100 position-relative'>
+        <div id='home' className='h-100'>
+            <div className='my-container'>
 
-            {/* 헤더 */}
-            <Header></Header>
+                {/* 헤더 */}
+                <Header></Header>
 
-            {/* 카테고리 */}
-            <Category selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}></Category>
+                {/* 카테고리 */}
+                <Category selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}></Category>
 
-            {/* 센션*/}
-            <Section items={items}></Section>
+                {/* 센션*/}
+                <Section items={items}></Section>
 
-            {/*하단 장바구니 버튼 */}
-            <GoToCart></GoToCart>
-            
-            {/* 푸터 */}
-            <Footer value={'home'}></Footer>
+                {/*하단 장바구니 버튼 */}
+                <GoToCart></GoToCart>
 
+                {/* 푸터 */}
+                <Footer value={'home'}></Footer>
+                
+            </div>
         </div>
     );
 }

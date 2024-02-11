@@ -10,8 +10,8 @@ function Footer(props) {
     const value = props.value;
 
     return (
-        <footer className='bg-white shadow'>
-            <Container fluid>
+        <footer>
+            <Container fluid className='bg-white shadow'>
                 <Row>
 
                     {/* 햄버거버튼 */}

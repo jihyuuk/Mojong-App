@@ -21,7 +21,7 @@ function Category(props) {
 
         //화면 중앙에 오게
         const container = document.getElementById('scroll-nav');
-        const targetLeft = element.offsetLeft + (element.offsetWidth  - container.clientWidth)/2;
+        const targetLeft = element.offsetLeft + (element.offsetWidth - container.clientWidth) / 2;
 
         container.scrollTo({
             left: targetLeft,
@@ -31,7 +31,8 @@ function Category(props) {
     }
 
     return (
-        <div id='scroll-nav' className='overflow-x-auto w-100 d-flex bg-white border-bottom fw-medium text-secondary shadow-sm'>
+        <nav id='category'>
+            <div id='scroll-nav' className='overflow-x-auto w-100 d-flex bg-white border-bottom fw-medium text-secondary shadow-sm'>
                 {datas.map((data, index) => (
                     <div key={index} className={`py-2 px-3 fs-5 ${selectedCategory === data.category ? 'selected' : ''}`} onClick={(e) => scrollNav(e)}>
                         <span className='text-nowrap'>
@@ -39,7 +40,8 @@ function Category(props) {
                         </span>
                     </div>
                 ))}
-        </div>
+            </div>
+        </nav>
     )
 
 }
