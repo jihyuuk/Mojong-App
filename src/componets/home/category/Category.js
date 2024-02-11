@@ -34,9 +34,9 @@ function Category(props) {
         <div id='scroll-nav' className='overflow-x-auto w-100 d-flex bg-white border-bottom fw-medium text-secondary shadow-sm'>
                 {datas.map((data, index) => (
                     <div key={index} className={`py-2 px-3 fs-5 ${selectedCategory === data.category ? 'selected' : ''}`} onClick={(e) => scrollNav(e)}>
-                        <p className='text-nowrap'>
+                        <span className='text-nowrap'>
                             {data.category}
-                        </p>
+                        </span>
                     </div>
                 ))}
         </div>

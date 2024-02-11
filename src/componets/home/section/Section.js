@@ -16,7 +16,7 @@ function Section(props) {
     // }
 
     return (
-        <div className='content overflow-auto h-100 px-2 pb-5'>
+        <div className='content overflow-auto flex-grow-1 px-2 pb-5'>
 
             <div className='p-2 fw-midium text-secondary'>총 <span className='fw-semibold'>{items.length}</span>개</div>
 
