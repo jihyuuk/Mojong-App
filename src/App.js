@@ -6,9 +6,12 @@ import LoginPage from './componets/login/LoginPage';
 import JoinPage from './componets/login/JoinPage';
 import PrivateRoute from './componets/router/PrivateRouter';
 import axios from 'axios';
+import Receipt from './componets/receipt/Receipt';
 
 export const DataContext = createContext(null);
 export const ShoppingCartContext = createContext(null);
+export const TotalPrice = createContext(null);
+export const TotalQuantity = createContext(null);
 export const TokenContext = createContext(null);
 
 function App() {
@@ -17,10 +20,15 @@ function App() {
   const [data, setData] = useState([]);
   //장바구니
   const [cart, setCart] = useState([]);
+  //총 수량
+  const [totalPrice, setTotalPrice] = useState(0);
+  //총 가격
+  const [totalQuantity, setTotalQuantity] = useState(0);
   //토큰
   const [token, setToken] = useState();
   //로딩
   const [loading, setLoading] = useState(true);
+
 
   //로그인 로직
   useEffect(() => {
@@ -56,7 +64,7 @@ function App() {
     //    201: 모종데이터,새토큰
     //    403: 존재하는 토큰 지우기
     try {
-      const response = await axios.get(process.env.REACT_APP_API_URL+'/items', {
+      const response = await axios.get(process.env.REACT_APP_API_URL + '/items', {
         headers: {
           'Authorization': jwtToken
         }
@@ -95,11 +103,28 @@ function App() {
     setLoading(false);
   }
 
+  // cart이 변경될 때마다 총합을 계산
+  useEffect(() => {
+    let calculatedTotal = 0;
+    let quantityTotal = 0;
+
+    cart.forEach(item => {
+      // 장바구니 아이템 순회하면서 총합 계산
+      calculatedTotal += (Number(item.price) * Number(item.count));
+      //총 수량 개산
+      quantityTotal += Number(item.count);
+    });
+
+    // 총합 업데이트
+    setTotalPrice(calculatedTotal);
+    setTotalQuantity(quantityTotal);
+  }, [cart]);
+
 
   //로딩화면
   if (loading) {
     return (
-      <div className="d-flex flex-column justify-content-center" style={{paddingTop:'18em'}}>
+      <div className="d-flex flex-column justify-content-center" style={{ paddingTop: '18em' }}>
         <div className="spinner-border m-auto" role="status">
         </div>
         <p className='fs-5 text-center mt-3'>데이터 불러오는 중...</p>
@@ -109,23 +134,28 @@ function App() {
 
 
   return (
-    <div id='mojong-app' className='bg-body-tertiary'>
+    <div id='mojong-app'>
       <TokenContext.Provider value={{ token, setToken }}>
         <DataContext.Provider value={data}>
           <ShoppingCartContext.Provider value={{ cart, setCart }}>
-            <BrowserRouter>
-              <Routes>
-                {/* 로그인 필요 O */}
-                <Route element={<PrivateRoute />}>
-                  <Route path='/' element={<Home />}></Route>
-                  <Route path='/shopping-cart' element={<ShoppingCart />}></Route>
-                </Route>
+            <TotalPrice.Provider value={{ totalPrice, setTotalPrice }}>
+              <TotalQuantity.Provider value={{ totalQuantity, setTotalQuantity }}>
+                <BrowserRouter>
+                  <Routes>
+                    {/* 로그인 필요 O */}
+                    <Route element={<PrivateRoute />}>
+                      <Route path='/' element={<Home />}></Route>
+                      <Route path='/shopping-cart' element={<ShoppingCart />}></Route>
+                      <Route path='/receipt' element={<Receipt />}></Route>
+                    </Route>
 
-                {/* 로그인 필요 X */}
-                <Route path='/login' element={<LoginPage />}></Route>
-                <Route path='/join' element={<JoinPage />}></Route>
-              </Routes>
-            </BrowserRouter>
+                    {/* 로그인 필요 X */}
+                    <Route path='/login' element={<LoginPage />}></Route>
+                    <Route path='/join' element={<JoinPage />}></Route>
+                  </Routes>
+                </BrowserRouter>
+              </TotalQuantity.Provider>
+            </TotalPrice.Provider>
           </ShoppingCartContext.Provider>
         </DataContext.Provider>
       </TokenContext.Provider>
