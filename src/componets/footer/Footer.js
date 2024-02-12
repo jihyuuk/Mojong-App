@@ -11,7 +11,7 @@ function Footer(props) {
 
     return (
         <footer>
-            <Container fluid className='bg-white shadow'>
+            <Container fluid className='bg-white border-top' style={{boxShadow:'0px -2px 10px rgba(0, 0, 0, 0.1)'}}>
                 <Row>
 
                     {/* 햄버거버튼 */}
