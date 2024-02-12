@@ -17,7 +17,7 @@ function Section(props) {
     }
 
     return (
-        <section className='my-content'>
+        <section className='my-content px-2'>
 
             <div className='p-2 fw-midium text-secondary'>총 <span className='fw-semibold'>{items.length}</span>개</div>
 

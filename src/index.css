@@ -4,7 +4,7 @@ html,body{
 
 #root{
   height: 100%;
-  background-color: blueviolet;
+  background-color: #e9ecef;
 }
 
 #mojong-app{
@@ -23,11 +23,9 @@ html,body{
 }
 
 .my-content{
-  background-color: #e9ecef;
+  background-color: #f8f9fa;
   overflow: auto;
   flex-grow: 1; /*flex-grow-1*/
-  padding-left: 0.5rem;
-  padding-right: 0.5rem; /*px-2*/
   padding-bottom: 3.125rem; /*pb-5*/
 }
 
