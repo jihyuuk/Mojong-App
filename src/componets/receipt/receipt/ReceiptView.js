@@ -8,9 +8,9 @@ function ReceiptView() {
     const { totalPrice } = useContext(TotalPrice);
 
     return (
-        <section className='my-content'>
+        <section className='my-content p-3'>
 
-            <div className='m-3 p-3 bg-white  border rounded-3 shadow'>
+            <div className='p-3 mx-auto bg-white border rounded-3 shadow' style={{maxWidth:'450px'}}>
 
                 <p className='fw-semibold fs-1 text-center mt-2'>영 수 증</p>
                 <div className='fs-6'>
