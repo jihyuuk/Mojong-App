@@ -7,6 +7,7 @@ import JoinPage from './componets/login/JoinPage';
 import PrivateRoute from './componets/router/PrivateRouter';
 import axios from 'axios';
 import Receipt from './componets/receipt/Receipt';
+import CustomItem from './componets/customItem/CustomItem';
 
 export const DataContext = createContext(null);
 export const ShoppingCartContext = createContext(null);
@@ -147,6 +148,7 @@ function App() {
                       <Route path='/' element={<Home />}></Route>
                       <Route path='/shopping-cart' element={<ShoppingCart />}></Route>
                       <Route path='/receipt' element={<Receipt />}></Route>
+                      <Route path='/custom-item' element={<CustomItem />}></Route>
                     </Route>
 
                     {/* 로그인 필요 X */}
