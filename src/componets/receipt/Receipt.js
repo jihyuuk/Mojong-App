@@ -9,7 +9,7 @@ function Receipt() {
         <div className='my-container'>
 
             {/* 헤더 */}
-            <SubHeader value="영수증 미리보기"></SubHeader>
+            <SubHeader value='영수증 미리보기' to='/'></SubHeader>
 
             {/* 콘텐츠 영역 */}
             <ReceiptView></ReceiptView>
