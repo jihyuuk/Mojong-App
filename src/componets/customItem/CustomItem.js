@@ -21,7 +21,7 @@ function CustomItem() {
         //갯수 0 일시 추가 x
         if (quantity <= 0) return;
 
-        const addItem = { 'name': name, 'price': price, 'count': quantity };
+        const addItem = { 'name': name, 'price': price, 'quantity': quantity };
 
         console.log(addItem);
 
@@ -31,7 +31,7 @@ function CustomItem() {
         if (existingIndex !== -1) {
             //담겨있다면 카운트 합치기
             const copyCart = [...cart];
-            copyCart[existingIndex].count += addItem.count;
+            copyCart[existingIndex].quantity += addItem.quantity;
             setCart(copyCart);
         } else {
             //아니라면 그냥 더하기

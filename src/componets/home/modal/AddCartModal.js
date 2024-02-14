@@ -10,7 +10,7 @@ function AddCartModal(props) {
 
     //데이터 관련
     const [value, setValue] = useState('');
-    const [count, setCount] = useState(0);
+    const [quantity, setQuantity] = useState(0);
     const [total, setTotal] = useState(0);
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
@@ -24,27 +24,27 @@ function AddCartModal(props) {
             setName(item.name);
             setPrice(item.price);
 
-            //value변경시 -> count변경 - > total 변경됨
+            //value변경시 -> 수량변경 - > total 변경됨
             setValue('');
         }
     }, [show])
 
 
-    //인풋 value 바뀌면 count도 변경
+    //인풋 value 바뀌면 수량도 변경
     useEffect(() => {
 
         if (value === '') {
-            setCount(0);
+            setQuantity(0);
         } else {
-            setCount(value);
+            setQuantity(value);
         }
     }, [value]);
 
     //갯수 바뀌면 합계 변경
     useEffect(() => {
-        setTotal(price * count);
-        setdisableBtn(count > 0 ? false : true);
-    }, [count]);
+        setTotal(price * quantity);
+        setdisableBtn(quantity > 0 ? false : true);
+    }, [quantity]);
 
     //더하기 버튼
     const handlePlus = (param) => {
@@ -78,9 +78,9 @@ function AddCartModal(props) {
     const {cart, setCart } = useContext(ShoppingCartContext);
     const handleAddCart = () => {
         //갯수 0 일시 추가 x
-        if (count <= 0) return;
+        if (quantity <= 0) return;
 
-        const addItem = { 'name': name, 'price': price, 'count': count };
+        const addItem = { 'name': name, 'price': price, 'quantity': quantity };
 
         //이미 같은 항목이 담겨 있나 확인
         const existingIndex = cart.findIndex(item => item.name === addItem.name);
@@ -88,7 +88,7 @@ function AddCartModal(props) {
         if(existingIndex !== -1){
             //담겨있다면 카운트 합치기
             const copyCart = [...cart];
-            copyCart[existingIndex].count += addItem.count;
+            copyCart[existingIndex].quantity += addItem.quantity;
             setCart(copyCart);
         }else{
             //아니라면 그냥 더하기
@@ -116,7 +116,7 @@ return (
 
             {/* 바디 */}
             <Modal.Body>
-                <p className="fs-5 mb-0 text-center"><span className='fw-semibold'>단가</span> : {price}원 X {count}개</p>
+                <p className="fs-5 mb-0 text-center"><span className='fw-semibold'>단가</span> : {price}원 X {quantity}개</p>
                 <hr></hr>
                 <p className='text-center fs-3 fw-bold mb-0'>합계: {total}원 </p>
                 <hr></hr>

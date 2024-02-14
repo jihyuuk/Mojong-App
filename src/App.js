@@ -111,9 +111,9 @@ function App() {
 
     cart.forEach(item => {
       // 장바구니 아이템 순회하면서 총합 계산
-      calculatedTotal += (Number(item.price) * Number(item.count));
+      calculatedTotal += (Number(item.price) * Number(item.quantity));
       //총 수량 개산
-      quantityTotal += Number(item.count);
+      quantityTotal += Number(item.quantity);
     });
 
     // 총합 업데이트

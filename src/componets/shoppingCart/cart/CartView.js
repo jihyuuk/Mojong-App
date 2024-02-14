@@ -24,17 +24,17 @@ function CartView() {
     const handlePlus = (itemPlus) => {
         const findIdx = cart.findIndex(item => item.name === itemPlus.name)
         const copy = [...cart];
-        copy[findIdx].count += 1;
+        copy[findIdx].quantity += 1;
         setCart(copy);
     }
 
     //빼기버튼
     const handleMinus = (itemMinus) => {
-        if (itemMinus.count <= 1) return;
+        if (itemMinus.quantity <= 1) return;
 
         const findIdx = cart.findIndex(item => item.name === itemMinus.name)
         const copy = [...cart];
-        copy[findIdx].count -= 1;
+        copy[findIdx].quantity -= 1;
         setCart(copy);
     }
 
@@ -84,7 +84,7 @@ function CartView() {
                                         {/* 단가 */}
                                         <div className='text-secondary mt-auto me-3' style={{ fontSize: '0.8' }}>단가 {item.price}원</div>
                                         {/* 합계 */}
-                                        <div className='' style={{ fontSize: '1.15rem' }}>합계 <span className='fw-semibold'>{item.price * item.count}</span>원</div>
+                                        <div className='' style={{ fontSize: '1.15rem' }}>합계 <span className='fw-semibold'>{item.price * item.quantity}</span>원</div>
                                     </div>
 
 
@@ -96,7 +96,7 @@ function CartView() {
                                             <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
                                         </svg>
                                         {/* 수량 */}
-                                        <span className='mx-3'>{item.count}</span>
+                                        <span className='mx-3'>{item.quantity}</span>
                                         {/* 더하기 */}
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-plus m-auto" viewBox="0 0 16 16" onClick={() => handlePlus(item)}>
                                             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
