@@ -29,6 +29,11 @@ html,body{
   padding-bottom: 3.125rem; /*pb-5*/
 }
 
+.my-content a {
+  text-decoration: none;
+  color: black;
+}
+
 .selected{
   font-weight: bold;
   color:#198754;

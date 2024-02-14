@@ -8,6 +8,7 @@ import PrivateRoute from './componets/router/PrivateRouter';
 import axios from 'axios';
 import Receipt from './componets/receipt/Receipt';
 import CustomItem from './componets/customItem/CustomItem';
+import History from './componets/history/History';
 
 export const DataContext = createContext(null);
 export const ShoppingCartContext = createContext(null);
@@ -149,6 +150,7 @@ function App() {
                       <Route path='/shopping-cart' element={<ShoppingCart />}></Route>
                       <Route path='/receipt' element={<Receipt />}></Route>
                       <Route path='/custom-item' element={<CustomItem />}></Route>
+                      <Route path='/history' element={<History />}></Route>
                     </Route>
 
                     {/* 로그인 필요 X */}
