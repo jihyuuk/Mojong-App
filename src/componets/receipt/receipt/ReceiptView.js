@@ -42,9 +42,9 @@ function ReceiptView() {
                                 <tr>
                                     <td className='text-center'>{index + 1}</td>
                                     <td>{item.name}</td>
-                                    <td className='text-center'>{item.count}</td>
+                                    <td className='text-center'>{item.quantity}</td>
                                     <td className='text-end'>{item.price}</td>
-                                    <td className='text-end'>{item.price * item.count}</td>
+                                    <td className='text-end'>{item.price * item.quantity}</td>
                                 </tr>
                             ))
                         }
