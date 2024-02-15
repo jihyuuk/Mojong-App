@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { TotalPrice } from '../../App';
+import { FinalPrice } from '../../App';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 
 function CheckView(props) {
 
     //총 합계
-    const { totalPrice } = useContext(TotalPrice);
+    const { finalPrice } = useContext(FinalPrice);
 
     //결제수단
     const [pay, setPay] = useState('card');
@@ -13,7 +13,7 @@ function CheckView(props) {
     const [print, setPrint] = useState(false);
 
     //받은금액
-    const [getMoney, setGetMoney] = useState(totalPrice);
+    const [getMoney, setGetMoney] = useState(finalPrice);
     //잔돈
     const [change, setChange] = useState(0);
 
@@ -22,7 +22,7 @@ function CheckView(props) {
 
     //잔돈계산
     useEffect(() => {
-        const calculate = getMoney - totalPrice;
+        const calculate = getMoney - finalPrice;
         setChange(calculate);
 
         if (calculate < 0) {
@@ -39,7 +39,7 @@ function CheckView(props) {
                     <div className='fw-medium text-success' style={{ fontSize: '1.15rem' }}>결제금액</div>
                     <div>
                         <div className='fs-4 fw-semibold'>
-                            {totalPrice}원
+                            {finalPrice}원
                         </div>
                     </div>
                 </div>

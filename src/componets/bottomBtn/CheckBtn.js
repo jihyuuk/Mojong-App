@@ -1,18 +1,19 @@
 import React, { useContext, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { ShoppingCartContext, TokenContext, TotalPrice } from '../../App';
+import { FinalPrice, SalePrice, ShoppingCartContext, TokenContext, TotalPrice } from '../../App';
 import axios from 'axios';
 
 function CheckBtn(props) {
 
     const { totalPrice } = useContext(TotalPrice);
+    const { salePrice } = useContext(SalePrice);
+    const { finalPrice } = useContext(FinalPrice);
+
     const { token, setToken } = useContext(TokenContext);
     const { cart, setCart } = useContext(ShoppingCartContext);
     const [loading, setLoading] = useState(false);
 
-    //리다이렉트
-    const navigate = useNavigate();
 
     const sale = async () => {
 
@@ -20,7 +21,9 @@ function CheckBtn(props) {
             const response = await axios.post(process.env.REACT_APP_API_URL + '/sale',
                 {
                     'items': cart,
-                    'total': totalPrice
+                    'totalPrice': totalPrice,
+                    'salePrice': salePrice,
+                    'finalPrice':finalPrice 
                 },
                 {
                     headers: {
@@ -32,8 +35,7 @@ function CheckBtn(props) {
             if (response.status === 200) {
                 //데이터 불러오기성공시
                 //리다이렉트
-                setCart([]);
-                navigate('/', { replace: true });
+                window.location.replace('/');
             } else if (response.status === 201) {
                 //토큰갱신
                 const newToken = response.headers.get('Authorization');
@@ -44,8 +46,7 @@ function CheckBtn(props) {
 
                 //데이터 불러오기성공시
                 //리다이렉트
-                setCart([]);
-                navigate('/', { replace: true });
+                window.location.replace('/');
             } else {
                 //지정하지 않은 상태코드
                 console.error('서버 응답 상태코드 에러 : ' + response.status)

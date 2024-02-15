@@ -11,11 +11,14 @@ import CustomItem from './componets/customItem/CustomItem';
 import History from './componets/history/History';
 import Check from './componets/check/Check';
 
+export const TokenContext = createContext(null);
 export const DataContext = createContext(null);
+
 export const ShoppingCartContext = createContext(null);
 export const TotalPrice = createContext(null);
 export const TotalQuantity = createContext(null);
-export const TokenContext = createContext(null);
+export const SalePrice = createContext(null);
+export const FinalPrice = createContext(null);
 
 function App() {
 
@@ -23,10 +26,17 @@ function App() {
   const [data, setData] = useState([]);
   //장바구니
   const [cart, setCart] = useState([]);
+
   //총 수량
   const [totalPrice, setTotalPrice] = useState(0);
   //총 가격
   const [totalQuantity, setTotalQuantity] = useState(0);
+
+  //할인가격
+  const [salePrice, setSalePrice] = useState(0);
+  //최종가격
+  const [finalPrice, setFinalPrice] = useState(0);
+
   //토큰
   const [token, setToken] = useState();
   //로딩
@@ -106,7 +116,7 @@ function App() {
     setLoading(false);
   }
 
-  // cart이 변경될 때마다 총합을 계산
+  //cart이 변경될 때마다 총합을 계산
   useEffect(() => {
     let calculatedTotal = 0;
     let quantityTotal = 0;
@@ -122,6 +132,11 @@ function App() {
     setTotalPrice(calculatedTotal);
     setTotalQuantity(quantityTotal);
   }, [cart]);
+
+  //할인 적용시 최종가격 변경
+  useEffect(() => {
+    setFinalPrice(totalPrice - salePrice);
+  }, [salePrice, totalPrice]);
 
 
   //로딩화면
@@ -143,23 +158,27 @@ function App() {
           <ShoppingCartContext.Provider value={{ cart, setCart }}>
             <TotalPrice.Provider value={{ totalPrice, setTotalPrice }}>
               <TotalQuantity.Provider value={{ totalQuantity, setTotalQuantity }}>
-                <BrowserRouter>
-                  <Routes>
-                    {/* 로그인 필요 O */}
-                    <Route element={<PrivateRoute />}>
-                      <Route path='/' element={<Home />}></Route>
-                      <Route path='/shopping-cart' element={<ShoppingCart />}></Route>
-                      <Route path='/receipt' element={<Receipt />}></Route>
-                      <Route path='/custom-item' element={<CustomItem />}></Route>
-                      <Route path='/history' element={<History />}></Route>
-                      <Route path='/check' element={<Check />}></Route>
-                    </Route>
+                <SalePrice.Provider value={{ salePrice, setSalePrice }}>
+                  <FinalPrice.Provider value={{ finalPrice, setFinalPrice }}>
+                    <BrowserRouter>
+                      <Routes>
+                        {/* 로그인 필요 O */}
+                        <Route element={<PrivateRoute />}>
+                          <Route path='/' element={<Home />}></Route>
+                          <Route path='/shopping-cart' element={<ShoppingCart />}></Route>
+                          <Route path='/receipt' element={<Receipt />}></Route>
+                          <Route path='/custom-item' element={<CustomItem />}></Route>
+                          <Route path='/history' element={<History />}></Route>
+                          <Route path='/check' element={<Check />}></Route>
+                        </Route>
 
-                    {/* 로그인 필요 X */}
-                    <Route path='/login' element={<LoginPage />}></Route>
-                    <Route path='/join' element={<JoinPage />}></Route>
-                  </Routes>
-                </BrowserRouter>
+                        {/* 로그인 필요 X */}
+                        <Route path='/login' element={<LoginPage />}></Route>
+                        <Route path='/join' element={<JoinPage />}></Route>
+                      </Routes>
+                    </BrowserRouter>
+                  </FinalPrice.Provider>
+                </SalePrice.Provider>
               </TotalQuantity.Provider>
             </TotalPrice.Provider>
           </ShoppingCartContext.Provider>

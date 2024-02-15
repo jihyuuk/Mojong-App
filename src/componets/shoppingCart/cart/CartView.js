@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Form, InputGroup, ListGroup } from 'react-bootstrap';
-import { ShoppingCartContext, TotalPrice, TotalQuantity } from '../../../App';
-import { Link } from 'react-router-dom';
+import { FinalPrice, SalePrice, ShoppingCartContext, TotalPrice, TotalQuantity } from '../../../App';
 
 function CartView() {
 
@@ -11,8 +10,9 @@ function CartView() {
     const { totalQuantity } = useContext(TotalQuantity);
 
     //할인관련
-    const [isSale, setIsSale] = useState(false);
-    const [salePirce, setSalePrice] = useState(0);
+    const { salePrice, setSalePrice } = useContext(SalePrice);
+    const [isSale, setIsSale] = useState(salePrice > 0);
+    const { finalPrice, setFinalPrice } = useContext(FinalPrice);
 
     //할인 버튼
     const saleclick = () => {
@@ -49,6 +49,15 @@ function CartView() {
         setCart(copy);
     }
 
+    //할인금액 입력
+    const saleChange = (value) => {
+        if (value === '') {
+            setSalePrice(0);
+        } else {
+            setSalePrice(value);
+        }
+    }
+
 
     if (cart.length <= 0) {
         return (
@@ -77,30 +86,20 @@ function CartView() {
 
                         <div className='py-1'>
                             {/* 헤더 */}
-                            <div className='d-flex align-items-center'>
-
+                            <div className='d-flex align-items-center justify-content-between'>
                                 {/* 상품명 */}
                                 <span className='fs-5 fw-semibold text-success me-2'>{index + 1}. {item.name}</span>
                                 {/* 닫기버튼 */}
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3 text-secondary item" viewBox="0 0 16 16" onClick={() => deleteItem(item)}>
-                                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16" onClick={() => deleteItem(item)}>
+                                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
                                 </svg>
-
                             </div>
 
                             {/* 계산 */}
                             <div className='d-flex justify-content-between align-items-end'>
-                                <div className='pt-2 ps-2 '>
-                                    {/* 단가 */}
-                                    <div className='text-secondary mt-auto me-3'>단가 {item.price}원</div>
-                                    {/* 합계 */}
-                                    <div className='' style={{ fontSize: '1.15rem' }}>합계 <span className='fw-semibold'>{item.price * item.quantity}</span>원</div>
-                                </div>
-
 
                                 {/* 수량버튼 */}
-                                <span className='border border-success-subtle rounded-3 p-2'>
-
+                                <span className='border border-success-subtle rounded-3 p-2 ms-3'>
                                     {/* 빼기 */}
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-dash" viewBox="0 0 16 16" onClick={() => handleMinus(item)}>
                                         <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
@@ -112,6 +111,13 @@ function CartView() {
                                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
                                     </svg>
                                 </span>
+
+                                <div className='pt-2'>
+                                    {/* 단가 */}
+                                    <div className='text-secondary text-end'>단가 {item.price}원</div>
+                                    {/* 합계 */}
+                                    <div className='' style={{ fontSize: '1.15rem' }}>합계 <span className='fw-semibold'>{item.price * item.quantity}</span>원</div>
+                                </div>
                             </div>
 
 
@@ -148,7 +154,7 @@ function CartView() {
                 {isSale &&
                     <div className='mt-4'>
                         <InputGroup>
-                            <Form.Control size='lg' className='text-end' placeholder="0" type="number" pattern="\d*"/>
+                            <Form.Control size='lg' className='text-end' placeholder="0" type="number" pattern="\d*" value={salePrice === 0 ? '' : salePrice} onChange={(e) => saleChange(e.target.value.trim())} />
                             <Button variant='success' className='px-3'>원</Button>
                             <Button variant='outline-secondary' className='px-3'>%</Button>
                         </InputGroup>
@@ -171,19 +177,19 @@ function CartView() {
                     <div className='text-secondary'>
                         할인
                     </div>
-                    <div className='text-danger'>
-                        - 0원
+                    <div className={`${salePrice > 0 ? 'text-danger' : 'text-secondary'}`}>
+                        - {salePrice}원
                     </div>
                 </div>
 
                 <hr />
 
-                <div className='d-flex justify-content-between fw-semibold fs-4'>
+                <div className={`d-flex justify-content-between fw-semibold fs-4 ${finalPrice <= 0 ? 'text-danger' : ''}`}>
                     <div>
                         계산 금액
                     </div>
                     <div>
-                        {totalPrice}원
+                        {finalPrice}원
                     </div>
                 </div>
             </div>

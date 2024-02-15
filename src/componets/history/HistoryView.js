@@ -90,7 +90,7 @@ function HistoryView() {
                                 </div>
                                 <div className='d-flex align-items-center justify-content-end'>
                                     <div className='fw-semibold fs-5'>
-                                        {history.total}원
+                                        {history.finalPrice}원
                                     </div>
                                 </div>
                             </div>

@@ -1,16 +1,17 @@
 import React, { useContext } from 'react';
 import { Table } from 'react-bootstrap';
-import { ShoppingCartContext, TotalPrice } from '../../../App';
+import { FinalPrice, SalePrice, ShoppingCartContext } from '../../../App';
 
 function ReceiptView() {
 
     const { cart } = useContext(ShoppingCartContext);
-    const { totalPrice } = useContext(TotalPrice);
+    const { finalPrice } = useContext(FinalPrice);
+    const { salePrice } = useContext(SalePrice);
 
     return (
         <section className='my-content p-3'>
 
-            <div className='p-3 mx-auto bg-white border rounded-3 shadow' style={{maxWidth:'450px'}}>
+            <div className='p-3 mx-auto bg-white border rounded-3 shadow' style={{ maxWidth: '450px' }}>
 
                 <p className='fw-semibold fs-1 text-center mt-2'>영 수 증</p>
                 <div className='fs-6'>
@@ -52,18 +53,30 @@ function ReceiptView() {
                     </tbody>
 
                     <tfoot>
+                        {salePrice > 0 &&
+                            <tr>
+                                <td colSpan={5}>
+                                    <div className='d-flex justify-content-between fs-6'>
+                                        <span>할인</span>
+                                        <span>-{salePrice}</span>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        }
+
                         <tr>
                             <td colSpan={5}>
                                 <div className='d-flex justify-content-between fw-semibold fs-6 py-2'>
                                     <span>총 합계 금액</span>
-                                    <span>{totalPrice}</span>
+                                    <span>{finalPrice}</span>
                                 </div>
                             </td>
                         </tr>
                     </tfoot>
                 </Table>
             </div>
-            
+
         </section>
     );
 }

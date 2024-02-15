@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import {  TotalPrice } from '../../App';
+import {  FinalPrice } from '../../App';
 
 function GoToCart() {
 
-    const { totalPrice } = useContext(TotalPrice);
+    const { finalPrice } = useContext(FinalPrice);
 
-    if (totalPrice <= 0) {
+    if (finalPrice <= 0) {
         return (<></>);
     }
 
@@ -14,7 +14,7 @@ function GoToCart() {
         <div id='goToCart-btn'>
             <div className='text-center p-2 border-top bg-white'>
                 <Link to='/shopping-cart' replace={true} className='btn btn-success w-100 fs-5 fw-semibold p-2 rounded-3'>
-                    {totalPrice}원 <span className='fw-medium'>장바구니</span>
+                    {finalPrice}원 <span className='fw-medium'>장바구니</span>
                 </Link>
             </div>
         </div>
