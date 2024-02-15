@@ -72,18 +72,19 @@ function HistoryView() {
     return (
         <div className='my-content'>
             
-            <ListGroup variant='flush' className='border-top border-bottom mt-2'>
+            <ListGroup variant='flush' className='border-top border-bottom'>
 
                 {histories.map((history => (
 
-                    <ListGroup.Item className='py-3'>
-                        <Link to={`sale/${history.id}`}>
+                    <ListGroup.Item>
+                        <Link to={`/sale/${history.id}`}>
 
                             <div className='d-flex justify-content-between'>
                                 <div>
                                     <div className='fw-medium mb-1' style={{ fontSize: '1.15rem' }}>
                                         {history.firstItem} {history.count > 1 ? `외 ${history.count - 1}개 ` : ''}
                                     </div>
+                                    <div className='text-secondary'>판매번호 {history.id}</div>
                                     <div className='text-secondary'>
                                         {history.createdDate}
                                     </div>
