@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Form, InputGroup, ListGroup } from 'react-bootstrap';
 import { FinalPrice, SalePrice, ShoppingCartContext, TotalPrice, TotalQuantity } from '../../../App';
+import { Link } from 'react-router-dom';
 
 function CartView() {
 
@@ -62,8 +63,15 @@ function CartView() {
     if (cart.length <= 0) {
         return (
             <section className='my-content'>
-                <div className='fs-5 text-secondary d-flex align-items-center justify-content-center h-100'>
-                    비어있습니다
+                <div className='fs-4 text-secondary d-flex align-items-center justify-content-center h-100'>
+                    <div className='text-center'>
+                        <span>비어있습니다</span>                        
+                        <Link to='/custom-item' className='text-decoration-none' replace={true} >
+                            <div className='py-2 px-3 fs-6 fw-medium mt-3 text-secondary text-center border rounded-5'>
+                                + 직접입력
+                            </div>
+                        </Link>
+                    </div>
                 </div>
             </section>
         );
@@ -128,11 +136,11 @@ function CartView() {
 
                 ))}
 
-                {/* <Link to='/custom-item' className='text-decoration-none' replace={true} >
-                    <div className='py-2 fs-4 text-secondary text-center'>
+                <Link to='/custom-item' className='text-decoration-none' replace={true} >
+                    <div className='py-2 fs-5 text-secondary text-center'>
                         + 직접입력하기
                     </div>
-                </Link> */}
+                </Link>
 
             </ListGroup>
 
