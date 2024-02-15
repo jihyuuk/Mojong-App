@@ -10,6 +10,7 @@ import Receipt from './componets/receipt/Receipt';
 import CustomItem from './componets/customItem/CustomItem';
 import History from './componets/history/History';
 import Check from './componets/check/Check';
+import SaleDetail from './componets/saleDetail/SaleDetail';
 
 export const TokenContext = createContext(null);
 export const DataContext = createContext(null);
@@ -169,6 +170,7 @@ function App() {
                           <Route path='/receipt' element={<Receipt />}></Route>
                           <Route path='/custom-item' element={<CustomItem />}></Route>
                           <Route path='/history' element={<History />}></Route>
+                          <Route path='/sale/:id' element={<SaleDetail/>}></Route>
                           <Route path='/check' element={<Check />}></Route>
                         </Route>
 

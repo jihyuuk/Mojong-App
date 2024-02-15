@@ -23,7 +23,8 @@ function CheckBtn(props) {
                     'items': cart,
                     'totalPrice': totalPrice,
                     'salePrice': salePrice,
-                    'finalPrice':finalPrice 
+                    'finalPrice':finalPrice,
+                    'pay': props.pay
                 },
                 {
                     headers: {

@@ -8,7 +8,8 @@ function CheckView(props) {
     const { finalPrice } = useContext(FinalPrice);
 
     //결제수단
-    const [pay, setPay] = useState('card');
+    const pay = props.pay;
+    const setPay = props.setPay;
     //영수증 출력여부
     const [print, setPrint] = useState(false);
 
