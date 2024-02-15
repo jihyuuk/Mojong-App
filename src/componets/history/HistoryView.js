@@ -59,10 +59,19 @@ function HistoryView() {
         fetchHistory();
     }, []);
 
+    if (histories.length <= 0) {
+        return (
+            <section className='my-content'>
+                <div className='fs-5 text-secondary d-flex align-items-center justify-content-center h-100'>
+                    기록이 없습니다.
+                </div>
+            </section>
+        );
+    }
+    
     return (
         <div className='my-content'>
             
-
             <ListGroup variant='flush' className='border-top border-bottom mt-2'>
 
                 {histories.map((history => (

@@ -2,7 +2,7 @@ import React from 'react';
 import CartView from './cart/CartView';
 import Footer from '../footer/Footer';
 import SubHeader from '../subHeader/SubHeader';
-import CalculateBtn from '../bottomBtn/CalculateBtn'
+import CalculateBtn from '../bottomBtn/GoToCheck'
 
 function ShoppingCart() {
 
