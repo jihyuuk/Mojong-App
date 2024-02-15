@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
-import { Col, ListGroup, Row } from 'react-bootstrap';
+import { ListGroup} from 'react-bootstrap';
 import { TokenContext } from '../../App';
 import { Link } from 'react-router-dom';
 
@@ -62,30 +62,29 @@ function HistoryView() {
     return (
         <div className='my-content'>
             
-            <div className='text-secondary text-center my-2'>※ 터치하여 세부 정보를 확인하세요 ※</div>
 
-            <ListGroup variant='flush' className='border-top border-bottom'>
+            <ListGroup variant='flush' className='border-top border-bottom mt-2'>
 
                 {histories.map((history => (
 
                     <ListGroup.Item className='py-3'>
                         <Link to={`sale/${history.id}`}>
 
-                            <Row>
-                                <Col>
+                            <div className='d-flex justify-content-between'>
+                                <div>
                                     <div className='fw-medium mb-1' style={{ fontSize: '1.15rem' }}>
                                         {history.firstItem} {history.count > 1 ? `외 ${history.count - 1}개 ` : ''}
                                     </div>
                                     <div className='text-secondary'>
                                         {history.createdDate}
                                     </div>
-                                </Col>
-                                <Col className='d-flex align-items-center justify-content-end'>
+                                </div>
+                                <div className='d-flex align-items-center justify-content-end'>
                                     <div className='fw-semibold fs-5'>
                                         {history.total}원
                                     </div>
-                                </Col>
-                            </Row>
+                                </div>
+                            </div>
                         </Link>
 
                     </ListGroup.Item>

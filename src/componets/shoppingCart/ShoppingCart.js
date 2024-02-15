@@ -20,7 +20,7 @@ function ShoppingCart() {
             <CalculateBtn></CalculateBtn>
 
             {/* 푸터 */}
-            <Footer value={'cart'}></Footer>
+            {/* <Footer value={'cart'}></Footer> */}
         </div>
     );
 }

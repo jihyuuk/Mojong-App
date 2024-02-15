@@ -2,18 +2,18 @@ import React from 'react';
 import SubHeader from '../subHeader/SubHeader';
 import HistoryView from './HistoryView';
 
-function History(){
+function History() {
 
-    return(
+    return (
         <div className='my-container'>
 
-        {/* 헤더 */}
-        <SubHeader value='판매기록' to='/'></SubHeader>
+            {/* 헤더 */}
+            <SubHeader value='판매기록' to='/'></SubHeader>
 
-        {/* 내용 */}
-        <HistoryView></HistoryView>
+            {/* 내용 */}
+            <HistoryView></HistoryView>
 
-    </div>
+        </div>
     );
 }
 
