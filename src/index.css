@@ -40,6 +40,12 @@ html,body{
   border-bottom: 3px solid #198754;
 }
 
+/*결제페이지 결제수단,영수증 버튼 */
+.checked {
+  border: 1px solid #198754;
+  color: #198754;
+}
+
 
 /* input type=number 증감 화살표 없애기 */
 /* Chrome, Safari, Edge, Opera */

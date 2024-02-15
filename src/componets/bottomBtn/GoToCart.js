@@ -12,7 +12,7 @@ function GoToCart() {
 
     return (
         <div id='goToCart-btn'>
-            <div className='text-center p-3 border-top bg-white'>
+            <div className='text-center p-2 border-top bg-white'>
                 <Link to='/shopping-cart' replace={true} className='btn btn-success w-100 fs-5 fw-semibold p-2 rounded-3'>
                     {totalPrice}원 <span className='fw-medium'>장바구니</span>
                 </Link>

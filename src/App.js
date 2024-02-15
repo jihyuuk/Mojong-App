@@ -9,6 +9,7 @@ import axios from 'axios';
 import Receipt from './componets/receipt/Receipt';
 import CustomItem from './componets/customItem/CustomItem';
 import History from './componets/history/History';
+import Check from './componets/check/Check';
 
 export const DataContext = createContext(null);
 export const ShoppingCartContext = createContext(null);
@@ -151,6 +152,7 @@ function App() {
                       <Route path='/receipt' element={<Receipt />}></Route>
                       <Route path='/custom-item' element={<CustomItem />}></Route>
                       <Route path='/history' element={<History />}></Route>
+                      <Route path='/check' element={<Check />}></Route>
                     </Route>
 
                     {/* 로그인 필요 X */}
