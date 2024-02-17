@@ -1,12 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Table } from 'react-bootstrap';
-import { FinalPrice, SalePrice, ShoppingCartContext } from '../../../App';
+import { useCart } from '../../customProvider/CartContext';
 
 function ReceiptView() {
 
-    const { cart } = useContext(ShoppingCartContext);
-    const { finalPrice } = useContext(FinalPrice);
-    const { salePrice } = useContext(SalePrice);
+    const {cart,finalPrice,salePrice} = useCart();
 
     return (
         <section className='my-content p-3'>

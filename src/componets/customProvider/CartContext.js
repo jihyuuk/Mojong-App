@@ -15,20 +15,28 @@ export function CartProvider({ children }) {
     //아이템들
     const [cart, setCart] = useState([]);
     //총 합계
-    const [cartTotal, setCartTotal] = useState(0);
+    const [totalPrice, setTotalPrice] = useState(0);
     //총 수량
-    const [cartQuantity, setCartQuantity] = useState(0);
+    const [totalQuantity, setTotalQuantity] = useState(0);
 
+
+    //할인 조건
+    const [saleCondition, setSaleCondition] = useState('won');
+    //할인 입력
+    const [saleInput, setSaleInput] = useState(0);
     //할인 가격
     const [salePrice, setSalePrice] = useState(0);
+
     //최종 가격
     const [finalPrice, setFinalPrice] = useState(0);
 
     //카트 관련=========================================================================
     //추가
-    const addCart = (addItem) => {
+    const addCart = (name, price, quantity) => {
         //갯수 0 일시 추가 x
-        if (addItem.quantity <= 0) return;
+        if (quantity <= 0) return;
+
+        const addItem = { 'name': name, 'price': price, 'quantity': quantity, 'total': price * quantity };
 
         //이미 같은 항목이 담겨 있나 확인
         const existingIndex = cart.findIndex(item => item.name === addItem.name);
@@ -36,13 +44,24 @@ export function CartProvider({ children }) {
         if (existingIndex !== -1) {
             //담겨있다면 카운트 합치기
             const copyCart = [...cart];
+            //검증
+            if (copyCart[existingIndex].price != addItem.price) {
+                //이름은 동일한데 가격은 다른 아이템 추가시
+                console.error("중복된 이름의 다른 가격의 아이템이 장바구니에 존재합니다.");
+                alert("장바구니 추가 에러 발생");
+                return false;
+            }
+
             copyCart[existingIndex].quantity += addItem.quantity;
+            copyCart[existingIndex].total = copyCart[existingIndex].quantity * copyCart[existingIndex].price;
 
             setCart(copyCart);
         } else {
             //아니라면 그냥 더하기
             setCart([...cart, addItem]);
         }
+
+        return true;
     }
 
     //삭제
@@ -53,42 +72,70 @@ export function CartProvider({ children }) {
     }
 
     //카트 변경시 합계,수량 변경됨
-    useEffect(()=>{
-        let totalPrice= 0;
-        let totalQuantity = 0;
+    useEffect(() => {
+        let tempTotal = 0;
+        let tempQuantity = 0;
 
-        cart.forEach(item=>{
-            totalPrice += item.totalPrice;
-            totalQuantity += item.quantity;
+        cart.forEach(item => {
+            tempTotal += item.total;
+            tempQuantity += item.quantity;
         })
 
-        setCartTotal(totalPrice);
-        setCartQuantity(totalQuantity);
-    },[cart])
+        setTotalPrice(tempTotal);
+        setTotalQuantity(tempQuantity);
+    }, [cart])
 
 
     //할인 관련========================================================================
-    //원
-    const saleWon = (price) => {
-        //검증
-        //할인가격 적용
-        setSalePrice(price);
+
+    //할인 조건 변경
+    const saleConditionChange = ()=>{
+        //입력값 초기화
+        saleInputChange(0);
+
+        if(saleCondition === 'won'){
+            setSaleCondition('percent');
+        }else{
+            setSaleCondition('won');
+        }
     }
-    //%
-    const salePercent = (price) => {
-        //검증
-        //할인가격적용
-        setSalePrice(cartTotal / 100 * price);
+
+    //입력값 변경시 할인적용
+    const saleInputChange = (value) => {
+
+        if(value <= 0 || value === ''){
+            setSaleInput('');
+            setSalePrice(0);
+            return;
+        }
+
+        setSaleInput(value);
+
+        if(saleCondition === 'won'){
+            saleWon(value);
+        }else{
+            salePercent(value);
+        }
     }
-    //할인 취소
-    const removeSale = () => {
-        setSalePrice(0);
+
+    //won일때
+    const saleWon = (value) => {
+        //검증
+        setSalePrice(value);
+    }
+
+    //percent일때
+    const salePercent = (value) => {
+        setSalePrice(totalPrice / 100 * value);
     }
 
     //합계,할인가격 변경시 최종금액 변경됨
-    useEffect(()=>{
-        setFinalPrice(cartTotal-salePrice);
-    },[cartTotal,salePrice])
+    useEffect(() => {
+        console.log("totalPrcie : " + totalPrice);
+        console.log("salePrice : " + salePrice);
+        console.log("finalPrice : " + finalPrice);
+        setFinalPrice(totalPrice - salePrice);
+    }, [totalPrice, salePrice])
 
 
     //제공변수들
@@ -96,12 +143,15 @@ export function CartProvider({ children }) {
         cart,
         addCart,
         removeCart,
-        cartTotal,
-        cartQuantity,
-        saleWon,
-        salePercent,
-        removeSale,
+        totalPrice,
+        totalQuantity,
+
+        saleCondition,
+        saleConditionChange,
+        saleInput,
+        saleInputChange,
         salePrice,
+        
         finalPrice
     };
 

@@ -1,18 +1,15 @@
 import React, { useContext, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { FinalPrice, SalePrice, ShoppingCartContext, TokenContext, TotalPrice } from '../../App';
+import { TokenContext } from '../../App';
 import axios from 'axios';
+import { useCart } from '../customProvider/CartContext';
 
 function CheckBtn(props) {
 
-    const { totalPrice } = useContext(TotalPrice);
-    const { salePrice } = useContext(SalePrice);
-    const { finalPrice } = useContext(FinalPrice);
-
     const { token, setToken } = useContext(TokenContext);
-    const { cart, setCart } = useContext(ShoppingCartContext);
     const [loading, setLoading] = useState(false);
+
+    const { cart, totalPrice, salePrice, finalPrice} = useCart();
 
 
     const sale = async () => {

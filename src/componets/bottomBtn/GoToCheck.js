@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { FinalPrice } from '../../App';
+import { useCart } from '../customProvider/CartContext';
 
 function CalculateBtn() {
 
-    const { finalPrice } = useContext(FinalPrice);
+    const { finalPrice } = useCart();
 
     return (
         <div id='goToCart-btn'>

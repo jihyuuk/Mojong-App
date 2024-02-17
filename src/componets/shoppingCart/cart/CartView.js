@@ -1,71 +1,56 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Form, InputGroup, ListGroup } from 'react-bootstrap';
-import { FinalPrice, SalePrice, ShoppingCartContext, TotalPrice, TotalQuantity } from '../../../App';
 import { Link } from 'react-router-dom';
+import { useCart } from '../../customProvider/CartContext';
 
 function CartView() {
 
     //장바구니관련
-    const { cart, setCart } = useContext(ShoppingCartContext);
-    const { totalPrice } = useContext(TotalPrice);
-    const { totalQuantity } = useContext(TotalQuantity);
+    const { cart, removeCart, totalPrice, totalQuantity, saleInput, saleInputChange, saleCondition, saleConditionChange, salePrice, removeSale, finalPrice } = useCart();
+    const [showSale, setShowSale] = useState(salePrice > 0);
 
-    //할인관련
-    const { salePrice, setSalePrice } = useContext(SalePrice);
-    const [isSale, setIsSale] = useState(salePrice > 0);
-    const { finalPrice, setFinalPrice } = useContext(FinalPrice);
-
-    //할인 버튼
-    const saleclick = () => {
-        if (isSale) {
-            setSalePrice(0);
-            setIsSale(false);
-        } else {
-            setIsSale(true);
+    const handleShow = () => {
+        if(showSale){
+            saleInputChange(0);
         }
+        setShowSale(!showSale);
     }
 
     //삭제버튼클릭시
     const deleteItem = (deleteItem) => {
         //경고창 띄우기
-        const updateCart = cart.filter(item => item.name !== deleteItem.name);
-        setCart(updateCart);
+        removeCart(deleteItem);
     }
 
     //더하기 버튼
     const handlePlus = (itemPlus) => {
-        const findIdx = cart.findIndex(item => item.name === itemPlus.name)
-        const copy = [...cart];
-        copy[findIdx].quantity += 1;
-        setCart(copy);
+        // const findIdx = cart.findIndex(item => item.name === itemPlus.name)
+        // const copy = [...cart];
+        // copy[findIdx].quantity += 1;
+        // setCart(copy);
     }
 
     //빼기버튼
     const handleMinus = (itemMinus) => {
-        if (itemMinus.quantity <= 1) return;
+        // if (itemMinus.quantity <= 1) return;
 
-        const findIdx = cart.findIndex(item => item.name === itemMinus.name)
-        const copy = [...cart];
-        copy[findIdx].quantity -= 1;
-        setCart(copy);
+        // const findIdx = cart.findIndex(item => item.name === itemMinus.name)
+        // const copy = [...cart];
+        // copy[findIdx].quantity -= 1;
+        // setCart(copy);
     }
 
-    //할인금액 입력
-    const saleChange = (value) => {
-        if (value === '') {
-            setSalePrice(0);
-        } else {
-            setSalePrice(value);
-        }
+    //할인 버튼
+    const saleclick = () => {
+        ;
     }
-
 
     if (cart.length <= 0) {
         return (
             <section className='my-content'>
                 <div className='fs-4 text-secondary d-flex align-items-center justify-content-center h-100'>
                     <div className='text-center'>
-                        <span>비어있습니다</span>                        
+                        <span>비어있습니다</span>
                         <Link to='/custom-item' className='text-decoration-none' replace={true} >
                             <div className='py-2 px-3 fs-6 fw-medium mt-3 text-secondary text-center border rounded-5'>
                                 + 직접입력
@@ -147,24 +132,26 @@ function CartView() {
             {/* 할인부분 */}
             <div className='bg-white fw-medium mt-3 p-3 border'>
                 <div className='d-flex justify-content-between align-items-center'>
-                    <div className='fw-semibold fs-5'>할인</div>
+                    <div className='fw-semibold fs-5'>
+                        할인
+                    </div>
 
                     <div className='d-flex fw-semibold bg-white text-nowrap text-secondary'>
-                        <div className={`py-2 px-3 w-50 rounded-start ${!isSale ? 'checked' : 'border'}`} onClick={() => saleclick()}>
+                        <div className={`py-2 px-3 w-50 rounded-start ${!showSale ? 'checked' : 'border'}`} onClick={() => handleShow()}>
                             <span>없음</span>
                         </div>
-                        <div className={`py-2 px-3 w-50 rounded-end  ${isSale ? 'checked' : 'border'}`} onClick={() => saleclick()}>
+                        <div className={`py-2 px-3 w-50 rounded-end  ${showSale ? 'checked' : 'border'}`} onClick={() => handleShow()}>
                             <span>입력</span>
                         </div>
                     </div>
                 </div>
 
-                {isSale &&
+                {showSale &&
                     <div className='mt-4'>
                         <InputGroup>
-                            <Form.Control size='lg' className='text-end' placeholder="0" type="number" pattern="\d*" value={salePrice === 0 ? '' : salePrice} onChange={(e) => saleChange(e.target.value.trim())} />
-                            <Button variant='success' className='px-3'>원</Button>
-                            <Button variant='outline-secondary' className='px-3'>%</Button>
+                            <Form.Control size='lg' className='text-end' placeholder="0" type="number" pattern="\d*" value={saleInput === 0 ? '' : saleInput} onChange={(e) => saleInputChange(e.target.value.trim())} />
+                            <Button variant={`${saleCondition === 'won' ? 'success' : 'outline-secondary'}`} className='px-3' onClick={() => saleConditionChange()}>원</Button>
+                            <Button variant={`${saleCondition === 'percent' ? 'success' : 'outline-secondary'}`} className='px-3' onClick={() => saleConditionChange()}>%</Button>
                         </InputGroup>
                     </div>
                 }
@@ -183,7 +170,7 @@ function CartView() {
                 </div>
                 <div className='d-flex justify-content-between mt-1'>
                     <div className='text-secondary'>
-                        할인
+                        할인 {saleCondition === 'percent' && saleInput > 0 && <span className='text-danger'>({saleInput}%)</span>}
                     </div>
                     <div className={`${salePrice > 0 ? 'text-danger' : 'text-secondary'}`}>
                         - {salePrice}원

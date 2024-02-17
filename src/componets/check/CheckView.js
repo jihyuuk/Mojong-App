@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { FinalPrice } from '../../App';
-import { Button, Form, InputGroup } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Form } from 'react-bootstrap';
+import { useCart } from '../customProvider/CartContext';
 
 function CheckView(props) {
 
     //총 합계
-    const { finalPrice } = useContext(FinalPrice);
+    const { finalPrice } = useCart();
 
     //결제수단
     const pay = props.pay;

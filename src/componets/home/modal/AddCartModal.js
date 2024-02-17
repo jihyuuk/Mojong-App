@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
-import { ShoppingCartContext } from '../../../App';
+import { useCart } from '../../customProvider/CartContext';
 
 function AddCartModal(props) {
 
@@ -10,10 +10,10 @@ function AddCartModal(props) {
 
     //데이터 관련
     const [value, setValue] = useState('');
-    const [quantity, setQuantity] = useState(0);
-    const [total, setTotal] = useState(0);
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
+    const [quantity, setQuantity] = useState(0);
+    const [total, setTotal] = useState(0);
 
     const [disableBtn,setdisableBtn] = useState(true);
 
@@ -75,31 +75,12 @@ function AddCartModal(props) {
     }
 
     //장바구니 담기 클릭시
-    const {cart, setCart } = useContext(ShoppingCartContext);
+    const { addCart } = useCart();
     const handleAddCart = () => {
-        //갯수 0 일시 추가 x
-        if (quantity <= 0) return;
-
-        const addItem = { 'name': name, 'price': price, 'quantity': quantity };
-
-        //이미 같은 항목이 담겨 있나 확인
-        const existingIndex = cart.findIndex(item => item.name === addItem.name);
-
-        if(existingIndex !== -1){
-            //담겨있다면 카운트 합치기
-            const copyCart = [...cart];
-            copyCart[existingIndex].quantity += addItem.quantity;
-            setCart(copyCart);
-        }else{
-            //아니라면 그냥 더하기
-            setCart(cart => [...cart, addItem])
-        }
-
-        
+        addCart(name,price,quantity)
+        &&
         handleClose();
     }
-
-    console.log(cart)
 
    
     //!!!! 엄첨 많이 랜더링된다 최적화 필요

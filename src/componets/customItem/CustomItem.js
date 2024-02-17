@@ -3,10 +3,11 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 import SubHeader from '../subHeader/SubHeader';
 import { ShoppingCartContext } from '../../App';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../customProvider/CartContext';
 
 function CustomItem() {
 
-    const { cart, setCart } = useContext(ShoppingCartContext);
+    const { addCart } = useCart();
 
     const [name, setName] = useState('');
     const [price, setPrice] = useState();
@@ -17,28 +18,10 @@ function CustomItem() {
 
     //추가버튼
     const submit = () => {
-
-        //갯수 0 일시 추가 x
-        if (quantity <= 0) return;
-
-        const addItem = { 'name': name, 'price': price, 'quantity': quantity };
-
-        console.log(addItem);
-
-        //이미 같은 항목이 담겨 있나 확인
-        const existingIndex = cart.findIndex(item => item.name === addItem.name);
-
-        if (existingIndex !== -1) {
-            //담겨있다면 카운트 합치기
-            const copyCart = [...cart];
-            copyCart[existingIndex].quantity += addItem.quantity;
-            setCart(copyCart);
-        } else {
-            //아니라면 그냥 더하기
-            setCart(cart => [...cart, addItem])
-        }
-
-        //완료시 닫기
+        //장바구니에 담기
+        addCart(name,price,quantity)
+        &&
+        //성공시 리다이렉트
         navigate('/shopping-cart', { replace: true });
     }
 

@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Badge, Col, Container, Row } from 'react-bootstrap';
 import HamburgerBtn from '../home/header/HambergurBtn';
 import { Link } from 'react-router-dom';
-import { ShoppingCartContext } from '../../App';
+import { useCart } from '../customProvider/CartContext';
 
 function Footer(props) {
 
-    const { cart } = useContext(ShoppingCartContext);
+    const { cart } = useCart();
     const value = props.value;
 
     return (
