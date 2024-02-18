@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { TokenContext } from "../../App";
 
@@ -9,7 +9,8 @@ const PrivateRoute = ()=>{
 
     return(
         token ? <Outlet/> : <Navigate to="/login" replace={true}/>
-    )
+    );
+    
 }
 
 export default PrivateRoute;

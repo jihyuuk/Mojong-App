@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { TokenContext, TotalPrice } from '../../App';
 import axios from 'axios';
 import { Button, ListGroup, ListGroupItem } from 'react-bootstrap';
-import SubHeader from '../subHeader/SubHeader';
 
 function SaleDetailView() {
 

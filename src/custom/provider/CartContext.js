@@ -35,8 +35,8 @@ export function CartProvider({ children }) {
             //검증
             if (copyCart[existingIndex].price != addItem.price) {
                 //이름은 동일한데 가격은 다른 아이템 추가시
-                console.error("중복된 이름의 다른 가격의 아이템이 장바구니에 존재합니다.");
-                alert("장바구니 추가 에러 발생");
+                console.error("장바구니 추가 에러 발생");
+                alert("동일한 이름, 다른 가격인 아이템이 이미 장바구니에 존재합니다.");
                 return false;
             }
 

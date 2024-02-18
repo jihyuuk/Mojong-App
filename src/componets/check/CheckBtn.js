@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { TokenContext } from '../../App';
 import axios from 'axios';
-import { useCart } from '../customProvider/CartContext';
+import { useCart } from '../../custom/provider/CartContext';
 
 function CheckBtn({props}) {
 

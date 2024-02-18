@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
-import SubHeader from '../subHeader/SubHeader';
+import SubHeader from '../common/SubHeader'
 import { ShoppingCartContext } from '../../App';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from '../customProvider/CartContext';
+import { useCart } from '../../custom/provider/CartContext';
 
 function CustomItem() {
 

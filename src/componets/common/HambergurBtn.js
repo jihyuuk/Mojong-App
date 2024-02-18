@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Button, ListGroup, Offcanvas, OffcanvasHeader, OffcanvasTitle } from 'react-bootstrap';
-import { TokenContext } from '../../../App';
+import { TokenContext } from '../../App';
 import { Link, useNavigate } from 'react-router-dom';
 
 function HamburgerBtn() {

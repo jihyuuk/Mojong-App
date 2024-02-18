@@ -1,8 +1,8 @@
 import React from 'react';
 import { Badge, Col, Container, Row } from 'react-bootstrap';
-import HamburgerBtn from '../home/header/HambergurBtn';
+import HamburgerBtn from './HambergurBtn';
 import { Link } from 'react-router-dom';
-import { useCart } from '../customProvider/CartContext';
+import { useCart } from '../../custom/provider/CartContext';
 
 function Footer(props) {
 

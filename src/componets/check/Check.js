@@ -1,6 +1,6 @@
 import React from 'react';
-import SubHeader from '../subHeader/SubHeader';
 import CheckView from './CheckView';
+import SubHeader from '../common/SubHeader'
 
 function Check() {
 

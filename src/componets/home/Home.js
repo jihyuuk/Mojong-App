@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import Category from './category/Category';
 import Header from './header/Header';
 import Section from './section/Section';
-import GoToCart from '../bottomBtn/GoToCart';
-import Footer from '../footer/Footer'
+import GoToCart from './bottomBtn/GoToCart';
+import Footer from '../common/Footer'
 import { DataContext } from '../../App';
 
 function Home() {

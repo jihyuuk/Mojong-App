@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
-import { useCart } from '../../customProvider/CartContext';
+import { useCart } from '../../../custom/provider/CartContext';
 
 function ReceiptView() {
 

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ListGroup } from 'react-bootstrap';
 import { DataContext } from '../../../App';
-import AddCartModal from '../modal/AddCartModal';
+import AddCartModal from '../../modal/AddCartModal';
 
 function SearchField(props) {
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
-import { useCart } from '../../customProvider/CartContext';
+import { useCart } from '../../custom/provider/CartContext';
 
 function AddCartModal(props) {
 

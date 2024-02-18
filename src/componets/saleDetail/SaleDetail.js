@@ -1,5 +1,5 @@
 import React from 'react';
-import SubHeader from '../subHeader/SubHeader';
+import SubHeader from '../common/SubHeader'
 import SaleDetailView from './SaleDetailView';
 
 function SaleDetail() {

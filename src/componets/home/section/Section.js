@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AddCartModal from '../modal/AddCartModal';
+import AddCartModal from '../../modal/AddCartModal';
 
 function Section(props) {
 

@@ -4,14 +4,14 @@ import Home from './componets/home/Home';
 import ShoppingCart from './componets/shoppingCart/ShoppingCart';
 import LoginPage from './componets/login/LoginPage';
 import JoinPage from './componets/login/JoinPage';
-import PrivateRoute from './componets/router/PrivateRouter';
+import PrivateRoute from './custom/router/PrivateRouter';
 import axios from 'axios';
 import Receipt from './componets/receipt/Receipt';
 import CustomItem from './componets/customItem/CustomItem';
 import History from './componets/history/History';
 import Check from './componets/check/Check';
 import SaleDetail from './componets/saleDetail/SaleDetail';
-import { CartProvider } from './componets/customProvider/CartContext';
+import { CartProvider } from './custom/provider/CartContext';
 
 export const TokenContext = createContext(null);
 export const DataContext = createContext(null);

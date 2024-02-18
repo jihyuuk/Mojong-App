@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
-import { useCart } from '../customProvider/CartContext';
-import CheckBtn from '../bottomBtn/CheckBtn';
+import { useCart } from '../../custom/provider/CartContext';
+import CheckBtn from './CheckBtn';
 
 function CheckView() {
 
