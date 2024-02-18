@@ -6,15 +6,7 @@ import { useCart } from '../../customProvider/CartContext';
 function CartView() {
 
     //장바구니관련
-    const { cart, removeCart, totalPrice, totalQuantity, saleInput, saleInputChange, saleCondition, saleConditionChange, salePrice, removeSale, finalPrice } = useCart();
-    const [showSale, setShowSale] = useState(salePrice > 0);
-
-    const handleShow = () => {
-        if(showSale){
-            saleInputChange(0);
-        }
-        setShowSale(!showSale);
-    }
+    const { cart, removeCart } = useCart();
 
     //삭제버튼클릭시
     const deleteItem = (deleteItem) => {
@@ -40,22 +32,12 @@ function CartView() {
         // setCart(copy);
     }
 
-    //할인 버튼
-    const saleclick = () => {
-        ;
-    }
-
     if (cart.length <= 0) {
         return (
             <section className='my-content'>
                 <div className='fs-4 text-secondary d-flex align-items-center justify-content-center h-100'>
                     <div className='text-center'>
                         <span>비어있습니다</span>
-                        <Link to='/custom-item' className='text-decoration-none' replace={true} >
-                            <div className='py-2 px-3 fs-6 fw-medium mt-3 text-secondary text-center border rounded-5'>
-                                + 직접입력
-                            </div>
-                        </Link>
                     </div>
                 </div>
             </section>
@@ -64,18 +46,12 @@ function CartView() {
 
     return (
         <section className='my-content'>
-            {/* <div className='p-2 d-flex justify-content-between text-secondary'>
-                <div>품목 <span className='fw-semibold'>{cart.length}</span> · 수량 <span className='fw-semibold'>{totalQuantity}</span></div>
-                <div>총 합계 <span className='fw-semibold'>{totalPrice}</span>원</div>
-            </div> */}
-
             <ListGroup variant='flush' className='bg-white border'>
 
                 {/* 카테고리의 아이템들 출력 부분*/}
                 {cart.map((item, index) => (
 
                     <ListGroup.Item key={index} className='fs-6 fw-medium py-2 px-3'>
-
 
                         <div className='py-1'>
                             {/* 헤더 */}
@@ -113,9 +89,6 @@ function CartView() {
                                 </div>
                             </div>
 
-
-
-
                         </div>
                     </ListGroup.Item>
 
@@ -128,67 +101,6 @@ function CartView() {
                 </Link>
 
             </ListGroup>
-
-            {/* 할인부분 */}
-            <div className='bg-white fw-medium mt-3 p-3 border'>
-                <div className='d-flex justify-content-between align-items-center'>
-                    <div className='fw-semibold fs-5'>
-                        할인
-                    </div>
-
-                    <div className='d-flex fw-semibold bg-white text-nowrap text-secondary'>
-                        <div className={`py-2 px-3 w-50 rounded-start ${!showSale ? 'checked' : 'border'}`} onClick={() => handleShow()}>
-                            <span>없음</span>
-                        </div>
-                        <div className={`py-2 px-3 w-50 rounded-end  ${showSale ? 'checked' : 'border'}`} onClick={() => handleShow()}>
-                            <span>입력</span>
-                        </div>
-                    </div>
-                </div>
-
-                {showSale &&
-                    <div className='mt-4'>
-                        <InputGroup>
-                            <Form.Control size='lg' className='text-end' placeholder="0" type="number" pattern="\d*" value={saleInput === 0 ? '' : saleInput} onChange={(e) => saleInputChange(e.target.value.trim())} />
-                            <Button variant={`${saleCondition === 'won' ? 'success' : 'outline-secondary'}`} className='px-3' onClick={() => saleConditionChange()}>원</Button>
-                            <Button variant={`${saleCondition === 'percent' ? 'success' : 'outline-secondary'}`} className='px-3' onClick={() => saleConditionChange()}>%</Button>
-                        </InputGroup>
-                    </div>
-                }
-            </div>
-
-
-            {/* 금액 부분 */}
-            <div className='bg-white fw-medium mt-3 p-3 border' style={{ fontSize: '1.15rem' }}>
-                <div className='d-flex justify-content-between'>
-                    <div className='text-secondary'>
-                        합계금액
-                    </div>
-                    <div>
-                        <div>{totalPrice}원</div>
-                    </div>
-                </div>
-                <div className='d-flex justify-content-between mt-1'>
-                    <div className='text-secondary'>
-                        할인 {saleCondition === 'percent' && saleInput > 0 && <span className='text-danger'>({saleInput}%)</span>}
-                    </div>
-                    <div className={`${salePrice > 0 ? 'text-danger' : 'text-secondary'}`}>
-                        - {salePrice}원
-                    </div>
-                </div>
-
-                <hr />
-
-                <div className={`d-flex justify-content-between fw-semibold fs-4 ${finalPrice <= 0 ? 'text-danger' : ''}`}>
-                    <div>
-                        계산 금액
-                    </div>
-                    <div>
-                        {finalPrice}원
-                    </div>
-                </div>
-            </div>
-
         </section>
     );
 

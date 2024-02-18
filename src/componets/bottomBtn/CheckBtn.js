@@ -4,13 +4,14 @@ import { TokenContext } from '../../App';
 import axios from 'axios';
 import { useCart } from '../customProvider/CartContext';
 
-function CheckBtn(props) {
+function CheckBtn({props}) {
 
     const { token, setToken } = useContext(TokenContext);
     const [loading, setLoading] = useState(false);
 
-    const { cart, totalPrice, salePrice, finalPrice} = useCart();
+    const { cart, totalPrice} = useCart();
 
+    const { disabled, pay, salePrice, finalPrice} = props;
 
     const sale = async () => {
 
@@ -21,7 +22,7 @@ function CheckBtn(props) {
                     'totalPrice': totalPrice,
                     'salePrice': salePrice,
                     'finalPrice':finalPrice,
-                    'pay': props.pay
+                    'pay': pay
                 },
                 {
                     headers: {
@@ -73,7 +74,7 @@ function CheckBtn(props) {
 
     return (
         <div className='bg-white p-3 border-top'>
-            <Button variant='success' className='w-100 fs-4 fw-semibold' disabled={props.disabled} onClick={() => handleClick()}>계산완료</Button>
+            <Button variant='success' className='w-100 fs-4 fw-semibold' disabled={disabled} onClick={() => handleClick()}>정산완료</Button>
         </div>
     );
 }

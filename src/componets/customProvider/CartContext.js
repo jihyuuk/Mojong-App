@@ -19,18 +19,6 @@ export function CartProvider({ children }) {
     //총 수량
     const [totalQuantity, setTotalQuantity] = useState(0);
 
-
-    //할인 조건
-    const [saleCondition, setSaleCondition] = useState('won');
-    //할인 입력
-    const [saleInput, setSaleInput] = useState(0);
-    //할인 가격
-    const [salePrice, setSalePrice] = useState(0);
-
-    //최종 가격
-    const [finalPrice, setFinalPrice] = useState(0);
-
-    //카트 관련=========================================================================
     //추가
     const addCart = (name, price, quantity) => {
         //갯수 0 일시 추가 x
@@ -85,59 +73,6 @@ export function CartProvider({ children }) {
         setTotalQuantity(tempQuantity);
     }, [cart])
 
-
-    //할인 관련========================================================================
-
-    //할인 조건 변경
-    const saleConditionChange = ()=>{
-        //입력값 초기화
-        saleInputChange(0);
-
-        if(saleCondition === 'won'){
-            setSaleCondition('percent');
-        }else{
-            setSaleCondition('won');
-        }
-    }
-
-    //입력값 변경시 할인적용
-    const saleInputChange = (value) => {
-
-        if(value <= 0 || value === ''){
-            setSaleInput('');
-            setSalePrice(0);
-            return;
-        }
-
-        setSaleInput(value);
-
-        if(saleCondition === 'won'){
-            saleWon(value);
-        }else{
-            salePercent(value);
-        }
-    }
-
-    //won일때
-    const saleWon = (value) => {
-        //검증
-        setSalePrice(value);
-    }
-
-    //percent일때
-    const salePercent = (value) => {
-        setSalePrice(totalPrice / 100 * value);
-    }
-
-    //합계,할인가격 변경시 최종금액 변경됨
-    useEffect(() => {
-        console.log("totalPrcie : " + totalPrice);
-        console.log("salePrice : " + salePrice);
-        console.log("finalPrice : " + finalPrice);
-        setFinalPrice(totalPrice - salePrice);
-    }, [totalPrice, salePrice])
-
-
     //제공변수들
     const cartContextValue = {
         cart,
@@ -145,14 +80,6 @@ export function CartProvider({ children }) {
         removeCart,
         totalPrice,
         totalQuantity,
-
-        saleCondition,
-        saleConditionChange,
-        saleInput,
-        saleInputChange,
-        salePrice,
-        
-        finalPrice
     };
 
     return (

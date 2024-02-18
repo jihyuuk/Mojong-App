@@ -4,7 +4,7 @@ import { useCart } from '../../customProvider/CartContext';
 
 function ReceiptView() {
 
-    const {cart,finalPrice,salePrice} = useCart();
+    const {cart, totalPrice} = useCart();
 
     return (
         <section className='my-content p-3'>
@@ -51,7 +51,7 @@ function ReceiptView() {
                     </tbody>
 
                     <tfoot>
-                        {salePrice > 0 &&
+                        {/* {salePrice > 0 &&
                             <tr>
                                 <td colSpan={5}>
                                     <div className='d-flex justify-content-between fs-6'>
@@ -61,13 +61,12 @@ function ReceiptView() {
                                 </td>
                             </tr>
 
-                        }
-
+                        } */}
                         <tr>
                             <td colSpan={5}>
                                 <div className='d-flex justify-content-between fw-semibold fs-6 py-2'>
                                     <span>총 합계 금액</span>
-                                    <span>{finalPrice}</span>
+                                    <span>{totalPrice}</span>
                                 </div>
                             </td>
                         </tr>

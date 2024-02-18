@@ -67,14 +67,18 @@ function SaleDetailView() {
 
     if (!sale) {
         return (
-            <div>
-                존재하지 않는 판매번호 입니다.
-            </div>
-        )
+            <section className='my-content'>
+                <div className='fs-4 text-secondary d-flex align-items-center justify-content-center h-100'>
+                    <div className='text-center'>
+                        <span>존재하지 않거나, 권한이 없습니다.</span>
+                    </div>
+                </div>
+            </section>
+        );
     }
 
     return (
-        <div className='my-content'>
+        <div className='my-content pb-0'>
             <ListGroup className='fw-medium'>
 
                 {/* 판매내역 */}
