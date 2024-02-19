@@ -12,7 +12,7 @@ function SaleDetailView() {
 
     const [sale, setSale] = useState();
     const [saleItems, setSaleItems] = useState([]);
-    const {token, removeToken, updateToken} = useToken();
+    const { token, removeToken, updateToken } = useToken();
 
     //서버연동
     const fetchDetail = () => {
@@ -44,7 +44,7 @@ function SaleDetailView() {
     }
 
     return (
-        <div className='my-content pb-0'>
+        <div className='my-content bg-white'>
             <ListGroup className='fw-medium'>
 
                 {/* 판매내역 */}
@@ -66,24 +66,31 @@ function SaleDetailView() {
 
                         <hr />
 
-                        <div className='d-flex justify-content-between'>
-                            <div className='text-secondary'>
-                                합계금액
-                            </div>
-                            <div>
-                                <div>{sale.totalPrice.toLocaleString('ko-KR')}원</div>
-                            </div>
-                        </div>
-                        <div className='d-flex justify-content-between mt-1'>
-                            <div className='text-secondary'>
-                                할인
-                            </div>
-                            <div className={`${sale.salePrice > 0 ? 'text-danger' : 'text-secondary'}`}>
-                                -{sale.salePrice.toLocaleString('ko-KR')}원
-                            </div>
-                        </div>
+                        {sale.salePrice > 0 &&
+                            <>
+                                <div className='d-flex justify-content-between'>
+                                    <div className='text-secondary'>
+                                        합계금액
+                                    </div>
+                                    <div>
+                                        <div>{sale.totalPrice.toLocaleString('ko-KR')}원</div>
+                                    </div>
+                                </div>
+                                <div className='d-flex justify-content-between mt-1'>
+                                    <div className='text-secondary'>
+                                        할인
+                                    </div>
+                                    <div className={`${sale.salePrice > 0 ? 'text-danger' : 'text-secondary'}`}>
+                                        -{sale.salePrice.toLocaleString('ko-KR')}원
+                                    </div>
+                                </div>
 
-                        <hr />
+                                <hr />
+
+                            </>
+                        }
+
+
 
                         <div className={`d-flex justify-content-between fw-semibold fs-4`}>
                             <div>
