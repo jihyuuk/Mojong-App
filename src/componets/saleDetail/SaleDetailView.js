@@ -3,64 +3,31 @@ import { useParams } from 'react-router-dom';
 import { TokenContext, TotalPrice } from '../../App';
 import axios from 'axios';
 import { Button, ListGroup, ListGroupItem } from 'react-bootstrap';
+import ServerApi from '../../server/ServerApi';
+import { useToken } from '../../custom/provider/TokenContext';
 
 function SaleDetailView() {
 
-    const [loading, setLoading] = useState(false);
-    const { token, setToken } = useContext(TokenContext);
     const { id } = useParams();
 
     const [sale, setSale] = useState();
     const [saleItems, setSaleItems] = useState([]);
+    const {token, removeToken, updateToken} = useToken();
 
-    const fetchDetail = async () => {
-
-        try {
-            const response = await axios.get(process.env.REACT_APP_API_URL + '/sale/' + id,
-                {
-                    headers: {
-                        'Authorization': token,
-                    }
-                });
-
-            if (response.status === 200) {
-                //데이터 불러오기성공시
-                setSale(response.data.sale);
-                setSaleItems(response.data.saleItems);
-            } else if (response.status === 201) {
-                //토큰갱신
-                const newToken = response.headers.get('Authorization');
-                localStorage.setItem('jwtToken', newToken);
-                setToken(newToken);
-
-                console.log("토큰이 갱신되었습니다.");
-
-                //데이터 불러오기성공시
-                setSale(response.data.sale);
-                setSaleItems(response.data.saleItems);
-            } else {
-                //지정하지 않은 상태코드
-                console.error('서버 응답 상태코드 에러 : ' + response.status)
-            }
-
-        } catch (error) {
-            if (error.response && error.response.status === 403) {
-                //토큰 지우기
-                setToken();
-                localStorage.removeItem('jwtToken');
-                console.error('권한이 없습니다.');
-            } else {
-                console.error('서버 연결 중 오류 발생.', error.message);
-            }
-        }
-
-        //로딩끝
-        setLoading(false);
+    //서버연동
+    const fetchDetail = () => {
+        ServerApi('get', '/sale/' + id, null, token, removeToken, updateToken)
+            .then(response => {
+                setSale(response.sale);
+                setSaleItems(response.saleItems);
+            })
+            .catch(error => {
+                //에러 처리
+            })
     }
 
     //처음 로딩시 데이터 불러오기
     useEffect(() => {
-        setLoading(true);
         fetchDetail();
     }, []);
 

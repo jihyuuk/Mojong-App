@@ -3,72 +3,40 @@ import { Button } from 'react-bootstrap';
 import { TokenContext } from '../../App';
 import axios from 'axios';
 import { useCart } from '../../custom/provider/CartContext';
+import ServerApi from '../../server/ServerApi';
+import { useToken } from '../../custom/provider/TokenContext';
 
 function CheckBtn({props}) {
-
-    const { token, setToken } = useContext(TokenContext);
-    const [loading, setLoading] = useState(false);
 
     const { cart, totalPrice} = useCart();
 
     const { disabled, pay, salePrice, finalPrice} = props;
 
-    const sale = async () => {
+    const {token, removeToken, updateToken} = useToken();
 
-        try {
-            const response = await axios.post(process.env.REACT_APP_API_URL + '/sale',
-                {
-                    'items': cart,
-                    'totalPrice': totalPrice,
-                    'salePrice': salePrice,
-                    'finalPrice':finalPrice,
-                    'pay': pay
-                },
-                {
-                    headers: {
-                        'Authorization': token,
-                        'Content-Type': 'application/json'
-                    }
-                });
+    const sale = () => {
 
-            if (response.status === 200) {
-                //데이터 불러오기성공시
-                //리다이렉트
-                window.location.replace('/');
-            } else if (response.status === 201) {
-                //토큰갱신
-                const newToken = response.headers.get('Authorization');
-                localStorage.setItem('jwtToken', newToken);
-                setToken(newToken);
+        ServerApi('post','/sale',
+        {
+            'items': cart,
+            'totalPrice': totalPrice,
+            'salePrice': salePrice,
+            'finalPrice':finalPrice,
+            'pay': pay
+        },
+        token, removeToken, updateToken
+        )
+        .then(response => {
+            window.location.replace('/');
+        })
+        .catch(error => {
+            //에러처리
+        })
 
-                console.log("토큰이 갱신되었습니다.");
-
-                //데이터 불러오기성공시
-                //리다이렉트
-                window.location.replace('/');
-            } else {
-                //지정하지 않은 상태코드
-                console.error('서버 응답 상태코드 에러 : ' + response.status)
-            }
-
-        } catch (error) {
-            if (error.response && error.response.status === 403) {
-                //토큰 지우기
-                setToken();
-                localStorage.removeItem('jwtToken');
-                console.error('권한이 없습니다.');
-            } else {
-                console.error('서버 연결 중 오류 발생.', error.message);
-            }
-        }
-
-        //로딩끝
-        setLoading(false);
     }
 
 
     const handleClick = () => {
-        setLoading(true);
         sale();
     }
 
