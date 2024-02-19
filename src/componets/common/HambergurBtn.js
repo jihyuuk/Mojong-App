@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Button, ListGroup, Offcanvas, OffcanvasHeader, OffcanvasTitle } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { useToken } from '../../custom/provider/TokenContext';
+import { useInitData } from '../../custom/provider/InitDataContext';
 
 function HamburgerBtn() {
 
@@ -11,7 +12,7 @@ function HamburgerBtn() {
   const handleClose = () => setShow(false);
   const toggleShow = () => setShow((s) => !s);
 
-  const [user, setUser] = useState('홍길동님');
+  const {username,role} = useInitData();
 
   //로그아웃 핸들링
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ function HamburgerBtn() {
 
         {/* 헤더 */}
         <Offcanvas.Header closeButton className='border-bottom'>
-          <Offcanvas.Title className='fw-bold fs-4'>{user}</Offcanvas.Title>
+          <Offcanvas.Title className='fw-bold fs-4'>{username}님</Offcanvas.Title>
         </Offcanvas.Header>
 
         {/* 목록 */}
