@@ -14,7 +14,7 @@ function GoToCart() {
         <div id='goToCart-btn'>
             <div className='text-center p-2 border-top bg-white'>
                 <Link to='/shopping-cart' replace={true} className='btn btn-success w-100 fs-5 fw-semibold p-2 rounded-3'>
-                    {totalPrice}원 <span className='fw-medium'>· 장바구니</span>
+                    {totalPrice.toLocaleString('ko-KR')}원 <span className='fw-medium'>· 장바구니</span>
                 </Link>
             </div>
         </div>

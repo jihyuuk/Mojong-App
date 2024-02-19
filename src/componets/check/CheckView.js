@@ -88,7 +88,7 @@ function CheckView() {
     //won일때
     const saleWon = (value) => {
         //검증
-        setSalePrice(value);
+        setSalePrice(Number(value));
     }
 
     //percent일때
@@ -119,7 +119,7 @@ function CheckView() {
                                     합계금액
                                 </div>
                                 <div>
-                                    <div>{totalPrice}원</div>
+                                    <div>{totalPrice.toLocaleString('ko-KR')}원</div>
                                 </div>
                             </div>
                             <div className='d-flex justify-content-between mt-1'>
@@ -127,7 +127,7 @@ function CheckView() {
                                     할인
                                 </div>
                                 <div className={`${salePrice > 0 ? 'text-danger' : 'text-secondary'}`}>
-                                    - {saleCondition === 'percent' ? `${saleInput}% ( ${salePrice} )원` : `${salePrice}원`}
+                                    - {saleCondition === 'percent' ? `${saleInput}% ( ${salePrice.toLocaleString('ko-KR')} )원` : `${salePrice.toLocaleString('ko-KR')}원`}
                                 </div>
                             </div>
 
@@ -140,7 +140,7 @@ function CheckView() {
                             결제금액
                         </div>
                         <div className='fs-4'>
-                            {finalPrice}원
+                            {finalPrice.toLocaleString('ko-KR')}원
                         </div>
                     </div>
                 </div>
@@ -222,7 +222,7 @@ function CheckView() {
                                     거스름돈
                                 </div>
                                 <div>
-                                    {change}원
+                                    {change.toLocaleString('ko-KR')}원
                                 </div>
                             </div>
                         </div>

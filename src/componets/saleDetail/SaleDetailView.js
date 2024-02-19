@@ -59,7 +59,7 @@ function SaleDetailView() {
                                     {index + 1}. {item.name} x {item.quantity}
                                 </div>
                                 <div>
-                                    {item.total}원
+                                    {item.total.toLocaleString('ko-KR')}원
                                 </div>
                             </div>
                         ))}
@@ -71,7 +71,7 @@ function SaleDetailView() {
                                 합계금액
                             </div>
                             <div>
-                                <div>{sale.totalPrice}원</div>
+                                <div>{sale.totalPrice.toLocaleString('ko-KR')}원</div>
                             </div>
                         </div>
                         <div className='d-flex justify-content-between mt-1'>
@@ -79,7 +79,7 @@ function SaleDetailView() {
                                 할인
                             </div>
                             <div className={`${sale.salePrice > 0 ? 'text-danger' : 'text-secondary'}`}>
-                                -{sale.salePrice}원
+                                -{sale.salePrice.toLocaleString('ko-KR')}원
                             </div>
                         </div>
 
@@ -90,7 +90,7 @@ function SaleDetailView() {
                                 계산 금액
                             </div>
                             <div>
-                                {sale.finalPrice}원
+                                {sale.finalPrice.toLocaleString('ko-KR')}원
                             </div>
                         </div>
                     </div>

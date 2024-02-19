@@ -88,9 +88,9 @@ function CartView() {
 
                                 <div className='pt-2'>
                                     {/* 단가 */}
-                                    <div className='text-secondary text-end'>단가 {item.price}원</div>
+                                    <div className='text-secondary text-end'>단가 {item.price.toLocaleString('ko-KR')}원</div>
                                     {/* 합계 */}
-                                    <div className='' style={{ fontSize: '1.15rem' }}>합계 <span className='fw-semibold'>{item.price * item.quantity}</span>원</div>
+                                    <div className='' style={{ fontSize: '1.15rem' }}>합계 <span className='fw-semibold'>{item.total.toLocaleString('ko-KR')}</span>원</div>
                                 </div>
                             </div>
 

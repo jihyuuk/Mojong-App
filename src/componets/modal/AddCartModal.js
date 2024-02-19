@@ -97,9 +97,9 @@ return (
 
             {/* 바디 */}
             <Modal.Body>
-                <p className="fs-5 mb-0 text-center"><span className='fw-semibold'>단가</span> : {price}원 X {quantity}개</p>
+                <p className="fs-5 mb-0 text-center"><span className='fw-semibold'>단가</span> : {price.toLocaleString('ko-KR')}원 X {quantity}개</p>
                 <hr></hr>
-                <p className='text-center fs-3 fw-bold mb-0'>합계: {total}원 </p>
+                <p className='text-center fs-3 fw-bold mb-0'>합계: {total.toLocaleString('ko-KR')}원 </p>
                 <hr></hr>
 
                 {/* 수량 */}

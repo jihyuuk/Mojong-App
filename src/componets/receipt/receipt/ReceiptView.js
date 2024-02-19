@@ -42,8 +42,8 @@ function ReceiptView() {
                                     <td className='text-center'>{index + 1}</td>
                                     <td>{item.name}</td>
                                     <td className='text-center'>{item.quantity}</td>
-                                    <td className='text-end'>{item.price}</td>
-                                    <td className='text-end'>{item.price * item.quantity}</td>
+                                    <td className='text-end'>{item.price.toLocaleString('ko-KR')}</td>
+                                    <td className='text-end'>{item.total.toLocaleString('ko-KR')}</td>
                                 </tr>
                             ))
                         }
@@ -66,7 +66,7 @@ function ReceiptView() {
                             <td colSpan={5}>
                                 <div className='d-flex justify-content-between fw-semibold fs-6 py-2'>
                                     <span>총 합계 금액</span>
-                                    <span>{totalPrice}</span>
+                                    <span>{totalPrice.toLocaleString('ko-KR')}</span>
                                 </div>
                             </td>
                         </tr>
