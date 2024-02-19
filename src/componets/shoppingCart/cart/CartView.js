@@ -35,9 +35,14 @@ function CartView() {
     if (cart.length <= 0) {
         return (
             <section className='my-content'>
-                <div className='fs-4 text-secondary d-flex align-items-center justify-content-center h-100'>
+                <div className='fs-3 text-secondary d-flex align-items-center justify-content-center h-100'>
                     <div className='text-center'>
-                        <span>비어있습니다</span>
+                        <div className='mb-4'>비어있습니다</div>
+                        <span className='border border-success-subtle rounded-5 fs-6 px-3 py-2 bg-light-subtle'>
+                            <Link to='/custom-item' className='text-decoration-none text-secondary'>
+                                + 직접입력
+                            </Link>
+                        </span>
                     </div>
                 </div>
             </section>
@@ -94,7 +99,7 @@ function CartView() {
 
                 ))}
 
-                <Link to='/custom-item' className='text-decoration-none' replace={true} >
+                <Link to='/custom-item' className='text-decoration-none'>
                     <div className='py-2 fs-5 text-secondary text-center'>
                         + 직접입력하기
                     </div>
