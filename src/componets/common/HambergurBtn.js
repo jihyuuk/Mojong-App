@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { Button, ListGroup, Offcanvas, OffcanvasHeader, OffcanvasTitle } from 'react-bootstrap';
-import { TokenContext } from '../../App';
 import { Link, useNavigate } from 'react-router-dom';
+import { useToken } from '../../custom/provider/TokenContext';
 
 function HamburgerBtn() {
 
-  const { setToken } = useContext(TokenContext);
+  const {removeToken} = useToken();
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -17,9 +17,7 @@ function HamburgerBtn() {
   const navigate = useNavigate();
   const handleLogout = () => {
     //저장소에 토큰 지우기
-    localStorage.removeItem('jwtToken');
-    //전역 토큰 지우기
-    setToken();
+    removeToken();
     //로그인 페이지로 리다이렉트
     navigate('/', { replace: true });
   }

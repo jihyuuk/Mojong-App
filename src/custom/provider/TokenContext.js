@@ -12,19 +12,22 @@ export function useToken() {
 export function TokenProvider({ children }) {
 
     //토큰
-    const [token, setToken] = useState();
+    const [token, setToken] = useState(localStorage.getItem('jwtToken'));
 
     //토큰삭제
     const removeToken = () => {
         setToken();
         localStorage.removeItem('jwtToken');
+        console.log('tokenProvider : 토큰 삭제');
     }
 
     //토큰등록
     const updateToken = (newToken) => {
         setToken(newToken);
         localStorage.setItem('jwtToken', newToken);
+        console.log('tokenProvider : 토큰 업데이트');
     }
+
 
     //제공변수들
     const TokenContextValue = {
@@ -33,6 +36,15 @@ export function TokenProvider({ children }) {
         updateToken
     };
 
+    //출력용====================================
+    console.log("============= tokenProvider 랜더링 =============")
+    if(token){
+        console.log("tokenProvider : 토큰존재");
+    }else{
+        console.log("tokenProvider : 토큰 없음")
+    }
+    //==========================================
+    
     return (
         <TokenContext.Provider value={TokenContextValue}>
             {children}

@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useToken } from './TokenContext';
+import ServerApi from '../../server/ServerApi';
 
 //초기 데이터 컨텍스트
 const InitDataContext = createContext();
@@ -10,10 +11,10 @@ export function useInitData() {
 }
 
 // 초기 데이터 컨텍스트 Provider
-export function InitDataContext({ children }) {
+export function InitDataProvider({ children }) {
 
-    const { token, removeToken, updateToken } = useToken();
-    
+    const { token, isAuth, updateToken, removeToken } = useToken();
+
     //모종리스트
     const [mojongs, setMojongs] = useState([]);
     //사용자 이름
@@ -21,63 +22,29 @@ export function InitDataContext({ children }) {
     //사용자 등급
     const [role, setRole] = useState('');
 
-    //서버에서 데이터 가져오기
-    const fetchData = async () => {
-        //1.서버에 토큰가지고 모종 데이터 요청
-        //2.서버 응답 : 200, 201, 403
-        //    200: 응답
-        //    201: 응답,새토큰
-        //    403: 존재하는 토큰 지우기
-        try {
-            const response = await axios.get(process.env.REACT_APP_API_URL + '/initData', {
-                headers: {
-                    'Authorization': token
-                }
-            });
+    //로딩
+    const [loading, setLoading] = useState(false);
 
-            if (response.status === 200) {
-                //데이터 불러오기성공시
-                setMojongs(response.data.mojongs);
-                setUsername(response.data.username);
-                setRole(response.data.role);
 
-                console.log(response.data.role);
-                console.log(response.data.username);
-
-            } else if (response.status === 201) {
-                //토큰갱신
-                const newToken = response.headers.get('Authorization');
-                updateToken(newToken);
-
-                //데이터 불러오기성공시
-                setMojongs(response.data.mojongs);
-                setUsername(response.data.username);
-                setRole(response.data.role);
-                
-                console.log(response.data.role);
-                console.log(response.data.username);
-            } else {
-                //지정하지 않은 상태코드
-                console.error('서버 응답 상태코드 에러 : ' + response.status)
-            }
-
-        } catch (error) {
-            if (error.response && error.response.status === 403) {
-                //토큰 지우기
-                removeToken();
-                console.error('권한이 없습니다.');
-            } else {
-                console.error('서버 연결 중 오류 발생.', error.message);
-            }
-        }
-    }
-
-    //처음 마운트시 
+    //토큰 존재시 데이터 초기화
     useEffect(() => {
-        //토큰이 존재하면 서버에 데이터 요청하기
-        if (token) fetchData();
-    }, []);
 
+        if(!token) return;
+
+        console.log('iniData : 초기데이터 받아오기')
+        ServerApi('get', '/initData', null, token, removeToken, updateToken)
+            .then(response => {
+                setMojongs(response.mojongs);
+                setUsername(response.username);
+                setRole(response);
+                setLoading(false);
+            })
+            .catch(error => {
+                //에러처리
+                console.log('에러')
+                setLoading(false);
+            });
+    }, [token])
 
     //제공변수들
     const InitDataContextValue = {
@@ -86,9 +53,30 @@ export function InitDataContext({ children }) {
         role
     };
 
+    //출력용====================================
+    console.log("============= initDataProvider 랜더링 =============")
+    //==========================================
+
     return (
-        <InitDataContext.Provider value={InitDataContextValue}>
-            {children}
-        </InitDataContext.Provider>
+        <>
+            {loading ?
+                // 로딩중
+                <div className='my-container'>
+                    <div className='my-content pb-0'>
+                        <div className="d-flex justify-content-center align-items-center h-100">
+                            <div className='text-center'>
+                                <div className="spinner-border m-auto" role="status"></div>
+                                <p className='fs-5 text-center mt-3'>데이터 불러오는 중...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                :
+                //로딩성공
+                <InitDataContext.Provider value={InitDataContextValue}>
+                    {children}
+                </InitDataContext.Provider>
+            }
+        </>
     );
 }

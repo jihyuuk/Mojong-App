@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { TokenContext } from "../../App";
+import { useToken } from "../provider/TokenContext";
 
 const PrivateRoute = ()=>{
 
     //여기 토큰 정보 확인해야함
-    const {token} = useContext(TokenContext);
+    const {token} = useToken();
 
     return(
         token ? <Outlet/> : <Navigate to="/login" replace={true}/>

@@ -103,11 +103,17 @@ function JoinPage() {
     }
     const pwdChange = (value) => {
         setPwd(value);
-        if (inVaildPwd) setInvaildPwd(false);
+        if (inVaildPwd){
+            setInvaildPwd(false);
+            setInvailPwdCheck(false);
+        }
     }
     const pwdCheckChange = (value) => {
         setPwdCheck(value);
-        if (inVaildPwdCheck) setInvailPwdCheck(false);
+        if (inVaildPwdCheck){
+            setInvaildPwd(false);
+            setInvailPwdCheck(false);
+        } 
     }
 
 

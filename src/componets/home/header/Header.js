@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
-import HamburgerBtn from '../../common/HambergurBtn';
-import { ShoppingCartContext } from '../../../App';
 import SearchField from '../search/SearchField';
 
 function Header() {

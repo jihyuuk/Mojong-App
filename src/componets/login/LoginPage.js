@@ -1,8 +1,9 @@
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { TokenContext } from '../../App';
+import { useToken } from '../../custom/provider/TokenContext';
+
 
 function LonginPage() {
 
@@ -18,7 +19,7 @@ function LonginPage() {
     const [feedbackPwd, setFeedbackPwd] = useState();
 
     //토큰
-    const { token, setToken } = useContext(TokenContext);
+    const {token, updateToken} = useToken();
 
     //리다이렉트
     const navigate = useNavigate();
@@ -50,12 +51,8 @@ function LonginPage() {
 
             //로그인 성공시
             if (response.status === 200) {
-                //jwt추출
-                const getToken = response.headers.getAuthorization();
                 //토큰 설정
-                setToken(getToken);
-                //토큰 스토리지에 저장
-                localStorage.setItem('jwtToken',getToken);
+                updateToken(response.headers.getAuthorization());
                 //리다이렉트
                 navigate('/',{replace:true});
             }

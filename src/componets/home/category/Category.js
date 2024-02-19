@@ -1,12 +1,9 @@
-import React, { useContext } from 'react';
-import { DataContext } from '../../../App';
-
-
-
+import React from 'react';
+import { useInitData } from '../../../custom/provider/InitDataContext';
 
 function Category(props) {
 
-    const datas = useContext(DataContext);
+    const {mojongs} = useInitData();
     const selectedCategory = props.selectedCategory;
     const setSelectedCategory = props.setSelectedCategory;
 
@@ -33,10 +30,10 @@ function Category(props) {
     return (
         <nav id='category'>
             <div id='scroll-nav' className='overflow-x-auto w-100 d-flex bg-white border-bottom fw-medium text-secondary shadow-sm'>
-                {datas.map((data, index) => (
-                    <div key={index} className={`py-2 px-3 fs-5 ${selectedCategory === data.category ? 'selected' : ''}`} onClick={(e) => scrollNav(e)}>
+                {mojongs.map((mojong, index) => (
+                    <div key={index} className={`py-2 px-3 fs-5 ${selectedCategory === mojong.category ? 'selected' : ''}`} onClick={(e) => scrollNav(e)}>
                         <span className='text-nowrap'>
-                            {data.category}
+                            {mojong.category}
                         </span>
                     </div>
                 ))}
