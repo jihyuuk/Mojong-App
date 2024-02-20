@@ -54,7 +54,7 @@ function MemberPage() {
             </div>
 
             {/* 뷰 */}
-            <div className='my-content pb-0 bg-white'>
+            <div className='my-content bg-white'>
                 {selected === 'members' ? <MemberView value={{members,setMembers,fetchMembers}} /> : <JoinView value={{joins,setJoins,fetchMembers}} />}
             </div>
 
