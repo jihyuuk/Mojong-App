@@ -13,6 +13,7 @@ import SaleDetail from './componets/saleDetail/SaleDetail';
 import { CartProvider } from './custom/provider/CartContext';
 import { TokenProvider } from './custom/provider/TokenContext';
 import { InitDataProvider } from './custom/provider/InitDataContext';
+import MemberPage from './admin/member/memberPage';
 
 function App() {
 
@@ -39,6 +40,10 @@ function App() {
                   {/* 로그인 필요 X */}
                   <Route path='/login' element={<LoginPage />}></Route>
                   <Route path='/join' element={<JoinPage />}></Route>
+
+                  {/* 관리자 */}
+                  <Route path='/member' element={<MemberPage/>}></Route>
+
                 </Routes>
               </BrowserRouter>
             </CartProvider>
