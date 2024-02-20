@@ -36,7 +36,7 @@ export function InitDataProvider({ children }) {
             .then(response => {
                 setMojongs(response.mojongs);
                 setUsername(response.username);
-                setRole(response);
+                setRole(response.role);
                 setLoading(false);
             })
             .catch(error => {
