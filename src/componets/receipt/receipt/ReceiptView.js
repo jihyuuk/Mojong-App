@@ -1,12 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Table } from 'react-bootstrap';
-import { FinalPrice, SalePrice, ShoppingCartContext } from '../../../App';
+import { useCart } from '../../../custom/provider/CartContext';
 
 function ReceiptView() {
 
-    const { cart } = useContext(ShoppingCartContext);
-    const { finalPrice } = useContext(FinalPrice);
-    const { salePrice } = useContext(SalePrice);
+    const {cart, totalPrice} = useCart();
 
     return (
         <section className='my-content p-3'>
@@ -44,8 +42,8 @@ function ReceiptView() {
                                     <td className='text-center'>{index + 1}</td>
                                     <td>{item.name}</td>
                                     <td className='text-center'>{item.quantity}</td>
-                                    <td className='text-end'>{item.price}</td>
-                                    <td className='text-end'>{item.price * item.quantity}</td>
+                                    <td className='text-end'>{item.price.toLocaleString('ko-KR')}</td>
+                                    <td className='text-end'>{item.total.toLocaleString('ko-KR')}</td>
                                 </tr>
                             ))
                         }
@@ -53,7 +51,7 @@ function ReceiptView() {
                     </tbody>
 
                     <tfoot>
-                        {salePrice > 0 &&
+                        {/* {salePrice > 0 &&
                             <tr>
                                 <td colSpan={5}>
                                     <div className='d-flex justify-content-between fs-6'>
@@ -63,13 +61,12 @@ function ReceiptView() {
                                 </td>
                             </tr>
 
-                        }
-
+                        } */}
                         <tr>
                             <td colSpan={5}>
                                 <div className='d-flex justify-content-between fw-semibold fs-6 py-2'>
                                     <span>총 합계 금액</span>
-                                    <span>{finalPrice}</span>
+                                    <span>{totalPrice.toLocaleString('ko-KR')}</span>
                                 </div>
                             </td>
                         </tr>

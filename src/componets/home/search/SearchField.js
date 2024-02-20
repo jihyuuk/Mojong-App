@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ListGroup } from 'react-bootstrap';
-import { DataContext } from '../../../App';
-import AddCartModal from '../modal/AddCartModal';
+import AddCartModal from '../../modal/AddCartModal';
+import { useInitData } from '../../../custom/provider/InitDataContext';
 
 function SearchField(props) {
 
     //전체데이터
-    const data = useContext(DataContext);
+    const { mojongs } = useInitData();
     //검색데이터
     const input = props.input;
     const setInput = props.setInput
@@ -35,7 +35,7 @@ function SearchField(props) {
 
         //데이터에서 찾아오기
         const finds = [];
-        data.forEach((cateogry) => {
+        mojongs.forEach((cateogry) => {
             cateogry.items.forEach(item => {
                 if (item.name.includes(input) || input.includes(item.name)) {
                     finds.push(item);

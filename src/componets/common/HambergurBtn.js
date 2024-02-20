@@ -1,25 +1,24 @@
 import React, { useContext, useState } from 'react';
 import { Button, ListGroup, Offcanvas, OffcanvasHeader, OffcanvasTitle } from 'react-bootstrap';
-import { TokenContext } from '../../../App';
 import { Link, useNavigate } from 'react-router-dom';
+import { useToken } from '../../custom/provider/TokenContext';
+import { useInitData } from '../../custom/provider/InitDataContext';
 
 function HamburgerBtn() {
 
-  const { setToken } = useContext(TokenContext);
+  const {removeToken} = useToken();
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const toggleShow = () => setShow((s) => !s);
 
-  const [user, setUser] = useState('홍길동님');
+  const {username,role} = useInitData();
 
   //로그아웃 핸들링
   const navigate = useNavigate();
   const handleLogout = () => {
     //저장소에 토큰 지우기
-    localStorage.removeItem('jwtToken');
-    //전역 토큰 지우기
-    setToken();
+    removeToken();
     //로그인 페이지로 리다이렉트
     navigate('/', { replace: true });
   }
@@ -39,7 +38,7 @@ function HamburgerBtn() {
 
         {/* 헤더 */}
         <Offcanvas.Header closeButton className='border-bottom'>
-          <Offcanvas.Title className='fw-bold fs-4'>{user}</Offcanvas.Title>
+          <Offcanvas.Title className='fw-bold fs-4'>{username}님</Offcanvas.Title>
         </Offcanvas.Header>
 
         {/* 목록 */}

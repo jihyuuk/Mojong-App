@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AddCartModal from '../modal/AddCartModal';
+import AddCartModal from '../../modal/AddCartModal';
 
 function Section(props) {
 
@@ -32,7 +32,7 @@ function Section(props) {
                                 <div className='text-secondary my-2'>{item.description}</div>
                             </div>
                             <div className='card-footer text-center'>
-                                <div className='fs-5'>{item.price}원</div>
+                                <div className='fs-5'>{item.price.toLocaleString('ko-KR')}원</div>
                             </div>
                         </div>
                     </div>

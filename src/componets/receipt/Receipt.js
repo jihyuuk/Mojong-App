@@ -1,7 +1,7 @@
 import React from 'react';
 import ReceiptView from './receipt/ReceiptView';
-import Footer from '../footer/Footer';
-import SubHeader from '../subHeader/SubHeader';
+import Footer from '../common/Footer';
+import SubHeader from '../common/SubHeader'
 
 function Receipt() {
 

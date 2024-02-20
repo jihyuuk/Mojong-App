@@ -2,25 +2,31 @@ import React, { useContext, useEffect, useState } from 'react';
 import Category from './category/Category';
 import Header from './header/Header';
 import Section from './section/Section';
-import GoToCart from '../bottomBtn/GoToCart';
-import Footer from '../footer/Footer'
-import { DataContext } from '../../App';
+import GoToCart from './bottomBtn/GoToCart';
+import Footer from '../common/Footer'
+import { useInitData } from '../../custom/provider/InitDataContext';
 
 function Home() {
 
-    const data = useContext(DataContext);
-    const [selectedCategory, setSelectedCategory] = useState(data[0].category);
-    const [items, setItems] = useState(data[0].items)
+    const {mojongs} = useInitData();
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [items, setItems] = useState([]);
+
 
     //카테고리 바뀌면 내용 바꾸기
     useEffect(() => {
-        const category = data.find((category) => category.category === selectedCategory);
-        setItems(category.items);
+        const findMojong = mojongs.find((mojong) => mojong.category === selectedCategory);
+        if(findMojong){
+            setItems(findMojong.items);
+        }
     }, [selectedCategory]);
 
+    useEffect(() => {
+        if(mojongs.length > 0){
+            setSelectedCategory(mojongs[0].category);
+        }
+    }, [mojongs])
 
-    //높이설정
-    useEffect(() => { }, [])//처음 마운트 될때만 실행
 
     return (
         <div id='home' className='h-100'>

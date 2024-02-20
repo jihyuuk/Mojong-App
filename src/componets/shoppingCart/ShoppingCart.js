@@ -1,8 +1,8 @@
 import React from 'react';
 import CartView from './cart/CartView';
-import Footer from '../footer/Footer';
-import SubHeader from '../subHeader/SubHeader';
-import CalculateBtn from '../bottomBtn/GoToCheck'
+import Footer from '../common/Footer';
+import SubHeader from '../common/SubHeader'
+import GoToCheck from './cart/GoToCheck'
 
 function ShoppingCart() {
 
@@ -17,7 +17,7 @@ function ShoppingCart() {
             <CartView />
 
             {/* 하단버튼 */}
-            <CalculateBtn></CalculateBtn>
+            <GoToCheck></GoToCheck>
 
             {/* 푸터 */}
             {/* <Footer value={'cart'}></Footer> */}

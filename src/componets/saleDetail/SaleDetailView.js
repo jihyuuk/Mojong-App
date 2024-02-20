@@ -3,78 +3,48 @@ import { useParams } from 'react-router-dom';
 import { TokenContext, TotalPrice } from '../../App';
 import axios from 'axios';
 import { Button, ListGroup, ListGroupItem } from 'react-bootstrap';
-import SubHeader from '../subHeader/SubHeader';
+import ServerApi from '../../server/ServerApi';
+import { useToken } from '../../custom/provider/TokenContext';
 
 function SaleDetailView() {
 
-    const [loading, setLoading] = useState(false);
-    const { token, setToken } = useContext(TokenContext);
     const { id } = useParams();
 
     const [sale, setSale] = useState();
     const [saleItems, setSaleItems] = useState([]);
+    const { token, removeToken, updateToken } = useToken();
 
-    const fetchDetail = async () => {
-
-        try {
-            const response = await axios.get(process.env.REACT_APP_API_URL + '/sale/' + id,
-                {
-                    headers: {
-                        'Authorization': token,
-                    }
-                });
-
-            if (response.status === 200) {
-                //데이터 불러오기성공시
-                setSale(response.data.sale);
-                setSaleItems(response.data.saleItems);
-            } else if (response.status === 201) {
-                //토큰갱신
-                const newToken = response.headers.get('Authorization');
-                localStorage.setItem('jwtToken', newToken);
-                setToken(newToken);
-
-                console.log("토큰이 갱신되었습니다.");
-
-                //데이터 불러오기성공시
-                setSale(response.data.sale);
-                setSaleItems(response.data.saleItems);
-            } else {
-                //지정하지 않은 상태코드
-                console.error('서버 응답 상태코드 에러 : ' + response.status)
-            }
-
-        } catch (error) {
-            if (error.response && error.response.status === 403) {
-                //토큰 지우기
-                setToken();
-                localStorage.removeItem('jwtToken');
-                console.error('권한이 없습니다.');
-            } else {
-                console.error('서버 연결 중 오류 발생.', error.message);
-            }
-        }
-
-        //로딩끝
-        setLoading(false);
+    //서버연동
+    const fetchDetail = () => {
+        ServerApi('get', '/sale/' + id, null, token, removeToken, updateToken)
+            .then(response => {
+                setSale(response.sale);
+                setSaleItems(response.saleItems);
+            })
+            .catch(error => {
+                //에러 처리
+            })
     }
 
     //처음 로딩시 데이터 불러오기
     useEffect(() => {
-        setLoading(true);
         fetchDetail();
     }, []);
 
     if (!sale) {
         return (
-            <div>
-                존재하지 않는 판매번호 입니다.
-            </div>
-        )
+            <section className='my-content'>
+                <div className='fs-4 text-secondary d-flex align-items-center justify-content-center h-100'>
+                    <div className='text-center'>
+                        <span>존재하지 않거나, 권한이 없습니다.</span>
+                    </div>
+                </div>
+            </section>
+        );
     }
 
     return (
-        <div className='my-content'>
+        <div className='my-content bg-white'>
             <ListGroup className='fw-medium'>
 
                 {/* 판매내역 */}
@@ -89,38 +59,45 @@ function SaleDetailView() {
                                     {index + 1}. {item.name} x {item.quantity}
                                 </div>
                                 <div>
-                                    {item.total}원
+                                    {item.total.toLocaleString('ko-KR')}원
                                 </div>
                             </div>
                         ))}
 
                         <hr />
 
-                        <div className='d-flex justify-content-between'>
-                            <div className='text-secondary'>
-                                합계금액
-                            </div>
-                            <div>
-                                <div>{sale.totalPrice}원</div>
-                            </div>
-                        </div>
-                        <div className='d-flex justify-content-between mt-1'>
-                            <div className='text-secondary'>
-                                할인
-                            </div>
-                            <div className={`${sale.salePrice > 0 ? 'text-danger' : 'text-secondary'}`}>
-                                -{sale.salePrice}원
-                            </div>
-                        </div>
+                        {sale.salePrice > 0 &&
+                            <>
+                                <div className='d-flex justify-content-between'>
+                                    <div className='text-secondary'>
+                                        합계금액
+                                    </div>
+                                    <div>
+                                        <div>{sale.totalPrice.toLocaleString('ko-KR')}원</div>
+                                    </div>
+                                </div>
+                                <div className='d-flex justify-content-between mt-1'>
+                                    <div className='text-secondary'>
+                                        할인
+                                    </div>
+                                    <div className={`${sale.salePrice > 0 ? 'text-danger' : 'text-secondary'}`}>
+                                        -{sale.salePrice.toLocaleString('ko-KR')}원
+                                    </div>
+                                </div>
 
-                        <hr />
+                                <hr />
+
+                            </>
+                        }
+
+
 
                         <div className={`d-flex justify-content-between fw-semibold fs-4`}>
                             <div>
                                 계산 금액
                             </div>
                             <div>
-                                {sale.finalPrice}원
+                                {sale.finalPrice.toLocaleString('ko-KR')}원
                             </div>
                         </div>
                     </div>
