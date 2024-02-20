@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import { useCart } from '../../custom/provider/CartContext';
 
 function AddCartModal(props) {
@@ -9,148 +9,139 @@ function AddCartModal(props) {
     const handleClose = props.handleClose;
 
     //데이터 관련
-    const [value, setValue] = useState('');
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
     const [quantity, setQuantity] = useState(0);
-    const [total, setTotal] = useState(0);
 
-    const [disableBtn,setdisableBtn] = useState(true);
-
+    //클리어버튼
+    const [showClear, setShowClear] = useState(false);
 
     //처음 로딩시
     useEffect(() => {
         if (show) {
             setName(item.name);
             setPrice(item.price);
-
-            //value변경시 -> 수량변경 - > total 변경됨
-            setValue('');
+            setQuantity(0);
         }
     }, [show])
 
 
-    //인풋 value 바뀌면 수량도 변경
-    useEffect(() => {
-
-        if (value === '') {
-            setQuantity(0);
-        } else {
-            setQuantity(value);
-        }
-    }, [value]);
-
-    //갯수 바뀌면 합계 변경
-    useEffect(() => {
-        setTotal(price * quantity);
-        setdisableBtn(quantity > 0 ? false : true);
-    }, [quantity]);
-
     //더하기 버튼
     const handlePlus = (param) => {
-        setValue(Number(value + param));
-    }
-    //빼기버튼
-    const handleMinus = () => {
-        const newValue = Number(value - 1);
-
-        if (newValue <= 0) {
-            setValue('');
-        } else {
-            setValue(newValue);
-        }
-    }
-
-    //값 입력
-    const handleInput = (e) => {
-        const input = parseInt(e.target.value, 0);
-        console.log("입력값 : " + input)
-        if (isNaN(input) || input <= 0) {
-            //백스페이스 또는 0 입력시
-            setValue('');
-        } else {
-            //잘 입력했을시
-            setValue(parseInt(input, 0));
-        }
+        setQuantity(quantity + Number(param));
     }
 
     //장바구니 담기 클릭시
     const { addCart } = useCart();
     const handleAddCart = () => {
-        addCart(name,price,quantity)
-        &&
-        handleClose();
+        addCart(name, price, quantity)
+            &&
+            handleClose();
     }
 
-   
-    //!!!! 엄첨 많이 랜더링된다 최적화 필요
 
-return (
-    <>
+    //onChange
+    const quantityChange = (value) => {
+        //빈값시 0으로 치환
+        if (value === '') {
+            value = '0';
+        }
 
-        <Modal show={show} onHide={handleClose} backdrop="static">
+        //숫자인지, 3자리 이하인지 판별
+        if (isNaN(value)) return;
 
-            {/* 헤더 */}
-            <Modal.Header closeButton>
-                <Modal.Title className='fw-bold ps-3 fs-2'>{name}</Modal.Title>
-            </Modal.Header>
+        setQuantity(parseInt(value));
+    }
 
-            {/* 바디 */}
-            <Modal.Body>
-                <p className="fs-5 mb-0 text-center"><span className='fw-semibold'>단가</span> : {price.toLocaleString('ko-KR')}원 X {quantity}개</p>
-                <hr></hr>
-                <p className='text-center fs-3 fw-bold mb-0'>합계: {total.toLocaleString('ko-KR')}원 </p>
-                <hr></hr>
+    //클리어 버튼 클릭시
+    const clear = () => {
+        setQuantity(0);
+    }
 
-                {/* 수량 */}
-                <div className='d-flex justify-content-center gap-2'>
-                    <Button variant='default' className='border' onClick={handleMinus}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-dash" viewBox="0 0 16 16">
-                            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
-                        </svg>
-                    </Button>
+    //클리어 버튼 표시 여부
+    useEffect(() => {
+        if (quantity > 0) {
+            setShowClear(true);
+        } else {
+            setShowClear(false);
+        }
+    }, [quantity])
 
-                    <Form.Control
-                        id="AddCartInput"
-                        className='text-center p-0'
-                        type="number"
-                        pattern="\d*"
-                        min="0"
-                        inputMode="numeric"
-                        placeholder='0'
-                        value={value}
-                        onInput={handleInput}
-                        autoFocus
-                    />
 
-                    <Button variant='default' className='border' onClick={() => handlePlus(1)}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus" viewBox="0 0 16 16">
-                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                        </svg>
-                    </Button>
+    return (
+        <>
+
+            <Modal show={show} onHide={handleClose} backdrop="static">
+
+                {/* 헤더 */}
+                <div className='py-2 border-bottom border-success-subtle border-2 text-success'>
+                    <div className='text-center fs-2 fw-medium'>
+                        {name}
+                    </div>
                 </div>
 
-                {/* 버튼 */}
-                <div className='d-flex justify-content-center gap-3 mt-4'>
-                    <Button variant="outline-primary" className='rounded-pill' onClick={() => handlePlus(5)}>+5</Button>
-                    <Button variant="outline-primary" className='rounded-pill' onClick={() => handlePlus(10)}>+10</Button>
-                    <Button variant="outline-primary" className='rounded-pill' onClick={() => handlePlus(50)}>+50</Button>
-                    <Button variant="outline-primary" className='rounded-pill' onClick={() => handlePlus(72)}>+72</Button>
+                {/* 바디 */}
+                <div className='px-3'>
+
+
+                    <div className='d-flex justify-content-between align-items-center mt-3 py-2 border-bottom'>
+                        <div className='fs-5 fw-medium text-secondary'>
+                            단가 {price.toLocaleString('ko-KR')}원
+                        </div>
+                        <div className='fs-4 fw-semibold'>
+                            {(price * quantity).toLocaleString('ko-KR')}원
+                        </div>
+                    </div>
+
+
+                    <div className='pb-2 mt-3 position-relative d-flex align-items-center'>
+                        <span className='position-absolute start-0 ms-2 text-success'>수량</span>
+                        <Form.Control
+                            id='modal-input'
+                            type="text"
+                            pattern="\d*"
+                            inputMode="numeric"
+                            placeholder='0'
+                            className='text-center mx-auto fs-4 border-success-subtle'
+                            value={quantity === 0 ? '' : quantity}
+                            onChange={(e) => quantityChange(e.target.value.trim())}
+                            autoFocus
+                        />
+
+                        {showClear &&
+                            <div className='position-absolute px-2 me-2 end-0 h-75' onClick={() => clear()}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-x my-auto h-100" viewBox="0 0 16 16">
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                                </svg>
+                            </div>
+
+                        }
+
+                    </div>
+
+
+                    <div className='my-3'>
+                        <div className='d-flex justify-content-center text-success'>
+                            <div className='border border-success-subtle rounded-pill py-2 px-3 me-2' onClick={() => handlePlus(5)}>+5</div>
+                            <div className='border border-success-subtle rounded-pill py-2 px-3 me-2' onClick={() => handlePlus(10)}>+10</div>
+                            <div className='border border-success-subtle rounded-pill py-2 px-3 me-2' onClick={() => handlePlus(50)}>+50</div>
+                            <div className='border border-success-subtle rounded-pill py-2 px-3' onClick={() => handlePlus(72)}>+72</div>
+                        </div>
+                    </div>
                 </div>
 
 
-            </Modal.Body>
+                {/* 푸터 */}
+                <div className='border-top p-3'>
+                    <div className='d-flex gap-2'>
+                        <Button variant='secondary' className='px-5 fs-5' onClick={() => { handleClose() }}>닫기</Button>
+                        <Button variant='success' className='flex-grow-1 fs-5' onClick={() => { handleAddCart() }} disabled={price * quantity <= 0}>장바구니 추가</Button>
+                    </div>
+                </div>
 
-            {/* 푸터 */}
-            <Modal.Footer>
-                <Button variant="primary" onClick={handleAddCart} className='m-auto fs-4' disabled={disableBtn}>
-                    장바구니에 담기
-                </Button>
-            </Modal.Footer>
-
-        </Modal>
-    </>
-);
+            </Modal>
+        </>
+    );
 
 }
 export default AddCartModal;
