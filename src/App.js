@@ -15,6 +15,7 @@ import { TokenProvider } from './custom/provider/TokenContext';
 import { InitDataProvider } from './custom/provider/InitDataContext';
 import MemberPage from './admin/member/memberPage';
 import AllHistoryPage from './admin/allHistory/AllHistoryPage';
+import ProductPage from './admin/product/ProductPage';
 
 function App() {
 
@@ -45,6 +46,7 @@ function App() {
                   {/* 관리자 */}
                   <Route path='/member' element={<MemberPage/>}></Route>
                   <Route path='/all-history' element={<AllHistoryPage/>}></Route>
+                  <Route path='/product' element={<ProductPage/>}></Route>
 
                 </Routes>
               </BrowserRouter>
