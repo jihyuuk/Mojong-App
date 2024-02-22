@@ -92,6 +92,17 @@ input[type=number] {
   width: 100%;
 }
 
+/* 페이징 */
+.my-pagination .active a{
+  background-color: #198754;
+  border-color: #198754;
+}
+
+.my-pagination :hover{
+  color : red;
+}
+
+
 /* 정산 로딩 */
 .circle-loader {
   /* margin-bottom: 3.5em; */

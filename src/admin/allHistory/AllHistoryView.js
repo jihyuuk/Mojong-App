@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ListGroup } from 'react-bootstrap';
+import { ListGroup, Pagination } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ServerApi from '../../server/ServerApi';
 import { useToken } from '../../custom/provider/TokenContext';
@@ -7,12 +7,23 @@ import { useToken } from '../../custom/provider/TokenContext';
 function AllHistoryView() {
 
     const [histories, setHistories] = useState([]);
-    const { token, removeToken, updateToken } = useToken();
 
-    const fetchHistory = () => {
-        ServerApi('get', '/allHistory', null, token, removeToken, updateToken)
+    const { token, removeToken, updateToken } = useToken();
+    const [totalPages, setTotalPages] = useState(0);
+    const [nowPage, setNowPage] = useState(0);
+    const [startPage, setStartPage] = useState(0);
+
+    //버튼수
+    const count = 5;
+
+    const fetchHistory = (pageNumber) => {
+        ServerApi('get', '/allHistory?page=' + pageNumber+'&size=10', null, token, removeToken, updateToken)
             .then(response => {
                 setHistories(response.content);
+                setNowPage(response.number);
+                setTotalPages(response.totalPages);
+                // setIsFirst(response.first);
+                // setIsLast(response.last);
             })
             .catch(error => {
                 //에러처리
@@ -22,8 +33,15 @@ function AllHistoryView() {
     }
 
     useEffect(() => {
-        fetchHistory();
+        fetchHistory(0);
     }, []);
+
+    useEffect(() => {
+        setStartPage(Math.floor(nowPage / count) * count);
+        console.log('nowPage : ' + nowPage)
+        console.log('count ' + count)
+        console.log('startPgae : ' + (Math.floor(nowPage / count) * count))
+    }, [nowPage]);
 
     if (histories.length <= 0) {
         return (
@@ -34,6 +52,24 @@ function AllHistoryView() {
             </section>
         );
     }
+
+    const pageBtns = () => {
+
+        const result = [];
+
+        for (let i = startPage; i < startPage + count; i++) {
+
+            if (i >= totalPages) break;
+            result.push(
+                <Pagination.Item key={i} className={i === nowPage ? 'active' : ''} onClick={()=>fetchHistory(i)}>
+                    {i + 1}
+                </Pagination.Item>
+            )
+        }
+
+        return result;
+    }
+
 
     return (
         <div className='my-content'>
@@ -69,6 +105,15 @@ function AllHistoryView() {
                 ))}
 
             </ListGroup>
+
+
+
+            <Pagination variant="success" className='mt-4 justify-content-center gap-1 my-pagination'>
+                {startPage > 0 && <Pagination.Prev onClick={()=>fetchHistory(startPage-1)}/>}
+                {pageBtns()}
+                {startPage + 5 < totalPages && <Pagination.Next  onClick={()=>fetchHistory(startPage+5)}/>}
+            </Pagination>
+
 
         </div>
     );
