@@ -31,9 +31,9 @@ function Category(props) {
         <nav id='category'>
             <div id='scroll-nav' className='overflow-x-auto w-100 d-flex bg-white border-bottom fw-medium text-secondary shadow-sm'>
                 {mojongs.map((mojong, index) => (
-                    <div key={index} className={`py-2 px-3 fs-5 ${selectedCategory === mojong.category ? 'selected' : ''}`} onClick={(e) => scrollNav(e)}>
+                    <div key={index} className={`py-2 px-3 fs-5 ${selectedCategory === mojong.name ? 'selected' : ''}`} onClick={(e) => scrollNav(e)}>
                         <span className='text-nowrap'>
-                            {mojong.category}
+                            {mojong.name}
                         </span>
                     </div>
                 ))}

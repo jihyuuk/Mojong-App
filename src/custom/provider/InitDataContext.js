@@ -46,9 +46,27 @@ export function InitDataProvider({ children }) {
             });
     }, [token])
 
+
+    //모종 리스트 새로고침
+    const refreshMojongs = () => {
+        console.log('iniData :  모종 리프레쉬')
+        ServerApi('get', '/mojongs', null, token, removeToken, updateToken)
+            .then(response => {
+                setMojongs(response);
+                //setLoading(false);
+            })
+            .catch(error => {
+                //에러처리
+                console.log('에러')
+                //setLoading(false);
+            });
+    }
+
+
     //제공변수들
     const InitDataContextValue = {
-        mojongs,
+        mojongs,setMojongs,
+        refreshMojongs,
         username,
         role
     };
