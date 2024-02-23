@@ -5,16 +5,16 @@ import { useToken } from "../../../custom/provider/TokenContext";
 import { useInitData } from "../../../custom/provider/InitDataContext";
 
 function EditModal(props) {
-    
+
     useEffect(() => {
         // mount
         console.log('수정모달 마운트됨');
-        
-        return() => {
-          // unmount
-          console.log('수정모달 마운트해제됨');
+
+        return () => {
+            // unmount
+            console.log('수정모달 마운트해제됨');
         }
-      }, [])
+    }, [])
 
     //props로 받은 모종,모달 정보
     const { show, handleClose } = props.modal;
@@ -52,12 +52,20 @@ function EditModal(props) {
 
 
         //서버연동
-        ServerApi('put', '/categories', { id:mojong.id, name: input }, token, removeToken, updateToken)
+        ServerApi('put', '/categories', { id: mojong.id, name: input }, token, removeToken, updateToken)
             .then(respnose => {
                 handleClose();
                 refreshMojongs();
             })
             .catch(error => {
+
+                //카테고리명 중복시
+                if (error.response && error.response.status === 409) {
+                    setInvaild(true);
+                    setMsg('중복된 카테고리명 입니다.')
+                    return;
+                }
+
                 alert("카테고리 수정 실패, 관리자에게 문의하세요")
                 console.error(error);
             });
@@ -73,13 +81,13 @@ function EditModal(props) {
 
             <ModalBody>
                 <FormLabel className='fw-medium mb-3 fs-5'>카테고리 : <span className='text-success'>{mojong.name}</span></FormLabel>
-                <FormControl className='mb-3 fs-5' value={input} onChange={(e)=>onChange(e.target.value.trim())} isInvalid={invalid}></FormControl>
+                <FormControl className='mb-3 fs-5' value={input} onChange={(e) => onChange(e.target.value.trim())} isInvalid={invalid}></FormControl>
                 <FormControl.Feedback type="invalid">{msg}</FormControl.Feedback>
             </ModalBody>
 
             <div className='d-flex gap-1 p-2 border-top'>
                 <Button variant='secondary' className='w-100' onClick={() => handleClose()}>닫기</Button>
-                <Button variant='success' className='w-100' onClick={()=>submit()}>수정하기</Button>
+                <Button variant='success' className='w-100' onClick={() => submit()}>수정하기</Button>
             </div>
         </Modal>
     );
