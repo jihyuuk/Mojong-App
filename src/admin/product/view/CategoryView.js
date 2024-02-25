@@ -4,9 +4,9 @@ import { Button, FormControl, ListGroup, ListGroupItem, Modal, ModalBody, ModalH
 import ServerApi from '../../../server/ServerApi';
 import { useToken } from '../../../custom/provider/TokenContext';
 import { useInitData } from '../../../custom/provider/InitDataContext';
-import CreateModal from '../modals/CreateModal';
-import EditModal from '../modals/EditModal';
-import DeleteModal from '../modals/DeleteModal';
+import CreateModal from '../categoryModals/CreateModal';
+import EditModal from '../categoryModals/EditModal';
+import DeleteModal from '../categoryModals/DeleteModal';
 
 function CategoryView(props) {
 
