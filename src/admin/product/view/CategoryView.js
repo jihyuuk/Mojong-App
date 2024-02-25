@@ -10,7 +10,7 @@ import DeleteModal from '../modals/DeleteModal';
 
 function CategoryView(props) {
 
-    const {mojongs, setMojongs} = useInitData();
+    const {mojongs, setMojongs, refreshMojongs} = useInitData();
     const { token, removeToken, updateToken } = useToken();
 
     //모달
@@ -69,12 +69,13 @@ function CategoryView(props) {
                 alert("요청 실패, 관리자에게 문의하세요")
                 console.error(error);
                 //데이터 다시 요청
+                refreshMojongs();
             })
     }
 
     return (
         <>
-            <div className='my-content bg-white'>
+            <div className='my-content px-2'>
 
                 {/* 총 n개 */}
                 <div className='p-2 fw-midium text-secondary'>총 <span className='fw-semibold'>{mojongs.length}</span>개</div>
@@ -95,7 +96,7 @@ function CategoryView(props) {
                                             {(provided) => (
                                                 <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
 
-                                                    <ListGroup.Item key={index} className='pe-0'>
+                                                    <ListGroup.Item key={index} className='pe-0 rounded-3'>
                                                         <div className='d-flex justify-content-between align-items-center py-2'>
                                                             <div className='fs-5 fw-medium'><span className='text-success'>{index + 1}.</span> {mojong.name}</div>
                                                             <div>
