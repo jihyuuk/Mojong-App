@@ -8,44 +8,64 @@ function CreateProduct() {
     const { mojongs, setMojongs, refreshMojongs } = useInitData();
 
     //인풋값
-    const [category, setCategory] = useState();
+    const [category, setCategory] = useState(-1);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
 
     //검증
+    const [invalidCategory, setInvaildCategory] = useState(false);
     const [invalidName, setInvaildName] = useState(false);
     const [invalidPrice, setInvaildPrice] = useState(false);
+    const [fbCategory, setFbCategory] = useState('');
     const [fbName, setFbName] = useState('');
     const [fbPrice, setFbPrice] = useState('');
 
     //검증
     const validate = () => {
-        if (name === '' || price === '') {
-            if (name === '') {
-                setFbName('상품명은 필수입니다.');
-                setInvaildName(true);
-            }
-            if (price === '') {
-                setFbPrice('가격은 필수입니다.');
-                setInvaildPrice(true);
-            }
-            return false;
+
+        let valid = true;
+
+        if (category === -1) {
+            setFbCategory('카테고리를 선택해주세요');
+            setInvaildCategory(true);
+            valid = false;
+        }
+
+        if (name === '') {
+            setFbName('상품명은 필수입니다.');
+            setInvaildName(true);
+            valid = false;
+        }
+        if (price === '') {
+            setFbPrice('가격은 필수입니다.');
+            setInvaildPrice(true);
+            valid = false;
         }
 
         if (price < 0) {
             setFbPrice('가격은 0보다 커야합니다.');
             setInvaildPrice(true);
-            return false;
+            valid = false;
         }
 
-        return true;
+        return valid;
+    }
+
+    //카테고리 onChange함수
+    const categoryChange = (index) => {
+        setInvaildCategory(false);
+        setCategory(index);
+    }
+
+    //이름 onChange함수
+    const nameChange = (value) => {
+        setInvaildName(false);
+        setName(value);
     }
 
     //가격 onChange함수
     const priceChange = (value) => {
-
-        console.log(value);
 
         setInvaildPrice(false);
 
@@ -58,22 +78,18 @@ function CreateProduct() {
         //숫자일때만 적용
         if (!isNaN(value)) {
             setPrice(Number(value));
-            return;
         }
-    }
-
-    //이름 onChange함수
-    const nameChange = (value) => {
-        setInvaildName(false);
-        setName(value);
     }
 
     //추가하기버튼
     const submit = () => {
         //검증실행
-        if(!validate()) return;
+        if (!validate()) return;
 
-        alert('hi')
+        console.log('카테고리 id : ' + category);
+        console.log('상품명 : ' + name);
+        console.log('설명 : ' + description);
+        console.log('가격 : ' + price);
     }
 
 
@@ -89,11 +105,13 @@ function CreateProduct() {
                         {/* 카테고리 */}
                         <Form.Group className="mb-3">
                             <Form.Label className='fs-5 fw-medium text-success'>카테고리</Form.Label>
-                            <Form.Select size="lg">
+                            <Form.Select size="lg" onChange={(e) => categoryChange(Number(e.target.value))} isInvalid={invalidCategory}>
+                                <option value={-1} disabled selected>선택하기</option>
                                 {mojongs.map((mojong, index) => (
                                     <option key={index} value={index}>{mojong.name}</option>
                                 ))}
                             </Form.Select>
+                            <FormControl.Feedback type='invalid'>{fbCategory}</FormControl.Feedback>
                         </Form.Group>
 
                         {/* 이름 */}
