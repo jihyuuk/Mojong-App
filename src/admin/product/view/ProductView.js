@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Button, Form, FormControl, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { useInitData } from '../../../custom/provider/InitDataContext';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import ServerApi from '../../../server/ServerApi';
 import { useToken } from '../../../custom/provider/TokenContext';
 import SubHeader from '../../../componets/common/SubHeader';
+import CreateProduct from '../productModals/CreateProduct';
 
 function ProductView() {
 
@@ -15,6 +16,7 @@ function ProductView() {
     //수정,추가 페이
     const [show, setShow] = useState('');
     const close = () => setShow('');
+
 
     const { token, removeToken, updateToken } = useToken();
 
@@ -144,52 +146,8 @@ function ProductView() {
                 </Button>
             </div>
 
-            {/* 추가,수정 페이지 */}
-            {show === 'create' &&
-                <div className='position-absolute w-100 h-100 z-5'>
-
-                    <div className='my-container'>
-
-                        <SubHeader value='상품추가' to='/'></SubHeader>
-
-                        <div className='my-content p-3'>
-                            <Form>
-                                {/* 카테고리 */}
-                                <Form.Group className="mb-3">
-                                    <Form.Label className='fs-5 fw-medium text-success'>카테고리</Form.Label>
-                                    <Form.Select size="lg">
-                                        {mojongs.map((mojong, index) => (
-                                            <option key={index} value={index}>{mojong.name}</option>
-                                        ))}
-                                    </Form.Select>
-                                </Form.Group>
-
-                                {/* 이름 */}
-                                <Form.Group className="mb-3">
-                                    <Form.Label className='fs-5 fw-medium text-success'>상품명</Form.Label>
-                                    <Form.Control size="lg" type="text" placeholder='ex) 상품A' />
-                                </Form.Group>
-
-                                {/* 설명 */}
-                                <Form.Group className="mb-3">
-                                    <Form.Label className='fs-5 fw-medium text-success'>설명란</Form.Label>
-                                    <Form.Control size="lg" type="text" placeholder='ex) 50구 / 청색판' />
-                                </Form.Group>
-
-                                {/* 가격 */}
-                                <Form.Group className="mb-3">
-                                    <Form.Label className='fs-5 fw-medium text-success'>가격</Form.Label>
-                                    <Form.Control size="lg" type="text" placeholder='ex) 500원' />
-                                </Form.Group>
-                            </Form>
-                        </div>
-
-                        <div className='mt-auto w-100 bg-white p-2'>
-                            <Button variant='success' className='w-100'>추가하기</Button>
-                        </div>
-                    </div>
-                </div>
-            }
+            {/* 추가 페이지 */}
+            {show === 'create' && <CreateProduct/>}
         </>
     );
 }
