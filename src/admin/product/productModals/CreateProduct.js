@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Button, Form, FormControl, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { useInitData } from '../../../custom/provider/InitDataContext';
 import SubHeader from '../../../componets/common/SubHeader';
+import { useToken } from '../../../custom/provider/TokenContext';
+import ServerApi from '../../../server/ServerApi';
 
-function CreateProduct() {
+function CreateProduct(props) {
 
     const { mojongs, setMojongs, refreshMojongs } = useInitData();
 
@@ -20,6 +22,10 @@ function CreateProduct() {
     const [fbCategory, setFbCategory] = useState('');
     const [fbName, setFbName] = useState('');
     const [fbPrice, setFbPrice] = useState('');
+
+    //서버연동
+    const { token, removeToken, updateToken } = useToken();
+
 
     //검증
     const validate = () => {
@@ -55,7 +61,7 @@ function CreateProduct() {
     //카테고리 onChange함수
     const categoryChange = (index) => {
         setInvaildCategory(false);
-        setCategory(index);
+        setCategory(mojongs[index].id);
     }
 
     //이름 onChange함수
@@ -90,6 +96,23 @@ function CreateProduct() {
         console.log('상품명 : ' + name);
         console.log('설명 : ' + description);
         console.log('가격 : ' + price);
+
+
+        
+        //서버 반영
+        ServerApi('post', '/item',{'categoryId':category,'name':name,'description':description,'price':price}, token, removeToken, updateToken)
+            .then(response => {
+                //성공
+                console.log('성공');
+                refreshMojongs();
+                props.handleClose();
+            })
+            .catch(error => {
+                //에러처리
+                alert("요청 실패, 관리자에게 문의하세요")
+                console.error(error);
+
+            })
     }
 
 
