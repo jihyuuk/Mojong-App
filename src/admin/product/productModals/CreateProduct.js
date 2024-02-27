@@ -109,6 +109,14 @@ function CreateProduct(props) {
             })
             .catch(error => {
                 //에러처리
+
+                //상품명중복
+                if(error.response && error.response.status === 409){
+                    setFbName('이미 존재하는 상품명입니다.');
+                    setInvaildName(true);
+                    return;
+                }
+
                 alert("요청 실패, 관리자에게 문의하세요")
                 console.error(error);
 
