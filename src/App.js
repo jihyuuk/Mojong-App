@@ -16,6 +16,7 @@ import { InitDataProvider } from './custom/provider/InitDataContext';
 import MemberPage from './admin/member/memberPage';
 import AllHistoryPage from './admin/allHistory/AllHistoryPage';
 import ProductPage from './admin/product/ProductPage';
+import AdminRouter from './custom/router/AdminRouter';
 
 function App() {
 
@@ -44,9 +45,11 @@ function App() {
                   <Route path='/join' element={<JoinPage />}></Route>
 
                   {/* 관리자 */}
-                  <Route path='/member' element={<MemberPage/>}></Route>
-                  <Route path='/all-history' element={<AllHistoryPage/>}></Route>
-                  <Route path='/product' element={<ProductPage/>}></Route>
+                  <Route element={<AdminRouter/>}>
+                    <Route path='/member' element={<MemberPage/>}></Route>
+                    <Route path='/all-history' element={<AllHistoryPage/>}></Route>
+                    <Route path='/product' element={<ProductPage/>}></Route>
+                  </Route>
 
                 </Routes>
               </BrowserRouter>
