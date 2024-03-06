@@ -15,7 +15,7 @@ function Home() {
 
     //카테고리 바뀌면 내용 바꾸기
     useEffect(() => {
-        const findMojong = mojongs.find((mojong) => mojong.category === selectedCategory);
+        const findMojong = mojongs.find((mojong) => mojong.name === selectedCategory);
         if(findMojong){
             setItems(findMojong.items);
         }
@@ -23,7 +23,7 @@ function Home() {
 
     useEffect(() => {
         if(mojongs.length > 0){
-            setSelectedCategory(mojongs[0].category);
+            setSelectedCategory(mojongs[0].name);
         }
     }, [mojongs])
 
