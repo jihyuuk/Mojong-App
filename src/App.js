@@ -17,6 +17,7 @@ import MemberPage from './admin/member/memberPage';
 import AllHistoryPage from './admin/allHistory/AllHistoryPage';
 import ProductPage from './admin/product/ProductPage';
 import AdminRouter from './custom/router/AdminRouter';
+import TestPage from './TestPage';
 
 function App() {
 
@@ -50,6 +51,9 @@ function App() {
                     <Route path='/all-history' element={<AllHistoryPage/>}></Route>
                     <Route path='/product' element={<ProductPage/>}></Route>
                   </Route>
+
+                  {/* 임시 레이아웃 테스트용 */}
+                  <Route path='/test' element={<TestPage/>}></Route>
 
                 </Routes>
               </BrowserRouter>
