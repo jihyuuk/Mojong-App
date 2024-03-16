@@ -102,6 +102,20 @@ input[type=number] {
   color : red;
 }
 
+/* 애니메이션 */
+@keyframes fadeIn{
+  from{
+    top: -60px;
+  }
+  to{
+    top: 0;
+  }
+}
+
+.fadeIn{
+  animation: fadeIn 0.5s ease;
+}
+
 
 /* 정산 로딩 */
 .circle-loader {

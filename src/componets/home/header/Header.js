@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import SearchField from '../search/SearchField';
 
-function Header() {
+function Header(props) {
 
     //검색창 관련
-    const [input, setInput] = useState('');
+    const {input, setInput} = props.input;
     const [clearBtn, setClearBtn] = useState(false);
 
     //다른 곳 클릭시 연관 검색어 안보이게 하기
@@ -54,7 +54,7 @@ function Header() {
             </div>
 
             {/* 연관검색어 */}
-            <SearchField input={input} setInput={setInput} setShow={setShow} show={show}></SearchField>
+            <SearchField input={input} setInput={setInput} setShow={setShow} show={show} modalShow={props.handleShow}></SearchField>
 
         </header>
     );
