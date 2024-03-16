@@ -45,7 +45,7 @@ function CheckBtn({ props }) {
     //정산 로딩중
     if (loading) {
         return (
-            <div className='position-absolute h-100 w-100 bg-white p-3 z-5'>
+            <div className='position-absolute h-100 w-100 bg-white p-3 z-2'>
 
                 <div className='d-flex align-items-center justify-content-center h-100'>
                     <div className='text-center'>
