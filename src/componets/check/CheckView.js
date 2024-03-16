@@ -48,11 +48,12 @@ function CheckView() {
 
     //할인 관련========================================================================
     //할인버튼들 핸들
-    const saleClick = () => {
-        if (showSale) {
+    const saleClick = (value) => {
+
+        if (!value) {
             saleInputChange(0);
         }
-        setShowSale(!showSale);
+        setShowSale(value);
     }
 
     //할인 조건 변경
@@ -149,22 +150,13 @@ function CheckView() {
                 {/* 할인 여부 */}
                 <div className='mt-4'>
                     <div className='fs-4'>할인</div>
-                    {/* <div className='d-flex mt-2 fs-5 fw-semibold bg-white border text-secondary'>
-                    <div className={`py-3 w-50 text-center ${!showSale ? 'checked' : ''}`} onClick={() => saleClick()}>
-                        <span>없음</span>
-                    </div>
-
-                    <div className={`py-3 w-50 text-center ${showSale ? 'checked' : ''}`} onClick={() => saleClick()}>
-                        <span>입력</span>
-                    </div>
-                </div> */}
 
                     <div className='d-flex mt-2 fs-5 fw-semibold bg-white border text-secondary'>
-                        <div className={`py-3 w-100  text-center ${!showSale ? 'checked' : ''}`} onClick={() => saleClick()}>
+                        <div className={`py-3 w-100  text-center ${!showSale ? 'checked' : ''}`} onClick={() => saleClick(false)}>
                             <span>없음</span>
                         </div>
 
-                        <div className={`py-3 w-100 text-center ${showSale ? 'checked' : ''}`} onClick={() => saleClick()}>
+                        <div className={`py-3 w-100 text-center ${showSale ? 'checked' : ''}`} onClick={() => saleClick(true)}>
                             <span>입력</span>
                         </div>
                     </div>
@@ -172,9 +164,9 @@ function CheckView() {
                     {showSale &&
                         <div className='mt-2'>
                             <InputGroup>
-                                <Form.Control size='lg' className='text-end' placeholder="0" type="number" pattern="\d*" value={saleInput === 0 ? '' : saleInput} onChange={(e) => saleInputChange(e.target.value.trim())} />
-                                <Button variant={`${saleCondition === 'won' ? 'success' : 'outline-secondary'}`} className='px-3' onClick={() => saleConditionChange()}>원</Button>
-                                <Button variant={`${saleCondition === 'percent' ? 'success' : 'outline-secondary'}`} className='px-3' onClick={() => saleConditionChange()}>%</Button>
+                                <Form.Control size='lg' className='text-end me-2' placeholder="0" type="number" pattern="\d*" value={saleInput === 0 ? '' : saleInput} onChange={(e) => saleInputChange(e.target.value.trim())} />
+                                <Button variant={`${saleCondition === 'won' ? 'success' : 'outline-secondary'}`} className='px-3 fw-semibold' onClick={() => saleConditionChange()}>원</Button>
+                                <Button variant={`${saleCondition === 'percent' ? 'success' : 'outline-secondary'}`} className='px-3 fw-semibold' onClick={() => saleConditionChange()}>%</Button>
                             </InputGroup>
                         </div>
                     }
