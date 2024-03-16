@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from 'react-bootstrap';
-import { useCart } from "./custom/provider/CartContext";
+import { useCart } from "../../custom/provider/CartContext";
 
 
 function ItemModal(props) {

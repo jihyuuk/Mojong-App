@@ -5,7 +5,7 @@ import Section from './section/Section';
 import GoToCart from './bottomBtn/GoToCart';
 import Footer from '../common/Footer'
 import { useInitData } from '../../custom/provider/InitDataContext';
-import ItemModal from '../../ItemModal';
+import ItemModal from '../modal/ItemModal';
 
 function Home() {
 
