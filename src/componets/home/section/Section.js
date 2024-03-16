@@ -5,16 +5,8 @@ function Section(props) {
 
     const items = props.items;
 
-    //모달 열기,닫기 관련
-    const [clickedItem, setClickedItem] = useState();
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
-    const handleClick = (item) => {
-        setClickedItem(item);
-        handleShow();
-    }
+    //모달 관련
+    const handleShow= props.handleShow;
 
     return (
         <section className='my-content px-2'>
@@ -26,7 +18,7 @@ function Section(props) {
                 {items.map((item, index) => (
 
                     <div key={index} className='col'>
-                        <div className='card h-100 shadow-sm' onClick={()=>{handleClick(item)}}>
+                        <div className='card h-100 shadow-sm' onClick={()=>{handleShow(item)}}>
                             <div className='card-body'>
                                 <div className='fs-4 fw-semibold'>{item.name}</div>
                                 <div className='text-secondary my-2'>{item.description}</div>
@@ -41,7 +33,6 @@ function Section(props) {
 
             </div>
             
-            <AddCartModal item={clickedItem} show={show} handleClose={() => {handleClose()}} />
         </section>
     )
 
