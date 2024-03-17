@@ -8,7 +8,7 @@ function CheckBtn({ props }) {
 
     const { cart, totalPrice } = useCart();
 
-    const { disabled, pay, salePrice, finalPrice } = props;
+    const { pay, salePrice, finalPrice } = props;
 
     const { token, removeToken, updateToken } = useToken();
 
@@ -73,7 +73,7 @@ function CheckBtn({ props }) {
 
     return (
         <div className='bg-white p-3 border-top'>
-            <Button variant='success' className='w-100 fs-4 fw-semibold' disabled={disabled} onClick={() => handleClick()}>정산완료</Button>
+            <Button variant='success' className='w-100 fs-4 fw-semibold' disabled={finalPrice <= 0} onClick={() => handleClick()}>정 산 완 료</Button>
         </div>
     );
 }
