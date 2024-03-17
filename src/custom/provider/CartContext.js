@@ -53,9 +53,10 @@ export function CartProvider({ children }) {
     }
 
     //삭제
-    const removeCart = (deleteItem) => {
+    const removeCart = (removeIndex) => {
         //경고창 띄우기
-        const updateCart = cart.filter(item => item.name !== deleteItem.name);
+        const updateCart = [...cart];
+        updateCart.splice(removeIndex,1);
         setCart(updateCart);
     }
 

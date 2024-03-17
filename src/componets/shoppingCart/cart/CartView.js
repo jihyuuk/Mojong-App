@@ -8,24 +8,6 @@ function CartView() {
     //장바구니관련
     const { cart, removeCart, plusMinus } = useCart();
 
-    //삭제버튼클릭시
-    const deleteItem = (deleteItem) => {
-        //경고창 띄우기
-        removeCart(deleteItem);
-    }
-
-    //더하기 버튼
-    const handlePlus = (index) => {
-        plusMinus(index, true);
-        console.log("더하기버튼")
-    }
-
-    //빼기버튼
-    const handleMinus = (index) => { 
-        plusMinus(index, false);
-        console.log("뺴기버튼")
-    }
-
     if (cart.length <= 0) {
         return (
             <section className='my-content'>
@@ -58,7 +40,7 @@ function CartView() {
                                 {/* 상품명 */}
                                 <span className='fs-5 fw-semibold text-success me-2'>{index + 1}. {item.name}</span>
                                 {/* 닫기버튼 */}
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16" onClick={() => deleteItem(item)}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16" onClick={() => removeCart(index)}>
                                     <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
                                 </svg>
                             </div>
@@ -69,13 +51,13 @@ function CartView() {
                                 {/* 수량버튼 */}
                                 <span className='border border-success-subtle rounded-3 p-2 ms-3'>
                                     {/* 빼기 */}
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-dash" viewBox="0 0 16 16" onClick={() => handleMinus(index)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-dash" viewBox="0 0 16 16" onClick={() => plusMinus(index, false)}>
                                         <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
                                     </svg>
                                     {/* 수량 */}
                                     <span className='mx-3'>{item.quantity}</span>
                                     {/* 더하기 */}
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-plus m-auto" viewBox="0 0 16 16" onClick={() => handlePlus(index)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-plus m-auto" viewBox="0 0 16 16" onClick={() => plusMinus(index, true)}>
                                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
                                     </svg>
                                 </span>
