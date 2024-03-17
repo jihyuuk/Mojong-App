@@ -6,7 +6,7 @@ import { useCart } from '../../../custom/provider/CartContext';
 function CartView() {
 
     //장바구니관련
-    const { cart, removeCart } = useCart();
+    const { cart, removeCart, plusMinus } = useCart();
 
     //삭제버튼클릭시
     const deleteItem = (deleteItem) => {
@@ -15,21 +15,15 @@ function CartView() {
     }
 
     //더하기 버튼
-    const handlePlus = (itemPlus) => {
-        // const findIdx = cart.findIndex(item => item.name === itemPlus.name)
-        // const copy = [...cart];
-        // copy[findIdx].quantity += 1;
-        // setCart(copy);
+    const handlePlus = (index) => {
+        plusMinus(index, true);
+        console.log("더하기버튼")
     }
 
     //빼기버튼
-    const handleMinus = (itemMinus) => {
-        // if (itemMinus.quantity <= 1) return;
-
-        // const findIdx = cart.findIndex(item => item.name === itemMinus.name)
-        // const copy = [...cart];
-        // copy[findIdx].quantity -= 1;
-        // setCart(copy);
+    const handleMinus = (index) => { 
+        plusMinus(index, false);
+        console.log("뺴기버튼")
     }
 
     if (cart.length <= 0) {
@@ -75,13 +69,13 @@ function CartView() {
                                 {/* 수량버튼 */}
                                 <span className='border border-success-subtle rounded-3 p-2 ms-3'>
                                     {/* 빼기 */}
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-dash" viewBox="0 0 16 16" onClick={() => handleMinus(item)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-dash" viewBox="0 0 16 16" onClick={() => handleMinus(index)}>
                                         <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
                                     </svg>
                                     {/* 수량 */}
                                     <span className='mx-3'>{item.quantity}</span>
                                     {/* 더하기 */}
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-plus m-auto" viewBox="0 0 16 16" onClick={() => handlePlus(item)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-plus m-auto" viewBox="0 0 16 16" onClick={() => handlePlus(index)}>
                                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
                                     </svg>
                                 </span>

@@ -59,6 +59,21 @@ export function CartProvider({ children }) {
         setCart(updateCart);
     }
 
+    //더하기 빼기 버튼
+    const plusMinus = (index, isPlus) => {
+        const target = cart[index];
+
+        //1인데 마이너스 버튼 누른경우
+        if(!isPlus && target.quantity <=1 ) return;
+
+        target.quantity += isPlus ? 1 : -1;
+        target.total = target.price * target.quantity;
+
+        const copy = [...cart];
+        copy[index] = target;
+        setCart(copy);
+    }
+
     //카트 변경시 합계,수량 변경됨
     useEffect(() => {
         let tempTotal = 0;
@@ -78,6 +93,7 @@ export function CartProvider({ children }) {
         cart,
         addCart,
         removeCart,
+        plusMinus,
         totalPrice,
         totalQuantity,
     };
