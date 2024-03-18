@@ -9,15 +9,16 @@ function AllHistoryView() {
     const [histories, setHistories] = useState([]);
 
     const { token, removeToken, updateToken } = useToken();
+
+    //페이징
     const [totalPages, setTotalPages] = useState(0);
     const [nowPage, setNowPage] = useState(0);
     const [startPage, setStartPage] = useState(0);
-
-    //버튼수
     const count = 5;
+    const size = 10;
 
     const fetchHistory = (pageNumber) => {
-        ServerApi('get', '/allHistory?page=' + pageNumber+'&size=10', null, token, removeToken, updateToken)
+        ServerApi('get', '/allHistory?page=' + pageNumber+'&size='+size, null, token, removeToken, updateToken)
             .then(response => {
                 setHistories(response.content);
                 setNowPage(response.number);

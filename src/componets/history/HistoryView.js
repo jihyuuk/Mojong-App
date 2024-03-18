@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
-import { ListGroup} from 'react-bootstrap';
+import { ListGroup, Pagination} from 'react-bootstrap';
 import { TokenContext } from '../../App';
 import { Link } from 'react-router-dom';
 import ServerApi from '../../server/ServerApi';
@@ -11,19 +11,38 @@ function HistoryView() {
     const [histories, setHistories] = useState([]);
     const {token, removeToken, updateToken} = useToken();
 
-    const fetchHistory = () => {
-        ServerApi('get','/history',null, token, removeToken, updateToken)
+    //페이징
+    const [totalPages, setTotalPages] = useState(0);
+    const [nowPage, setNowPage] = useState(0);
+    const [startPage, setStartPage] = useState(0);
+    const count = 5;
+    const size = 10;
+
+
+    const fetchHistory = (pageNumber) => {
+        ServerApi('get','/history?page=' + pageNumber+'&size='+size,null, token, removeToken, updateToken)
             .then(response => {
-                setHistories(response);
+                setHistories(response.content);
+                setNowPage(response.number);
+                setTotalPages(response.totalPages);
             })
             .catch(error => {
                 //에러처리
+                alert("데이터 불러오기 실패, 관리자에게 문의하세요")
+                console.error(error);
             })
     }
 
     useEffect(() => {
-        fetchHistory();
+        fetchHistory(0);
     }, []);
+
+    useEffect(() => {
+        setStartPage(Math.floor(nowPage / count) * count);
+        console.log('nowPage : ' + nowPage)
+        console.log('count ' + count)
+        console.log('startPgae : ' + (Math.floor(nowPage / count) * count))
+    }, [nowPage]);
 
     if (histories.length <= 0) {
         return (
@@ -34,6 +53,24 @@ function HistoryView() {
             </section>
         );
     }
+
+    const pageBtns = () => {
+
+        const result = [];
+
+        for (let i = startPage; i < startPage + count; i++) {
+
+            if (i >= totalPages) break;
+            result.push(
+                <Pagination.Item key={i} className={i === nowPage ? 'active' : ''} onClick={()=>fetchHistory(i)}>
+                    {i + 1}
+                </Pagination.Item>
+            )
+        }
+
+        return result;
+    }
+
     
     return (
         <div className='my-content'>
@@ -68,6 +105,12 @@ function HistoryView() {
                 ))}
 
             </ListGroup>
+
+            <Pagination variant="success" className='mt-4 justify-content-center gap-1 my-pagination'>
+                {startPage > 0 && <Pagination.Prev onClick={()=>fetchHistory(startPage-1)}/>}
+                {pageBtns()}
+                {startPage + 5 < totalPages && <Pagination.Next  onClick={()=>fetchHistory(startPage+5)}/>}
+            </Pagination>
 
         </div>
     );
