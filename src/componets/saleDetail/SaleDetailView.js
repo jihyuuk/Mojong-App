@@ -14,6 +14,9 @@ function SaleDetailView() {
     const [saleItems, setSaleItems] = useState([]);
     const { token, removeToken, updateToken } = useToken();
 
+    //영수증 인쇄
+    const [printLoading, setPrintLoading] = useState(false);
+
     //서버연동
     const fetchDetail = () => {
         ServerApi('get', '/sale/' + id, null, token, removeToken, updateToken)
@@ -23,6 +26,22 @@ function SaleDetailView() {
             })
             .catch(error => {
                 //에러 처리
+            })
+    }
+
+    //영수증 출력
+    const printReceipt = () => {
+        setPrintLoading(true);
+        console.log("눌림")
+        ServerApi('post', '/print/' + id, null, token, removeToken, updateToken)
+            .then(response => {
+                alert("출력 성공!");
+                setPrintLoading(false);
+            })
+            .catch(error => {
+                //에러 처리
+                alert("영수증 출력 실패!\n 관리자에게 문의하세요");
+                setPrintLoading(false);
             })
     }
 
@@ -123,12 +142,23 @@ function SaleDetailView() {
                 </ListGroupItem>
             </ListGroup>
             <div className='text-center py-4 bg-white'>
-                <Button variant='outline-success' className='fw-semibold fs-5 py-2 px-5 rounded-5'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-printer me-2" viewBox="0 0 16 16">
-                        <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1" />
-                        <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1" />
-                    </svg>
-                    인쇄하기
+                <Button variant='outline-success' className='fw-semibold fs-5 py-2 px-5 rounded-5' disabled={printLoading}  onClick={()=>printReceipt()}>
+                    {printLoading ?
+                        <>
+                            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                            <span role="status" className='ms-2'>출력중...</span>
+                        </>
+                        :
+                        <>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-printer me-2" viewBox="0 0 16 16">
+                                <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1" />
+                                <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1" />
+                            </svg>
+                            인쇄하기
+                        </>
+                    }
+
+
                 </Button>
             </div>
 
