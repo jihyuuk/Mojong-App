@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ListGroup } from 'react-bootstrap';
 import { useInitData } from '../../../custom/provider/InitDataContext';
+import { Link } from 'react-router-dom';
 
 function SearchField(props) {
 
@@ -54,8 +55,11 @@ function SearchField(props) {
                 <div className='position-absolute top-0 start-0 w-100 z-2'>
                     <ListGroup variant="flush" className='shadow'>
                         {findData.length <= 0 &&
-                            <ListGroup.Item variant="light" className='py-3'>
-                                검색 결과 없음
+                            <ListGroup.Item variant="light" className='py-3 d-flex justify-content-between'>
+                                <div className='ms-2'>검색 결과 없음</div>
+                                <Link to='/custom-item' className='text-decoration-none'>
+                                    + 직접입력
+                                </Link>
                             </ListGroup.Item>}
 
                         {findData.map((item, index) => (
