@@ -57,7 +57,7 @@ function SearchField(props) {
                         {findData.length <= 0 &&
                             <ListGroup.Item variant="light" className='py-3 d-flex justify-content-between'>
                                 <div className='ms-2'>검색 결과 없음</div>
-                                <Link to='/custom-item' className='text-decoration-none'>
+                                <Link to='/custom-item?fromHome=true' className='text-decoration-none'>
                                     + 직접입력
                                 </Link>
                             </ListGroup.Item>}

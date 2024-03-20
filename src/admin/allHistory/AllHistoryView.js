@@ -80,7 +80,7 @@ function AllHistoryView() {
                 {histories.map((history, index) => (
 
                     <ListGroup.Item key={index}>
-                        <Link to={`/sale/${history.id}`}>
+                        <Link to={`/sale/${history.id}?fromAll=true`}>
 
                             <div className='d-flex justify-content-between'>
                                 <div>

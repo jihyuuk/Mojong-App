@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import SubHeader from '../common/SubHeader'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useCart } from '../../custom/provider/CartContext';
 
 function CustomItem() {
 
     const { addCart } = useCart();
+
+    //뒤로가기
+    const [params] = useSearchParams();
+    const fromHome = params.get('fromHome');
 
     //인풋값
     const [name, setName] = useState('');
@@ -79,10 +83,12 @@ function CustomItem() {
         if (isInValidQuantity) setIsInValidQuantity(false);
     }
 
+ 
+
     return (
         <div className='my-container bg-white'>
 
-            <SubHeader value='직접 입력하기' to='/shopping-cart'></SubHeader>
+            <SubHeader value='직접 입력하기' to={ fromHome ? '/' :'/shopping-cart'}></SubHeader>
 
             <div className='my-content p-3'>
 
