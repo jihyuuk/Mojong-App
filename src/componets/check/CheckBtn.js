@@ -31,9 +31,9 @@ function CheckBtn({ props }) {
             .then(response => {
                 setSuccess('success');
 
-                setTimeout(() => {
-                    successClose();
-                }, 3000)
+                // setTimeout(() => {
+                //     successClose();
+                // }, 3000)
             })
             .catch(error => {
                 //에러처리
