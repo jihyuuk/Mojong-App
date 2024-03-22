@@ -1,6 +1,5 @@
 import React from 'react';
 import ReceiptView from './receipt/ReceiptView';
-import Footer from '../common/Footer';
 import SubHeader from '../common/SubHeader'
 
 function Receipt() {
@@ -14,8 +13,6 @@ function Receipt() {
             {/* 콘텐츠 영역 */}
             <ReceiptView></ReceiptView>
 
-            {/* 푸터 */}
-            <Footer value={'receipt'}></Footer>
         </div>
     );
 }
