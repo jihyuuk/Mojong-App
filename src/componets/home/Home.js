@@ -64,7 +64,7 @@ function Home() {
                 <GoToCart></GoToCart>
 
                 {/* 푸터 */}
-                <Footer value={'home'}></Footer>
+                {/* <Footer value={'home'}></Footer> */}
 
                 {/* 아이템 모달 */}
                 <ItemModal modal={{show,modalItem,handleClose}}/>

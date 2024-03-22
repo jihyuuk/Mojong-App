@@ -1,11 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Form } from 'react-bootstrap';
+import { Badge, Form } from 'react-bootstrap';
 import SearchField from '../search/SearchField';
+import HamburgerBtn from '../../common/HambergurBtn';
+import { Link } from 'react-router-dom';
+import { useCart } from '../../../custom/provider/CartContext';
 
 function Header(props) {
 
+    //카트 관련
+    const { cart } = useCart();
+
     //검색창 관련
-    const {input, setInput} = props.input;
+    const { input, setInput } = props.input;
     const [clearBtn, setClearBtn] = useState(false);
 
     //다른 곳 클릭시 연관 검색어 안보이게 하기
@@ -36,10 +42,13 @@ function Header(props) {
 
             {/* 첫째줄 햄버거버튼,검색창 */}
             <div className='position-relative bg-white z-2'>
-                <div className="p-3 pb-2">
+                <div className="pt-3 pb-2 d-flex align-items-center">
+
+                    {/* 햄버거 버튼 */}
+                    <HamburgerBtn></HamburgerBtn>
+
                     {/* 검색창 */}
-                    <div className='flex-grow-1 position-relative d-flex align-items-center' >
-                        {/* <img src={process.env.PUBLIC_URL + '/logo.png'} className='position-absolute ms-3' style={{width:'35px'}}/> */}
+                    <div className='flex-grow-1 position-relative d-flex align-items-center'>
                         <Form.Control size="lg" id='searchBar' type="text" className='ps-4 pe-5 rounded-5 border-2 border-success-subtle' placeholder="🔍 검색하기" onInput={handleInput} value={input} onClick={() => setShow(true)} />
                         {/* 클리어버튼 */}
                         {clearBtn &&
@@ -49,6 +58,23 @@ function Header(props) {
                                 </svg>
                             </div>
                         }
+                    </div>
+
+                    {/* 장바구니 */}
+                    <div className={`ps-2 ${cart.length > 0 ? 'pe-3' : 'pe-2'}`}>
+                        <Link to="/shopping-cart" replace={true}>
+                            <div className='position-relative text-black'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-bag" viewBox="0 0 16 16">
+                                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
+                                </svg>
+                                
+                                {cart.length > 0 &&
+                                    <Badge bg="danger" className='position-absolute top-0 start-50 rounded-5' style={{fontSize:'0.7rem'}}>
+                                        {cart.length}
+                                    </Badge>
+                                }
+                            </div>
+                        </Link>
                     </div>
                 </div>
             </div>
