@@ -63,9 +63,6 @@ function Home() {
                 {/*하단 장바구니 버튼 */}
                 <GoToCart></GoToCart>
 
-                {/* 푸터 */}
-                {/* <Footer value={'home'}></Footer> */}
-
                 {/* 아이템 모달 */}
                 <ItemModal modal={{show,modalItem,handleClose}}/>
 
