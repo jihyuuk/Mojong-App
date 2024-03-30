@@ -14,13 +14,11 @@ function ItemModal(props) {
     useEffect(() => {
         if (show) return;
         setQuantity(0);
-        console.log("show useEffect")
     }, [show]);
 
     //수량 변경시 합계 자동으로 구함
     useEffect(() => {
         setTotal(quantity * modalItem.price);
-        console.log("quantity useEffect")
     }, [quantity]);
 
     //클리어버튼  

@@ -22,7 +22,7 @@ function HamburgerBtn() {
     //로그인 페이지로 리다이렉트
     navigate('/', { replace: true });
   }
-  console.log(role)
+  
   return (
     <>
       {/* 햄버거버튼 */}

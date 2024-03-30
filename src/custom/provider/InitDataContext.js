@@ -13,7 +13,7 @@ export function useInitData() {
 // 초기 데이터 컨텍스트 Provider
 export function InitDataProvider({ children }) {
 
-    const { token, isAuth, updateToken, removeToken } = useToken();
+    const { token, updateToken, removeToken } = useToken();
 
     //모종리스트
     const [mojongs, setMojongs] = useState([]);
@@ -25,13 +25,11 @@ export function InitDataProvider({ children }) {
     //로딩
     const [loading, setLoading] = useState(false);
 
-
     //토큰 존재시 데이터 초기화
     useEffect(() => {
 
         if(!token) return;
 
-        console.log('iniData : 초기데이터 받아오기')
         ServerApi('get', '/initData', null, token, removeToken, updateToken)
             .then(response => {
                 setMojongs(response.mojongs);
@@ -70,10 +68,6 @@ export function InitDataProvider({ children }) {
         username,
         role
     };
-
-    //출력용====================================
-    console.log("============= initDataProvider 랜더링 =============")
-    //==========================================
 
     return (
         <>
