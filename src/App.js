@@ -17,12 +17,14 @@ import MemberPage from './admin/member/memberPage';
 import AllHistoryPage from './admin/allHistory/AllHistoryPage';
 import ProductPage from './admin/product/ProductPage';
 import AdminRouter from './custom/router/AdminRouter';
+import { AuthProvider } from './custom/provider/AuthProvider';
 
 function App() {
 
   return (
     <div id='mojong-app'>
       <TokenProvider>
+        <AuthProvider>
           <InitDataProvider>
             <CartProvider>
               <BrowserRouter>
@@ -45,17 +47,18 @@ function App() {
                   <Route path='/join' element={<JoinPage />}></Route>
 
                   {/* 관리자 */}
-                  <Route element={<AdminRouter/>}>
-                    <Route path='/member' element={<MemberPage/>}></Route>
-                    <Route path='/all-history' element={<AllHistoryPage/>}></Route>
-                    <Route path='/product' element={<ProductPage/>}></Route>
+                  <Route element={<AdminRouter />}>
+                    <Route path='/member' element={<MemberPage />}></Route>
+                    <Route path='/all-history' element={<AllHistoryPage />}></Route>
+                    <Route path='/product' element={<ProductPage />}></Route>
                   </Route>
 
                 </Routes>
               </BrowserRouter>
             </CartProvider>
           </InitDataProvider>
-        </TokenProvider>
+        </AuthProvider>
+      </TokenProvider>
     </div>
   );
 }
