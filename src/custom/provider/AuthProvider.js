@@ -40,8 +40,8 @@ export function AuthProvider({ children }) {
         axios.get(
             process.env.REACT_APP_API_URL + "/login/auto", { headers: { 'Authorization': token } })
             .then(response => {
-                setUsername(response.role);
-                setRole(response.role);
+                setUsername(response.data.username);
+                setRole(response.data.role);
                 setIsAuth(true);
                 setLoading(false);                
             }).catch(error => {
@@ -60,7 +60,7 @@ export function AuthProvider({ children }) {
 
 
     //제공변수들
-    const cartContextValue = {
+    const AuthContextValue = {
         isAuth,
         username,
         role
@@ -73,7 +73,7 @@ export function AuthProvider({ children }) {
                     <Spinner animation="border" />
                 </div>
                 :
-                <AuthContext.Provider value={cartContextValue}>
+                <AuthContext.Provider value={AuthContextValue}>
                     {children}
                 </AuthContext.Provider>
             }
