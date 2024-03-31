@@ -18,6 +18,7 @@ import AllHistoryPage from './admin/allHistory/AllHistoryPage';
 import ProductPage from './admin/product/ProductPage';
 import AdminRouter from './custom/router/AdminRouter';
 import { AuthProvider } from './custom/provider/AuthProvider';
+import { MojongProvider } from './custom/provider/MojongContext';
 
 function App() {
 
@@ -26,36 +27,38 @@ function App() {
       <TokenProvider>
         <AuthProvider>
           <InitDataProvider>
-            <CartProvider>
-              <BrowserRouter>
-                <Routes>
-                  {/* 로그인 필요 O */}
-                  <Route element={<PrivateRoute />}>
-                    <Route path='/' element={<Home />}></Route>
-                    <Route path='/shopping-cart' element={<ShoppingCart />}></Route>
-                    <Route path='/receipt' element={<Receipt />}></Route>
-                    <Route path='/custom-item' element={<CustomItem />}></Route>
-                    <Route path='/check' element={<Check />}></Route>
+            <MojongProvider>
+              <CartProvider>
+                <BrowserRouter>
+                  <Routes>
+                    {/* 로그인 필요 O */}
+                    <Route element={<PrivateRoute />}>
+                      <Route path='/' element={<Home />}></Route>
+                      <Route path='/shopping-cart' element={<ShoppingCart />}></Route>
+                      <Route path='/receipt' element={<Receipt />}></Route>
+                      <Route path='/custom-item' element={<CustomItem />}></Route>
+                      <Route path='/check' element={<Check />}></Route>
 
-                    {/* 기록관련 */}
-                    <Route path='/history' element={<History />}></Route>
-                    <Route path='/sale/:id' element={<SaleDetail />}></Route>
-                  </Route>
+                      {/* 기록관련 */}
+                      <Route path='/history' element={<History />}></Route>
+                      <Route path='/sale/:id' element={<SaleDetail />}></Route>
+                    </Route>
 
-                  {/* 로그인 필요 X */}
-                  <Route path='/login' element={<LoginPage />}></Route>
-                  <Route path='/join' element={<JoinPage />}></Route>
+                    {/* 로그인 필요 X */}
+                    <Route path='/login' element={<LoginPage />}></Route>
+                    <Route path='/join' element={<JoinPage />}></Route>
 
-                  {/* 관리자 */}
-                  <Route element={<AdminRouter />}>
-                    <Route path='/member' element={<MemberPage />}></Route>
-                    <Route path='/all-history' element={<AllHistoryPage />}></Route>
-                    <Route path='/product' element={<ProductPage />}></Route>
-                  </Route>
+                    {/* 관리자 */}
+                    <Route element={<AdminRouter />}>
+                      <Route path='/member' element={<MemberPage />}></Route>
+                      <Route path='/all-history' element={<AllHistoryPage />}></Route>
+                      <Route path='/product' element={<ProductPage />}></Route>
+                    </Route>
 
-                </Routes>
-              </BrowserRouter>
-            </CartProvider>
+                  </Routes>
+                </BrowserRouter>
+              </CartProvider>
+            </MojongProvider>
           </InitDataProvider>
         </AuthProvider>
       </TokenProvider>
