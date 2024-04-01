@@ -1,15 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Category from './category/Category';
 import Header from './header/Header';
 import Section from './section/Section';
 import GoToCart from './bottomBtn/GoToCart';
-import Footer from '../common/Footer'
-import { useInitData } from '../../custom/provider/InitDataContext';
 import ItemModal from '../modal/ItemModal';
+import { useMojong } from '../../custom/provider/MojongContext';
 
 function Home() {
 
-    const { mojongs } = useInitData();
+    //모종데이터
+    const { mojongs } = useMojong();
+
+    //카테고리 관련
     const [selectedCategory, setSelectedCategory] = useState('');
     const [items, setItems] = useState([]);
 
@@ -34,7 +36,7 @@ function Home() {
 
     //카테고리 바뀌면 내용 바꾸기
     useEffect(() => {
-        const findMojong = mojongs.find((mojong) => mojong.name === selectedCategory);
+        const findMojong = mojongs.find((category) => category.name === selectedCategory);
         if (findMojong) {
             setItems(findMojong.items);
         }

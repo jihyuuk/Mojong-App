@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { ListGroup } from 'react-bootstrap';
-import { useInitData } from '../../../custom/provider/InitDataContext';
 import { Link } from 'react-router-dom';
+import { useMojong } from '../../../custom/provider/MojongContext';
 
 function SearchField(props) {
 
     //전체데이터
-    const { mojongs } = useInitData();
+    const { mojongs } = useMojong();
+
     //검색데이터
     const input = props.input;
     const setInput = props.setInput

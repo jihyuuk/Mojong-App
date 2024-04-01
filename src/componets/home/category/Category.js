@@ -1,9 +1,9 @@
 import React from 'react';
-import { useInitData } from '../../../custom/provider/InitDataContext';
+import { useMojong } from '../../../custom/provider/MojongContext';
 
 function Category(props) {
 
-    const {mojongs} = useInitData();
+    const {mojongs} = useMojong();
     const selectedCategory = props.selectedCategory;
     const setSelectedCategory = props.setSelectedCategory;
 

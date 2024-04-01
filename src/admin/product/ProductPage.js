@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import SubHeader from '../../componets/common/SubHeader';
 import CategoryView from './view/CategoryView';
 import ProductView from './view/ProductView';
-import { useInitData } from '../../custom/provider/InitDataContext';
+import { useMojong } from '../../custom/provider/MojongContext';
 
 function ProductPage() {
 
     const [selected, setSelected] = useState('category');
-    const { refreshMojongs } = useInitData();
+    const { fetchMojong } = useMojong();
 
     //처음 마운트시 모종 정보 새로고침
     useEffect(()=>{
-        refreshMojongs();
+        fetchMojong();
     },[])
 
  

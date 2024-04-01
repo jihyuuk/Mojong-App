@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Button, ListGroup, Offcanvas, OffcanvasHeader, OffcanvasTitle } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { useToken } from '../../custom/provider/TokenContext';
-import { useInitData } from '../../custom/provider/InitDataContext';
+import { useAuth } from '../../custom/provider/AuthProvider';
 
 function HamburgerBtn() {
 
@@ -12,7 +12,7 @@ function HamburgerBtn() {
   const handleClose = () => setShow(false);
   const toggleShow = () => setShow((s) => !s);
 
-  const { username, role } = useInitData();
+  const { username, role } = useAuth();
 
   //로그아웃 핸들링
   const navigate = useNavigate();
