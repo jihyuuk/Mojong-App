@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, FormControl, ListGroup, ListGroupItem } from 'react-bootstrap';
-import { useInitData } from '../../../custom/provider/InitDataContext';
 import SubHeader from '../../../componets/common/SubHeader';
 import { useToken } from '../../../custom/provider/TokenContext';
 import ServerApi from '../../../server/ServerApi';
+import { useMojong } from '../../../custom/provider/MojongContext';
 
 function EditProduct({selected, handleClose}) {
 
-    const { mojongs, refreshMojongs } = useInitData();
+    const { mojongs, fetchMojong } = useMojong();
 
     console.log(selected)
     //인풋값
@@ -105,7 +105,7 @@ function EditProduct({selected, handleClose}) {
             .then(response => {
                 //성공
                 console.log('성공');
-                refreshMojongs();
+                fetchMojong();
                 handleClose();
             })
             .catch(error => {

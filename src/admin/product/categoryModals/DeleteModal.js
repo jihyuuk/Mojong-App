@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Button, Modal, ModalBody, ModalHeader, ModalTitle } from "react-bootstrap";
 import ServerApi from "../../../server/ServerApi";
 import { useToken } from "../../../custom/provider/TokenContext";
-import { useInitData } from "../../../custom/provider/InitDataContext";
+import { useMojong } from "../../../custom/provider/MojongContext";
 
 function DeleteModal(props) {
 
@@ -24,7 +24,7 @@ function DeleteModal(props) {
     const {token ,removeToken, updateToken} = useToken();
 
     //모종 데이터 새로고침용
-    const {refreshMojongs} = useInitData();
+    const {fetchMojong} = useMojong();
 
 
     //카테고리 삭제
@@ -36,7 +36,7 @@ function DeleteModal(props) {
                 console.log(response)
                 handleClose();
                 //모종데이터 새로고침
-                refreshMojongs();
+                fetchMojong();
             })
             .catch(error => {
                 //에러처리

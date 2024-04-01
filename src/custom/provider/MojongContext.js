@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useAuth } from './AuthProvider';
+import { useAuth } from './AuthContext';
 import axios from 'axios';
 import { useToken } from './TokenContext';
 
@@ -47,6 +47,7 @@ export function MojongProvider({ children }) {
     //제공변수들
     const MojongContextValue = {
         mojongs,
+        setMojongs,
         fetchMojong
     };
 

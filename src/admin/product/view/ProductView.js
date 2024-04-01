@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, FormControl, ListGroup, ListGroupItem } from 'react-bootstrap';
-import { useInitData } from '../../../custom/provider/InitDataContext';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import ServerApi from '../../../server/ServerApi';
 import { useToken } from '../../../custom/provider/TokenContext';
@@ -8,10 +7,11 @@ import SubHeader from '../../../componets/common/SubHeader';
 import CreateProduct from '../productModals/CreateProduct';
 import DeleteProduct from '../productModals/DeleteProduct';
 import EditProduct from '../productModals/EditProduct';
+import { useMojong } from '../../../custom/provider/MojongContext';
 
 function ProductView() {
 
-    const { mojongs, setMojongs, refreshMojongs } = useInitData();
+    const { mojongs, fetchMojong } = useMojong();
     const [items, setItems] = useState(mojongs[0].items || []);
     const [idx, setIdx] = useState(0);
 
@@ -75,14 +75,14 @@ function ProductView() {
                 //성공
                 console.log('성공');
                 //데이터 다시 요청
-                refreshMojongs();
+                fetchMojong();
             })
             .catch(error => {
                 //에러처리
                 alert("요청 실패, 관리자에게 문의하세요")
                 console.error(error);
                 //데이터 다시 요청
-                refreshMojongs();
+                fetchMojong();
             })
     }
 

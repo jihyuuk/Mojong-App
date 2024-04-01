@@ -3,14 +3,14 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Button, FormControl, ListGroup, ListGroupItem, Modal, ModalBody, ModalHeader, ModalTitle } from 'react-bootstrap';
 import ServerApi from '../../../server/ServerApi';
 import { useToken } from '../../../custom/provider/TokenContext';
-import { useInitData } from '../../../custom/provider/InitDataContext';
 import CreateModal from '../categoryModals/CreateModal';
 import EditModal from '../categoryModals/EditModal';
 import DeleteModal from '../categoryModals/DeleteModal';
+import { useMojong } from '../../../custom/provider/MojongContext';
 
 function CategoryView(props) {
 
-    const {mojongs, setMojongs, refreshMojongs} = useInitData();
+    const {mojongs, setMojongs, fetchMojong} = useMojong();
     const { token, removeToken, updateToken } = useToken();
 
     //모달
@@ -69,7 +69,7 @@ function CategoryView(props) {
                 alert("요청 실패, 관리자에게 문의하세요")
                 console.error(error);
                 //데이터 다시 요청
-                refreshMojongs();
+                fetchMojong();
             })
     }
 

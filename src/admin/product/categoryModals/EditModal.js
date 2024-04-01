@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, FormControl, FormLabel, Modal, ModalBody, ModalHeader, ModalTitle } from "react-bootstrap";
 import ServerApi from "../../../server/ServerApi";
 import { useToken } from "../../../custom/provider/TokenContext";
-import { useInitData } from "../../../custom/provider/InitDataContext";
+import { useMojong } from "../../../custom/provider/MojongContext";
 
 function EditModal(props) {
 
@@ -24,7 +24,7 @@ function EditModal(props) {
     const { token, removeToken, updateToken } = useToken();
 
     //모종 데이터 새로고침용
-    const { refreshMojongs } = useInitData();
+    const { fetchMojong } = useMojong();
 
     //인풋
     const [input, setInput] = useState(mojong.name);
@@ -55,7 +55,7 @@ function EditModal(props) {
         ServerApi('put', '/categories', { id: mojong.id, name: input }, token, removeToken, updateToken)
             .then(respnose => {
                 handleClose();
-                refreshMojongs();
+                fetchMojong();
             })
             .catch(error => {
 

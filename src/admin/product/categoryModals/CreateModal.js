@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, FormControl, FormLabel, Modal, ModalBody, ModalHeader, ModalTitle } from "react-bootstrap";
 import { useToken } from "../../../custom/provider/TokenContext";
 import ServerApi from "../../../server/ServerApi";
-import { useInitData } from "../../../custom/provider/InitDataContext";
+import { fetchMojong, useMojong } from "../../../custom/provider/MojongContext";
 
 function CreateModal(props) {
 
@@ -34,7 +34,7 @@ function CreateModal(props) {
     const {token, removeToken, updateToken} = useToken();
 
     //모종새로고침
-    const {refreshMojongs} = useInitData();
+    const {fetchMojong} = useMojong();
 
 
     //추가버튼
@@ -49,7 +49,7 @@ function CreateModal(props) {
         ServerApi('post','/categories',{name:input},token, removeToken, updateToken)
         .then(respnose=>{
             handleClose();
-            refreshMojongs();
+            fetchMojong();
         })
         .catch(error=>{
             //카테고리명 중복시
