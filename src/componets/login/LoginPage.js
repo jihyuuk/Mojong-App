@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Button, Col, Container, FloatingLabel, Form, Row } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useToken } from '../../custom/provider/TokenContext';
 
 
@@ -20,9 +20,6 @@ function LonginPage() {
 
     //토큰
     const {token, updateToken} = useToken();
-
-    //리다이렉트
-    const navigate = useNavigate();
 
     //로그인 버튼 클릭 처리
     const handleSubmit = async (e) => {
@@ -54,7 +51,7 @@ function LonginPage() {
                 //토큰 설정
                 updateToken(response.headers.getAuthorization());
                 //리다이렉트
-                navigate('/', { replace: true });
+                window.location.href = '/';
             }
 
         } catch (error) {
@@ -103,7 +100,7 @@ function LonginPage() {
                     </FloatingLabel>
 
                     <div className='d-flex justify-content-between mb-3'>
-                        <Form.Check type="switch" id="autoLogin" label="자동로그인" className='text-start mb-4' checked={autoLogin} />
+                        <Form.Check type="switch" id="autoLogin" label="자동로그인" className='text-start mb-4' checked={autoLogin} onChange={()=>setAutoLogin(!autoLogin)} />
                         <Link to='/join' className='text-success'>회원가입</Link>
                     </div>
                     <Button type='submit' variant="success" className='fs-5 fw-semibold w-100 mt-4 rounded-5 py-2'>로그인</Button>
