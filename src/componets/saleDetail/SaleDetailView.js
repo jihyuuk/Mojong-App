@@ -1,48 +1,52 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { TokenContext, TotalPrice } from '../../App';
 import axios from 'axios';
 import { Button, ListGroup, ListGroupItem } from 'react-bootstrap';
-import ServerApi from '../../server/ServerApi';
 import { useToken } from '../../custom/provider/TokenContext';
 
 function SaleDetailView() {
 
     const { id } = useParams();
 
+    const { token } = useToken();
+
     const [sale, setSale] = useState();
     const [saleItems, setSaleItems] = useState([]);
-    const { token, removeToken, updateToken } = useToken();
 
     //영수증 인쇄
     const [printLoading, setPrintLoading] = useState(false);
 
     //서버연동
     const fetchDetail = () => {
-        ServerApi('get', '/sale/' + id, null, token, removeToken, updateToken)
-            .then(response => {
-                setSale(response.sale);
-                setSaleItems(response.saleItems);
-            })
-            .catch(error => {
-                //에러 처리
-            })
+
+        axios.get(process.env.REACT_APP_API_URL +'/sale/'+id, { headers: { 'Authorization': token } })
+        .then(response => {
+            setSale(response.data.sale);
+            setSaleItems(response.data.saleItems);
+        }).catch(error => {
+            alert("데이터 불러오기 실패!");
+        })
+    
     }
 
     //영수증 출력
     const printReceipt = () => {
         setPrintLoading(true);
-        console.log("눌림")
-        ServerApi('post', '/print/' + id, null, token, removeToken, updateToken)
-            .then(response => {
-                alert("출력 성공!");
-                setPrintLoading(false);
-            })
-            .catch(error => {
-                //에러 처리
-                alert("영수증 출력 실패!\n 관리자에게 문의하세요");
-                setPrintLoading(false);
-            })
+
+        axios.get(process.env.REACT_APP_API_URL + '/receipt/'+id , { headers: { 'Authorization': token } })
+        .then(response => {
+            alert("출력 성공!");
+        }).catch(error => {
+
+            if(error.response && error.response.status === 503){
+                alert('프린터가 연결되어 있지 않습니다.');
+                return;
+            }
+
+            alert("영수증 출력 실패!\n 관리자에게 문의하세요");
+        }).finally(()=>{
+            setPrintLoading(false);
+        })
     }
 
     //처음 로딩시 데이터 불러오기
@@ -55,7 +59,7 @@ function SaleDetailView() {
             <section className='my-content'>
                 <div className='fs-4 text-secondary d-flex align-items-center justify-content-center h-100'>
                     <div className='text-center'>
-                        <span>존재하지 않거나, 권한이 없습니다.</span>
+                        <span>존재하지 않거나, 열람하실 수 없습니다.</span>
                     </div>
                 </div>
             </section>
