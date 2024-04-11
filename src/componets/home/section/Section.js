@@ -12,7 +12,7 @@ function Section(props) {
 
             <div className='p-2 fw-midium text-secondary'>총 <span className='fw-semibold'>{items.length}</span>개</div>
 
-            <div className='row row-cols-2 row-cols-md-3 g-2'>
+            <div className='row row-cols-2 row-cols-sm-3 g-2'>
 
                 {items.map((item, index) => (
 
