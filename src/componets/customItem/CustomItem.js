@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import SubHeader from '../common/SubHeader'
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useCart } from '../../custom/provider/CartContext';
@@ -96,21 +96,6 @@ function CustomItem() {
                     <Form.Label className='fs-5 fw-medium text-success'>상품명</Form.Label>
                     <Form.Control type="text" className='py-2' placeholder="상품명을 입력해주세요" value={name} onChange={(e) => nameChange(e.target.value)} isInvalid={isInValidName} />
                     <Form.Control.Feedback type="invalid" className='text-start'>{feedbackName}</Form.Control.Feedback>
-                </div>
-
-                <div className='mt-2'>
-                    <span className='rounded-pill border px-3 py-1 me-2 bg-success-subtle' onClick={() => { nameChange('상품A') }}>
-                        농자재
-                    </span>
-                    <span className='rounded-pill border px-3 py-1 me-2 bg-success-subtle' onClick={() => { nameChange('상품B') }}>
-                        농기구
-                    </span>
-                    <span className='rounded-pill border px-3 py-1 me-2 bg-success-subtle' onClick={() => { nameChange('상품C') }}>
-                        씨앗
-                    </span>
-                    <span className='rounded-pill border px-3 py-1 me-2 bg-success-subtle' onClick={() => { nameChange('상품D') }}>
-                        호스
-                    </span>
                 </div>
 
                 <div className='mt-3'>
