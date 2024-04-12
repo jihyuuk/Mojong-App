@@ -15,7 +15,7 @@ function CheckView() {
     //결제 수단
     const [pay, setPay] = useState('card');
     //영수증 출력여부
-    const [print, setPrint] = useState(false);
+    const [print, setPrint] = useState(true);
 
 
     //할인 조건
@@ -236,9 +236,6 @@ function CheckView() {
                 <div className='mt-4'>
                     <div className='fs-4'>영수증 출력</div>
                     <div className='d-flex mt-2 fs-5 fw-medium bg-white border text-secondary'>
-                        <div className={`py-3 w-50 d-flex justify-content-center align-items-center ${!print ? 'checked' : ''}`} onClick={() => setPrint(false)}>
-                            <span>생략</span>
-                        </div>
 
                         <div className={`py-3 w-50 d-flex justify-content-center align-items-center ${print ? 'checked' : ''}`} onClick={() => setPrint(true)}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-receipt-cutoff me-2" viewBox="0 0 16 16">
@@ -247,6 +244,11 @@ function CheckView() {
                             </svg>
                             <span>출력</span>
                         </div>
+
+                        <div className={`py-3 w-50 d-flex justify-content-center align-items-center ${!print ? 'checked' : ''}`} onClick={() => setPrint(false)}>
+                            <span>생략</span>
+                        </div>
+
                     </div>
                 </div>
 
