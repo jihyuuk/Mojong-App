@@ -1,20 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, FormControl, FormLabel, Modal, ModalBody, ModalHeader, ModalTitle } from "react-bootstrap";
 import { useToken } from "../../../custom/provider/TokenContext";
-import ServerApi from "../../../server/ServerApi";
-import { fetchMojong, useMojong } from "../../../custom/provider/MojongContext";
+import { useMojong } from "../../../custom/provider/MojongContext";
+import axios from "axios";
 
 function CreateModal(props) {
-
-    useEffect(() => {
-        // mount
-        console.log('추가모달 마운트됨');
-        
-        return() => {
-          // unmount
-          console.log('추가모달 마운트해제됨');
-        }
-      }, [])
 
     //모달
     const {show, handleClose} = props.modal;
@@ -31,10 +21,10 @@ function CreateModal(props) {
     const [msg,setMsg] = useState('');
 
     //토큰
-    const {token, removeToken, updateToken} = useToken();
+    const { token } = useToken();
 
     //모종새로고침
-    const {fetchMojong} = useMojong();
+    const { fetchMojong } = useMojong();
 
 
     //추가버튼
@@ -46,10 +36,14 @@ function CreateModal(props) {
         }
 
         //서버연동
-        ServerApi('post','/categories',{name:input},token, removeToken, updateToken)
+        axios.post(
+            process.env.REACT_APP_API_URL + "/category",
+            {name:input},
+            { headers: { 'Authorization': token } }
+        )
         .then(respnose=>{
-            handleClose();
             fetchMojong();
+            handleClose();
         })
         .catch(error=>{
             //카테고리명 중복시
@@ -62,6 +56,7 @@ function CreateModal(props) {
             alert("카테고리 추가하기 실패, 관리자에게 문의하세요")
             console.error(error);
         });
+
     }
 
     //추가모달

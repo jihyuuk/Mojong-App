@@ -3,41 +3,38 @@ import SubHeader from '../../componets/common/SubHeader';
 import MemberView from './view/memberView';
 import JoinView from './view/joinView';
 import { useToken } from '../../custom/provider/TokenContext';
-import ServerApi from '../../server/ServerApi';
+import axios from 'axios';
 
 function MemberPage() {
 
-    //선택여부
+    //직원목록 or 가입대기 선택여부
     const [selected, setSelected] = useState('members');
+
     //서버연동 필요 토큰
-    const { token, removeToken, updateToken } = useToken();
-
-    //회원목록
-    const [members, setMembers] = useState([]);
-    //가입대기
-    const [joins, setJoins] = useState([]);
-
-    const fetchMembers = ()=>{
-        console.log('멤버 불러오기')
-        ServerApi('get', '/members', null, token, removeToken, updateToken)
-        .then(response => {
-            //성공
-            console.log(response)
-            setMembers(response.members);
-            setJoins(response.joins);
-        })
-        .catch(error => {
-            //에러처리
-            alert("데이터 불러오기 실패, 관리자에게 문의하세요")
-            console.error(error);
-        })
-    }
-
+    const { token } = useToken();
 
     useEffect(() => {
         //서버통신
         fetchMembers();
     }, [])
+
+    //직원목록
+    const [members, setMembers] = useState([]);
+    //가입대기
+    const [joins, setJoins] = useState([]);
+
+    //서버 연동
+    const fetchMembers = ()=>{
+
+        axios.get(process.env.REACT_APP_API_URL + "/members", { headers: { 'Authorization': token } })
+        .then(response => {
+            setMembers(response.data.members);
+            setJoins(response.data.joins);
+        }).catch(error => {
+            alert("데이터 불러오기 실패!");
+        })
+
+    }
 
 
     return (
@@ -55,7 +52,7 @@ function MemberPage() {
 
             {/* 뷰 */}
             <div className='my-content bg-white'>
-                {selected === 'members' ? <MemberView value={{members,setMembers,fetchMembers}} /> : <JoinView value={{joins,setJoins,fetchMembers}} />}
+                {selected === 'members' ? <MemberView value={{members, fetchMembers}} /> : <JoinView value={{joins, fetchMembers}} />}
             </div>
 
         </div>

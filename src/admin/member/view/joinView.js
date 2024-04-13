@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { useToken } from '../../../custom/provider/TokenContext';
-import ServerApi from '../../../server/ServerApi';
+import axios from 'axios';
 
 function JoinView(props) {
 
-    const { joins, setJoins, fetchMembers } = props.value;
+    const { joins, fetchMembers } = props.value;
+
     //서버연동 필요 토큰
-    const { token, removeToken, updateToken } = useToken();
+    const { token } = useToken();
 
     const approval = (index, userId, approve) => {
         //버튼 비활성화
@@ -16,30 +17,19 @@ function JoinView(props) {
         approveBtn.disabled = true;
         rejectBtn.disabled = true;
 
-        //서버통신
-        ServerApi('post', '/approval',
-            {
-                'approve': approve,
-                'userId': userId
-            },
-            token, removeToken, updateToken
-        )
-            .then(response => {
-                //성공
-                approveBtn.disabled = false;
-                rejectBtn.disabled = false;
+        const url = process.env.REACT_APP_API_URL + '/members/' + userId + '/' + ( approve ? 'approval' : 'disApproval');
 
-                //성공처리
-                fetchMembers();
-                //토스트
-            })
-            .catch(error => {
-                //에러처리
-                alert("요청 실패, 관리자에게 문의하세요")
-                console.error(error);
-                approveBtn.disabled = false;
-                rejectBtn.disabled = false;
-            })
+        axios.put(url, null, { headers: { 'Authorization': token } })
+        .then(response => {
+            //성공처리
+            fetchMembers();
+        }).catch(error => {
+            //에러처리
+            alert("요청 실패, 관리자에게 문의하세요")
+        }).finally(()=>{
+            approveBtn.disabled = false;
+            rejectBtn.disabled = false;
+        })
 
     }
 

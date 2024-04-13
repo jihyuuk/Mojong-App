@@ -1,48 +1,41 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Button, Modal, ModalBody, ModalHeader, ModalTitle } from "react-bootstrap";
-import ServerApi from "../../../server/ServerApi";
 import { useToken } from "../../../custom/provider/TokenContext";
 import { useMojong } from "../../../custom/provider/MojongContext";
+import axios from "axios";
 
 function DeleteModal(props) {
 
-    useEffect(() => {
-        // mount
-        console.log('삭제모달 마운트됨');
-        
-        return() => {
-          // unmount
-          console.log('삭제모달 마운트해제됨');
-        }
-      }, [])
-
     //props로 받은 모종,모달 정보
-    const {show, handleClose} = props.modal;
+    const { show, handleClose } = props.modal;
     const mojong = props.mojong;
 
     //토큰
-    const {token ,removeToken, updateToken} = useToken();
+    const { token } = useToken();
 
     //모종 데이터 새로고침용
-    const {fetchMojong} = useMojong();
+    const { fetchMojong } = useMojong();
 
 
     //카테고리 삭제
     const deleteCategory = () => {
-        console.log('카테고리 삭제')
-        ServerApi('delete', '/categories', { 'id': mojong.id }, token, removeToken, updateToken)
-            .then(response => {
+
+        //서버연동
+        axios.delete(
+            process.env.REACT_APP_API_URL + "/category/"+mojong.id,
+            { headers: { 'Authorization': token } }
+        )
+            .then(respnose => {
                 //성공
-                console.log(response)
-                handleClose();
                 //모종데이터 새로고침
                 fetchMojong();
+                handleClose();
             })
             .catch(error => {
                 //에러처리
-                alert("데이터 불러오기 실패, 관리자에게 문의하세요")
-                console.error(error);
-            })
+                alert("카테고리 삭제 실패, 관리자에게 문의하세요")
+            });
+
     }
 
 

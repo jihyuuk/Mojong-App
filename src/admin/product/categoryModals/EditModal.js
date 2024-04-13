@@ -1,27 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, FormControl, FormLabel, Modal, ModalBody, ModalHeader, ModalTitle } from "react-bootstrap";
-import ServerApi from "../../../server/ServerApi";
 import { useToken } from "../../../custom/provider/TokenContext";
 import { useMojong } from "../../../custom/provider/MojongContext";
+import axios from "axios";
 
 function EditModal(props) {
-
-    useEffect(() => {
-        // mount
-        console.log('수정모달 마운트됨');
-
-        return () => {
-            // unmount
-            console.log('수정모달 마운트해제됨');
-        }
-    }, [])
 
     //props로 받은 모종,모달 정보
     const { show, handleClose } = props.modal;
     const mojong = props.mojong;
 
     //토큰
-    const { token, removeToken, updateToken } = useToken();
+    const { token } = useToken();
 
     //모종 데이터 새로고침용
     const { fetchMojong } = useMojong();
@@ -52,23 +42,28 @@ function EditModal(props) {
 
 
         //서버연동
-        ServerApi('put', '/categories', { id: mojong.id, name: input }, token, removeToken, updateToken)
-            .then(respnose => {
-                handleClose();
-                fetchMojong();
-            })
-            .catch(error => {
+        axios.put(
+            process.env.REACT_APP_API_URL + "/category/"+mojong.id,
+            {name:input},
+            { headers: { 'Authorization': token } }
+        )
+        .then(respnose=>{
+            console.log("수정 성공")
+            fetchMojong();
+            handleClose();
+        })
+        .catch(error=>{
+            //카테고리명 중복시
+            if(error.response && error.response.status === 409){
+                setInvaild(true);
+                setMsg('중복된 카테고리명 입니다.')
+                return;
+            }
 
-                //카테고리명 중복시
-                if (error.response && error.response.status === 409) {
-                    setInvaild(true);
-                    setMsg('중복된 카테고리명 입니다.')
-                    return;
-                }
+            alert("카테고리 추가하기 실패, 관리자에게 문의하세요")
+            console.error(error);
+        });
 
-                alert("카테고리 수정 실패, 관리자에게 문의하세요")
-                console.error(error);
-            });
     }
 
 

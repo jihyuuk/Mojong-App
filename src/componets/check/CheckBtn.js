@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Button, ListGroup } from 'react-bootstrap';
 import { useCart } from '../../custom/provider/CartContext';
-import ServerApi from '../../server/ServerApi';
 import { useToken } from '../../custom/provider/TokenContext';
+import axios from 'axios';
 
 function CheckBtn({ props }) {
 
@@ -10,14 +10,18 @@ function CheckBtn({ props }) {
 
     const { pay, salePrice, finalPrice, print } = props;
 
-    const { token, removeToken, updateToken } = useToken();
+    const { token } = useToken();
 
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState('loading');
+    const [printSuccess, setPrintSuccess] = useState(true);
 
     const handleClick = () => {
         setLoading(true);
-        ServerApi('post', '/sale',
+
+        //서버 반영
+        axios.post(
+            process.env.REACT_APP_API_URL + "/sale",
             {
                 'items': cart,
                 'totalPrice': totalPrice,
@@ -26,25 +30,32 @@ function CheckBtn({ props }) {
                 'pay': pay,
                 'print': print
             },
-            token, removeToken, updateToken
-        )
+            { headers: { 'Authorization': token } })
             .then(response => {
+                //성공
                 setSuccess('success');
-
-                // setTimeout(() => {
-                //     successClose();
-                // }, 3000)
+                setPrintSuccess(true);
             })
             .catch(error => {
+
+                if(error.response && error.response.status === 503){
+                    setSuccess('success');
+                    setPrintSuccess(false);
+                    return;
+                }
+
                 //에러처리
                 setSuccess('fail');
             })
+
     }
 
+    //성공적으로 완료후 닫기
     const successClose = () => {
         window.location.replace('/');
     }
 
+    //실패시 닫기
     const failClose = () => {
         setLoading(false);
         setSuccess('loading');
@@ -89,11 +100,13 @@ function CheckBtn({ props }) {
                         <div className='text-secondary'>{pay === 'card' ? '카드' : '현금'}</div>
                     </ListGroup.Item>
 
-                    <ListGroup.Item className='d-flex justify-content-between'>
-                        <div>영수증</div>
-                        <div className='text-secondary'>{print ? '출력' : '미출력'}</div>
-                    </ListGroup.Item>
-
+                    {print && 
+                      <ListGroup.Item className='d-flex justify-content-between'>
+                          <div>영수증</div>
+                          <div className={printSuccess?'text-secondary':'text-danger'}>{printSuccess ? '출력' : '출력실패!'}</div>
+                      </ListGroup.Item>
+                    }
+              
                 </ListGroup>
 
                 {success === 'success' &&
