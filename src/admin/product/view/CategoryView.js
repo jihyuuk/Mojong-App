@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { Button, FormControl, ListGroup, ListGroupItem, Modal, ModalBody, ModalHeader, ModalTitle } from 'react-bootstrap';
-import ServerApi from '../../../server/ServerApi';
+import { Button, ListGroup } from 'react-bootstrap';
 import { useToken } from '../../../custom/provider/TokenContext';
 import CreateModal from '../categoryModals/CreateModal';
 import EditModal from '../categoryModals/EditModal';
 import DeleteModal from '../categoryModals/DeleteModal';
 import { useMojong } from '../../../custom/provider/MojongContext';
+import axios from 'axios';
 
 function CategoryView(props) {
 
     const {mojongs, setMojongs, fetchMojong} = useMojong();
-    const { token, removeToken, updateToken } = useToken();
+    const { token } = useToken();
 
     //모달
     const [modal,setModal] = useState('');
@@ -57,20 +57,18 @@ function CategoryView(props) {
 
 
         //서버 반영
-        ServerApi('put', '/categories/seqChange',
-            copyArr.map((mojong) => ({ id: mojong.id, name: mojong.name }))
-            , token, removeToken, updateToken)
+        axios.put(
+            process.env.REACT_APP_API_URL + "/category/seqChange",
+            copyArr.map((mojong) => ({ id: mojong.id, name: mojong.name })), 
+            { headers: { 'Authorization': token } })
             .then(response => {
-                //성공
-                console.log('성공');
-            })
-            .catch(error => {
-                //에러처리
-                alert("요청 실패, 관리자에게 문의하세요")
-                console.error(error);
-                //데이터 다시 요청
+                //console.log("순서 변경 성공!");
+            }).catch(error => {
+                alert("순서 변경을 실패하였습니다.");
+            }).finally(()=>{
                 fetchMojong();
             })
+
     }
 
     return (
