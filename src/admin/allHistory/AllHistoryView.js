@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { ListGroup, Pagination } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import ServerApi from '../../server/ServerApi';
 import { useToken } from '../../custom/provider/TokenContext';
+import axios from 'axios';
 
 function AllHistoryView() {
 
     const [histories, setHistories] = useState([]);
 
-    const { token, removeToken, updateToken } = useToken();
+    const { token } = useToken();
 
     //페이징
     const [totalPages, setTotalPages] = useState(0);
@@ -18,19 +18,18 @@ function AllHistoryView() {
     const size = 10;
 
     const fetchHistory = (pageNumber) => {
-        ServerApi('get', '/allHistory?page=' + pageNumber+'&size='+size, null, token, removeToken, updateToken)
+
+        const url = process.env.REACT_APP_API_URL +'/allHistory?page=' + pageNumber+'&size='+size;
+
+        axios.get(url, { headers: { 'Authorization': token } })
             .then(response => {
-                setHistories(response.content);
-                setNowPage(response.number);
-                setTotalPages(response.totalPages);
-                // setIsFirst(response.first);
-                // setIsLast(response.last);
+                setHistories(response.data.contents);
+                setNowPage(response.data.pageInfo.nowPage);
+                setTotalPages(response.data.pageInfo.totalPages);
+            }).catch(error => {
+                alert("데이터 불러오기 실패!");
             })
-            .catch(error => {
-                //에러처리
-                alert("데이터 불러오기 실패, 관리자에게 문의하세요")
-                console.error(error);
-            })
+
     }
 
     useEffect(() => {
@@ -39,9 +38,6 @@ function AllHistoryView() {
 
     useEffect(() => {
         setStartPage(Math.floor(nowPage / count) * count);
-        console.log('nowPage : ' + nowPage)
-        console.log('count ' + count)
-        console.log('startPgae : ' + (Math.floor(nowPage / count) * count))
     }, [nowPage]);
 
     if (histories.length <= 0) {
@@ -85,17 +81,17 @@ function AllHistoryView() {
                             <div className='d-flex justify-content-between'>
                                 <div>
                                     <div className='fw-bold mb-1 text-success' style={{ fontSize: '1.15rem' }}>
-                                        {history.firstItem} {history.count > 1 ? `외 ${history.count - 1}개 ` : ''}
+                                        {history.title}
                                     </div>
                                     <div className='text-secondary'>판매번호 #{history.id}</div>
                                     <div className='text-secondary'>판매자 {history.username}</div>
                                     <div className='text-secondary'>
-                                        {history.createdDate}
+                                        {history.date}
                                     </div>
                                 </div>
                                 <div className='d-flex align-items-center justify-content-end'>
                                     <div className='fw-semibold fs-5'>
-                                        {history.finalPrice.toLocaleString('ko-KR')}원
+                                        {history.price.toLocaleString('ko-KR')}원
                                     </div>
                                 </div>
                             </div>
