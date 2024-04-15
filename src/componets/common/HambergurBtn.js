@@ -82,7 +82,7 @@ function HamburgerBtn() {
               </Link>
             </ListGroup.Item>
 
-            <ListGroup.Item className='py-2'>
+            {/* <ListGroup.Item className='py-2'>
               <Link to="/receipt">
                 <div>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-receipt-cutoff me-3" viewBox="0 0 16 16">
@@ -92,7 +92,7 @@ function HamburgerBtn() {
                   영수증
                 </div>
               </Link>
-            </ListGroup.Item>
+            </ListGroup.Item> */}
 
             {/* 관리자만 */}
             {role === 'ROLE_ADMIN' && <>

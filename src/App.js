@@ -40,7 +40,7 @@ function App() {
                   <Route element={<PrivateRoute />}>
                     <Route path='/' element={<Home />}></Route>
                     <Route path='/shopping-cart' element={<ShoppingCart />}></Route>
-                    <Route path='/receipt' element={<Receipt />}></Route>
+                    {/* <Route path='/receipt' element={<Receipt />}></Route> */}
                     <Route path='/custom-item' element={<CustomItem />}></Route>
                     <Route path='/check' element={<Check />}></Route>
 
