@@ -94,19 +94,19 @@ function CustomItem() {
 
                 <div>
                     <Form.Label className='fs-5 fw-medium text-success'>상품명</Form.Label>
-                    <Form.Control type="text" className='py-2' placeholder="상품명을 입력해주세요" value={name} onChange={(e) => nameChange(e.target.value)} isInvalid={isInValidName} />
+                    <Form.Control size="lg" type="text" className='py-2' placeholder="상품명을 입력해주세요" value={name} onChange={(e) => nameChange(e.target.value)} isInvalid={isInValidName} />
                     <Form.Control.Feedback type="invalid" className='text-start'>{feedbackName}</Form.Control.Feedback>
                 </div>
 
                 <div className='mt-3'>
                     <Form.Label className='fs-5 fw-medium  text-success'>수량</Form.Label>
-                    <Form.Control type="number" className='py-2' placeholder="0개" pattern="\d*" min="0" inputMode="numeric" value={quantity} onChange={(e) => quantityChange(Number(e.target.value))} isInvalid={isInValidQuantity} />
+                    <Form.Control size="lg" type="number" className='py-2' placeholder="0개" pattern="\d*" min="0" inputMode="numeric" value={quantity} onChange={(e) => quantityChange(Number(e.target.value))} isInvalid={isInValidQuantity} />
                     <Form.Control.Feedback type="invalid" className='text-start'>{feedbackQuantity}</Form.Control.Feedback>
                 </div>
 
                 <div className='mt-3'>
                     <Form.Label className='fs-5 fw-medium  text-success'>단가</Form.Label>
-                    <Form.Control type="number" className='py-2' placeholder="0원" pattern="\d*" min="0" inputMode="numeric" value={price} onChange={(e) => priceChange(Number(e.target.value))} isInvalid={isInValidPrice} />
+                    <Form.Control size="lg" type="number" className='py-2' placeholder="0원" pattern="\d*" min="0" inputMode="numeric" value={price} onChange={(e) => priceChange(Number(e.target.value))} isInvalid={isInValidPrice} />
                     <Form.Control.Feedback type="invalid" className='text-start'>{feedbackPrice}</Form.Control.Feedback>
                 </div>
             </div>
