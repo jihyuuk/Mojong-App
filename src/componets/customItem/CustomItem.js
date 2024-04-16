@@ -14,13 +14,13 @@ function CustomItem() {
 
     //인풋값
     const [name, setName] = useState('');
-    const [price, setPrice] = useState('');
-    const [quantity, setQuantity] = useState('');
+    const [price, setPrice] = useState(0);
+    const [quantity, setQuantity] = useState(0);
     const [total, setTotal] = useState(0);
 
-    useEffect(()=>{
-        setTotal(price*quantity);
-    },[price, quantity]);
+    useEffect(() => {
+        setTotal(price * quantity);
+    }, [price, quantity]);
 
     //검증
     const [isInValidName, setIsInValidName] = useState(false);
@@ -57,6 +57,10 @@ function CustomItem() {
             setFeedbackQuantity('수량은 0 보다 커야합니다.')
             setIsInValidQuantity(true);
         }
+        if (price <= 0) {
+            setFeedbackPrice('단가는 0 보다 커야합니다.')
+            setIsInValidPrice(true);
+        }
 
         //장바구니에 담기
         addCart(name, price, quantity)
@@ -69,44 +73,63 @@ function CustomItem() {
         setName(value);
         if (isInValidName) setIsInValidName(false);
     }
-    const priceChange = (value) => {
-        console.log(value)
-        setPrice(value);
-        if (isInValidPrice) setIsInValidPrice(false);
-    }
+
     const quantityChange = (value) => {
-        if (value === 0) {
-            setQuantity('')
-        } else {
-            setQuantity(value);
+
+        setIsInValidQuantity(false);
+
+        if (!value) {
+            setQuantity(0);
+            return;
         }
-        if (isInValidQuantity) setIsInValidQuantity(false);
+
+        if (!isNaN(value)) {
+            setQuantity(Number(value));
+        }
     }
 
- 
+    const priceChange = (value) => {
+
+        setIsInValidPrice(false);
+
+        //빈값
+        if (!value) {
+            setPrice(0);
+            return;
+        }
+
+        const number = value.replace(/,/g, '');
+        //숫자일때만 적용
+        if (!isNaN(number)) {
+            setPrice(Number(number));
+        }
+    }
+
+
+
 
     return (
         <div className='my-container bg-white'>
 
-            <SubHeader value='직접 입력하기' to={ fromHome ? '/' :'/shopping-cart'}></SubHeader>
+            <SubHeader value='직접 입력하기' to={fromHome ? '/' : '/shopping-cart'}></SubHeader>
 
             <div className='my-content p-3'>
 
                 <div>
                     <Form.Label className='fs-5 fw-medium text-success'>상품명</Form.Label>
-                    <Form.Control size="lg" type="text" className='py-2' placeholder="상품명을 입력해주세요" value={name} onChange={(e) => nameChange(e.target.value)} isInvalid={isInValidName} />
+                    <Form.Control size="lg" type="text" placeholder="상품명을 입력해주세요" value={name} onChange={(e) => nameChange(e.target.value)} isInvalid={isInValidName} />
                     <Form.Control.Feedback type="invalid" className='text-start'>{feedbackName}</Form.Control.Feedback>
                 </div>
 
                 <div className='mt-3'>
                     <Form.Label className='fs-5 fw-medium  text-success'>수량</Form.Label>
-                    <Form.Control size="lg" type="number" className='py-2' placeholder="0개" pattern="\d*" min="0" inputMode="numeric" value={quantity} onChange={(e) => quantityChange(Number(e.target.value))} isInvalid={isInValidQuantity} />
+                    <Form.Control size="lg" type="text" placeholder="0개" pattern="\d*" inputMode="numeric" value={quantity === 0 ? '' : quantity} onChange={(e) => quantityChange(e.target.value)} isInvalid={isInValidQuantity} />
                     <Form.Control.Feedback type="invalid" className='text-start'>{feedbackQuantity}</Form.Control.Feedback>
                 </div>
 
                 <div className='mt-3'>
                     <Form.Label className='fs-5 fw-medium  text-success'>단가</Form.Label>
-                    <Form.Control size="lg" type="number" className='py-2' placeholder="0원" pattern="\d*" min="0" inputMode="numeric" value={price} onChange={(e) => priceChange(Number(e.target.value))} isInvalid={isInValidPrice} />
+                    <Form.Control size="lg" type="text" placeholder="0원" pattern="\d*" inputMode="numeric" value={price === 0 ? '' : price.toLocaleString('ko-KR')} onChange={(e) => priceChange(e.target.value)} isInvalid={isInValidPrice} />
                     <Form.Control.Feedback type="invalid" className='text-start'>{feedbackPrice}</Form.Control.Feedback>
                 </div>
             </div>

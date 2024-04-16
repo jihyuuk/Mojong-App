@@ -35,8 +35,22 @@ function CheckView() {
     useEffect(() => {
         const calculate = getMoney - finalPrice;
         setChange(calculate);
-
     }, [getMoney]);
+
+    //잔돈인풋
+    const changeGetMoney = (value) => {
+        //빈값
+        if (!value) {
+            setGetMoney(0);
+            return;
+        }
+
+        const number = value.replace(/,/g, '');
+        //숫자일때만 적용
+        if (!isNaN(number)) {
+            setGetMoney(Number(number));
+        }
+    }
 
 
     //할인 관련========================================================================
@@ -64,25 +78,30 @@ function CheckView() {
     //입력값 변경시 할인적용
     const saleInputChange = (value) => {
 
-        if (value <= 0 || value === '') {
-            setSaleInput('');
+        //빈값
+        if (!value) {
             setSalePrice(0);
+            setSaleInput(0);
             return;
         }
 
-        setSaleInput(value);
-
-        if (saleCondition === 'won') {
-            saleWon(value);
-        } else {
-            salePercent(value);
+        const number = value.replace(/,/g, '');
+        //숫자일때만 적용
+        if (!isNaN(number)) {
+            setSaleInput(Number(number));
+            if (saleCondition === 'won') {
+                saleWon(Number(number));
+            } else {
+                salePercent(Number(number));
+            }
         }
+
     }
 
     //won일때
     const saleWon = (value) => {
         //검증
-        setSalePrice(Number(value));
+        setSalePrice(value);
     }
 
     //percent일때
@@ -157,7 +176,7 @@ function CheckView() {
                     {showSale &&
                         <div className='mt-2'>
                             <InputGroup>
-                                <Form.Control size='lg' className='text-end me-2' placeholder="0" type="number" pattern="\d*" value={saleInput === 0 ? '' : saleInput} onChange={(e) => saleInputChange(e.target.value.trim())} />
+                                <Form.Control size='lg' className='text-end me-2' placeholder="0" type="text" pattern="\d*" value={saleInput === 0 ? '' : saleInput.toLocaleString('ko-KR')} onChange={(e) => saleInputChange(e.target.value.trim())} />
                                 <Button variant={`${saleCondition === 'won' ? 'success' : 'outline-secondary'}`} className='px-3 fw-semibold' onClick={() => saleConditionChange()}>원</Button>
                                 <Button variant={`${saleCondition === 'percent' ? 'success' : 'outline-secondary'}`} className='px-3 fw-semibold' onClick={() => saleConditionChange()}>%</Button>
                             </InputGroup>
@@ -211,10 +230,10 @@ function CheckView() {
                                 <Accordion.Body>
                                     <div div className='fs-6'>
                                         <div className='d-flex align-items-center'>
-                                            <div className='text-nowrap me-5 text-secondary'>
+                                            <div className='text-nowrap me-5 text-secondary fw-semibold'>
                                                 받은금액
                                             </div>
-                                            <Form.Control className='flex-grow-1 text-end' type="number" pattern="\d*" placeholder="0" value={getMoney} onClick={() => setGetMoney('')} onChange={(e) => setGetMoney(e.target.value.trim())} />
+                                            <Form.Control size='lg' className='flex-grow-1 text-end' type="text" pattern="\d*" placeholder="0" value={getMoney === 0 ? '' : getMoney.toLocaleString('ko-KR')} onClick={() => setGetMoney(0)} onChange={(e) => changeGetMoney(e.target.value.trim())} />
                                         </div>
                                         <hr />
                                         <div className={`d-flex justify-content-between fw-semibold ${change < 0 ? 'text-danger' : ''}`} style={{ fontSize: '1.15rem' }}>
@@ -254,7 +273,7 @@ function CheckView() {
 
             </div >
 
-            <CheckBtn props={{ salePrice, finalPrice, pay, print }} ></CheckBtn>
+            <CheckBtn props={{ salePrice, finalPrice, pay, print, change }} ></CheckBtn>
         </>
     );
 }

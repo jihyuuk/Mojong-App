@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Form, FormControl, ListGroup, ListGroupItem } from 'react-bootstrap';
-import SubHeader from '../../../componets/common/SubHeader';
+import React, { useState } from 'react';
+import { Button, Form, FormControl } from 'react-bootstrap';
 import { useToken } from '../../../custom/provider/TokenContext';
-import ServerApi from '../../../server/ServerApi';
 import { useMojong } from '../../../custom/provider/MojongContext';
+import axios from 'axios';
 
-function EditProduct({selected, handleClose}) {
+function EditProduct({ selected, handleClose }) {
 
     const { mojongs, fetchMojong } = useMojong();
 
@@ -25,8 +24,7 @@ function EditProduct({selected, handleClose}) {
     const [fbPrice, setFbPrice] = useState('');
 
     //서버연동
-    const { token, removeToken, updateToken } = useToken();
-
+    const { token } = useToken();
 
     //검증
     const validate = () => {
@@ -50,7 +48,7 @@ function EditProduct({selected, handleClose}) {
             valid = false;
         }
 
-        if (price < 0) {
+        if (price <= 0) {
             setFbPrice('가격은 0보다 커야합니다.');
             setInvaildPrice(true);
             valid = false;
@@ -78,13 +76,14 @@ function EditProduct({selected, handleClose}) {
 
         //빈값
         if (!value) {
-            setPrice('');
+            setPrice(0);
             return;
         }
 
+        const number = value.replace(/,/g, '');
         //숫자일때만 적용
-        if (!isNaN(value)) {
-            setPrice(Number(value));
+        if (!isNaN(number)) {
+            setPrice(Number(number));
         }
     }
 
@@ -93,25 +92,19 @@ function EditProduct({selected, handleClose}) {
         //검증실행
         if (!validate()) return;
 
-        console.log('카테고리 id : ' + category);
-        console.log('상품명 : ' + name);
-        console.log('설명 : ' + description);
-        console.log('가격 : ' + price);
-
-
-        
-        //서버 반영
-        ServerApi('put', '/item',{'categoryId':category, 'id':selected.item.id,'name':name,'description':description,'price':price}, token, removeToken, updateToken)
+        //서버반영
+        axios.put(
+            process.env.REACT_APP_API_URL + "/item/" + selected.item.id,
+            { 'categoryId': category, 'name': name, 'description': description, 'price': price },
+            { headers: { 'Authorization': token } })
             .then(response => {
-                //성공
-                console.log('성공');
+                //console.log("순서 변경 성공!");
                 fetchMojong();
                 handleClose();
-            })
-            .catch(error => {
-                //에러처리
-                alert("요청 실패, 관리자에게 문의하세요")
-                console.error(error);
+            }).catch(error => {
+                //상품명중복 <- 설정 x, 새로 추가할때만 적용
+   
+                alert("상품수정 실패!, 관리자에게 문의하세요")
             })
     }
 
@@ -121,7 +114,17 @@ function EditProduct({selected, handleClose}) {
 
             <div className='my-container'>
 
-                <SubHeader value='상품수정' to='/'></SubHeader>
+                {/* 헤더 */}
+                <header className='border-success-subtle border-bottom border-2 fw-bold fs-3 p-3 d-flex bg-white shadow-sm' >
+                    {/* 뒤로가기 아이콘*/}
+                    <div className='d-flex align-items-center text-secondary' onClick={() => handleClose()}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                        </svg>
+                    </div>
+
+                    <p className='ms-3 mb-0'>상품수정</p>
+                </header >
 
                 <div className='my-content p-3'>
                     <Form>
@@ -152,14 +155,14 @@ function EditProduct({selected, handleClose}) {
                         {/* 가격 */}
                         <Form.Group className="mb-3">
                             <Form.Label className='fs-5 fw-medium text-success'>가격</Form.Label>
-                            <Form.Control size="lg" type="text" pattern="\d*" inputMode="numeric" placeholder='ex) 500원' isInvalid={invalidPrice} value={price} onChange={(e) => priceChange(e.target.value.trim())} />
+                            <Form.Control size="lg" type="text" pattern="\d*" inputMode="numeric" placeholder='ex) 500원' isInvalid={invalidPrice} value={price === 0 ? '':price.toLocaleString('ko-KR')} onChange={(e) => priceChange(e.target.value.trim())} />
                             <FormControl.Feedback type='invalid'>{fbPrice}</FormControl.Feedback>
                         </Form.Group>
                     </Form>
                 </div>
 
-                <div className='mt-auto w-100 bg-white p-2'>
-                    <Button variant='success' className='w-100' onClick={() => submit()}>수정하기</Button>
+                <div className='w-100 bg-white p-2'>
+                    <Button variant='success' className='w-100 fs-5 fw-semibold p-2 rounded-3' onClick={() => submit()}>수정하기</Button>
                 </div>
             </div>
         </div>
