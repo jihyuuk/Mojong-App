@@ -273,7 +273,7 @@ function CheckView() {
 
             </div >
 
-            <CheckBtn props={{ salePrice, finalPrice, pay, print, change }} ></CheckBtn>
+            <CheckBtn props={{ salePrice, finalPrice, pay, print }} ></CheckBtn>
         </>
     );
 }
