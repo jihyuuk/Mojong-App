@@ -9,12 +9,12 @@ function Category(props) {
 
 
     //카테고리 바 스크롤
-    const scrollNav = (e) => {
+    const scrollNav = (e, index) => {
 
         const element = e.target;
 
         //현재 선택된 카테고리 적용
-        setSelectedCategory(e.target.textContent)
+        setSelectedCategory(index);
 
         //화면 중앙에 오게
         const container = document.getElementById('scroll-nav');
@@ -31,7 +31,7 @@ function Category(props) {
         <nav id='category'>
             <div id='scroll-nav' className='overflow-x-auto w-100 d-flex bg-white border-bottom fw-medium text-secondary shadow-sm'>
                 {mojongs.map((mojong, index) => (
-                    <div key={index} className={`py-2 px-3 fs-5 ${selectedCategory === mojong.name ? 'selected' : ''}`} onClick={(e) => scrollNav(e)}>
+                    <div key={index} className={`py-2 px-3 fs-5 ${selectedCategory === index ? 'selected' : ''}`} onClick={(e) => scrollNav(e,index)}>
                         <span className='text-nowrap'>
                             {mojong.name}
                         </span>

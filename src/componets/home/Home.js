@@ -12,7 +12,7 @@ function Home() {
     const { mojongs } = useMojong();
 
     //카테고리 관련
-    const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState(0);
     const [items, setItems] = useState([]);
 
     //검색창 관련
@@ -36,17 +36,11 @@ function Home() {
 
     //카테고리 바뀌면 내용 바꾸기
     useEffect(() => {
-        const findMojong = mojongs.find((category) => category.name === selectedCategory);
-        if (findMojong) {
-            setItems(findMojong.items);
+        if (mojongs[selectedCategory]) {
+            setItems(mojongs[selectedCategory].items);
         }
-    }, [selectedCategory]);
+    }, [selectedCategory, mojongs]);
 
-    useEffect(() => {
-        if (mojongs.length > 0) {
-            setSelectedCategory(mojongs[0].name);
-        }
-    }, [mojongs])
 
 
     return (
