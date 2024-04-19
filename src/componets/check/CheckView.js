@@ -176,7 +176,7 @@ function CheckView() {
                     {showSale &&
                         <div className='mt-2'>
                             <InputGroup>
-                                <Form.Control size='lg' className='text-end me-2' placeholder="0" type="text" pattern="\d*" value={saleInput === 0 ? '' : saleInput.toLocaleString('ko-KR')} onChange={(e) => saleInputChange(e.target.value.trim())} />
+                                <Form.Control size='lg' placeholder="0" type="text" pattern="\d*" inputMode="numeric" className='text-end me-2' value={saleInput === 0 ? '' : saleInput.toLocaleString('ko-KR')} onChange={(e) => saleInputChange(e.target.value.trim())} />
                                 <Button variant={`${saleCondition === 'won' ? 'success' : 'outline-secondary'}`} className='px-3 fw-semibold' onClick={() => saleConditionChange()}>원</Button>
                                 <Button variant={`${saleCondition === 'percent' ? 'success' : 'outline-secondary'}`} className='px-3 fw-semibold' onClick={() => saleConditionChange()}>%</Button>
                             </InputGroup>
@@ -233,7 +233,7 @@ function CheckView() {
                                             <div className='text-nowrap me-5 text-secondary fw-semibold'>
                                                 받은금액
                                             </div>
-                                            <Form.Control size='lg' className='flex-grow-1 text-end' type="text" pattern="\d*" placeholder="0" value={getMoney === 0 ? '' : getMoney.toLocaleString('ko-KR')} onClick={() => setGetMoney(0)} onChange={(e) => changeGetMoney(e.target.value.trim())} />
+                                            <Form.Control size='lg' className='flex-grow-1 text-end' type="text"  pattern="\d*" inputMode="numeric" placeholder="0" value={getMoney === 0 ? '' : getMoney.toLocaleString('ko-KR')} onClick={() => setGetMoney(0)} onChange={(e) => changeGetMoney(e.target.value.trim())} />
                                         </div>
                                         <hr />
                                         <div className={`d-flex justify-content-between fw-semibold ${change < 0 ? 'text-danger' : ''}`} style={{ fontSize: '1.15rem' }}>
