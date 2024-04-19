@@ -1,28 +1,55 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, ListGroup, Offcanvas, OffcanvasHeader, OffcanvasTitle } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { useToken } from '../../custom/provider/TokenContext';
 import { useAuth } from '../../custom/provider/AuthContext';
+import axios from 'axios';
 
 function HamburgerBtn() {
 
-  const { removeToken } = useToken();
+  //토큰
+  const { token, removeToken } = useToken();
+  //유저정보
+  const { username, role } = useAuth();
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const toggleShow = () => setShow((s) => !s);
 
-  const { username, role } = useAuth();
+  //오늘의 판매 로딩
+  const [loading, setLoading] = useState(true);
+  const [todaySale, setTodaySale] = useState();
 
   //로그아웃 핸들링
-  const navigate = useNavigate();
   const handleLogout = () => {
     //저장소에 토큰 지우기
     removeToken();
     //로그인 페이지로 리다이렉트
     window.location.replace('/login');
   }
-  
+
+  //햄버거 열릴때 오늘의 판매 가져오기
+  useEffect(() => {
+    if (!show) return;
+    console.log('열려라 키움의 송성문~');
+
+    //로딩 true
+    setLoading(true);
+
+    //서버 요청
+    const url = process.env.REACT_APP_API_URL + (role === 'ROLE_ADMIN' ? '/allTodaySale' : '/todaySale');
+
+    axios.get(url, { headers: { 'Authorization': token } })
+      .then(response => {
+        setTodaySale(response.data);
+        console.log(response.data);
+        setLoading(false);
+      }).catch(error => {
+        console.error('오늘의 판매 정보 불러오기 실패!');
+      })
+
+  }, [show])
+
   return (
     <>
       {/* 햄버거버튼 */}
@@ -42,9 +69,34 @@ function HamburgerBtn() {
         </Offcanvas.Header>
 
         {/* 목록 */}
-        <Offcanvas.Body id='hambergur-menu' className='d-flex flex-column mt-3'>
+        <Offcanvas.Body id='hambergur-menu' className='d-flex flex-column'>
 
-          <ListGroup variant='flush fs-5'>
+          {/* 오늘의 판매 통계 */}
+          <div className='border border-success-subtle rounded-3 p-2 bg-body-tertiary'>
+            <div className='fs-5 fw-semibold mb-2'>🏅 오늘의 업적 </div>
+            {loading ?
+              <>
+                로딩
+              </>
+              :
+              <>
+                <div>
+                  <div>판매: {todaySale.count}건</div>
+                  <div>총액: {todaySale.price.toLocaleString('ko-KR')}원</div>
+                </div>
+
+                {/* 관리자만 */}
+                {role === 'ROLE_ADMIN' &&
+                  <div className='mt-2'>
+                    <div>전체 판매: {todaySale.allCount}건</div>
+                    <div>전체 총액: {todaySale.allPrice.toLocaleString('ko-KR')}원</div>
+                  </div>
+                }
+              </>
+            }
+          </div>
+
+          <ListGroup variant='flush fs-5 mt-4'>
 
             <ListGroup.Item className='py-2'>
               <Link to="/history">
@@ -135,16 +187,16 @@ function HamburgerBtn() {
 
           </ListGroup>
 
-          {/* 로그아웃버튼 */}
-          <div className='mt-5 text-center'>
-            <Button variant="outline-success w-100 rounded-5" onClick={handleLogout}>
-              로그아웃
-            </Button>
-          </div>
-
-
           {/* 하단로고 */}
           <div className='mt-auto text-center'>
+
+            {/* 로그아웃버튼 */}
+            <div className='mb-2'>
+              <Button variant="outline-success w-100 rounded-5" onClick={() => handleLogout()}>
+                로그아웃
+              </Button>
+            </div>
+
             <img src={process.env.PUBLIC_URL + '/logo2.png'} className='w-50 px-2' />
           </div>
 
