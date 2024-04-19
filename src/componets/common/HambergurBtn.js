@@ -20,7 +20,7 @@ function HamburgerBtn() {
     //저장소에 토큰 지우기
     removeToken();
     //로그인 페이지로 리다이렉트
-    navigate('/', { replace: true });
+    window.location.replace('/login');
   }
   
   return (
