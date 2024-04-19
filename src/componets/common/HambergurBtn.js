@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, ListGroup, Offcanvas, OffcanvasHeader, OffcanvasTitle } from 'react-bootstrap';
+import { Button, ListGroup, Offcanvas, OffcanvasHeader, OffcanvasTitle, Spinner } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { useToken } from '../../custom/provider/TokenContext';
 import { useAuth } from '../../custom/provider/AuthContext';
@@ -76,7 +76,7 @@ function HamburgerBtn() {
             <div className='fs-5 fw-semibold mb-2'>🏅 오늘의 업적 </div>
             {loading ?
               <>
-                로딩
+                불러오는중... <Spinner animation="border" size="sm" />
               </>
               :
               <>
