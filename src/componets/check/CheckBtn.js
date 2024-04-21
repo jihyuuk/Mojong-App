@@ -69,8 +69,8 @@ function CheckBtn({ props }) {
 
                 <div className='text-center mt-2'>
                     {success != 'fail' ?
-                        <div class={`circle-loader ${success === 'success' ? 'load-complete' : ''}`}>
-                            {success === 'success' && <div class="checkmark draw"></div>}
+                        <div className={`circle-loader ${success === 'success' ? 'load-complete' : ''}`}>
+                            {success === 'success' && <div className="checkmark draw"></div>}
                         </div>
                         :
                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" className="bi bi-exclamation-circle text-danger" viewBox="0 0 16 16">
@@ -79,9 +79,9 @@ function CheckBtn({ props }) {
                         </svg>
                     }
 
-                    {success === 'loading' && <div class="fs-1 mt-4 text-secondary fw-medium">결제중 입니다..</div>}
-                    {success === 'success' && <div class="fs-1 mt-4 text-success fw-medium">정산완료!</div>}
-                    {success === 'fail' && <><div class="fs-1 mt-4 text-danger fw-medium">정산실패</div><div className='mt-1 fw-medium'>관리자에게 문의해주세요.</div></>}
+                    {success === 'loading' && <div className="fs-1 mt-4 text-secondary fw-medium">결제중 입니다..</div>}
+                    {success === 'success' && <div className="fs-1 mt-4 text-success fw-medium">정산완료!</div>}
+                    {success === 'fail' && <><div className="fs-1 mt-4 text-danger fw-medium">정산실패</div><div className='mt-1 fw-medium'>관리자에게 문의해주세요.</div></>}
                 </div>
 
                 <ListGroup variant="flush" className='border rounded-4 py-2 mt-4 fs-5'>

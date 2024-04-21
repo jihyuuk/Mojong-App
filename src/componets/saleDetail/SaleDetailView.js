@@ -149,7 +149,7 @@ function SaleDetailView() {
                 <Button variant='outline-success' className='fw-semibold fs-5 py-2 px-5 rounded-5' disabled={printLoading}  onClick={()=>printReceipt()}>
                     {printLoading ?
                         <>
-                            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                            <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
                             <span role="status" className='ms-2'>출력중...</span>
                         </>
                         :

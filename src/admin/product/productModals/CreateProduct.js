@@ -131,8 +131,8 @@ function CreateProduct(props) {
                         {/* 카테고리 */}
                         <Form.Group className="mb-3">
                             <Form.Label className='fs-5 fw-medium text-success'>카테고리</Form.Label>
-                            <Form.Select size="lg" onChange={(e) => categoryChange(Number(e.target.value))} isInvalid={invalidCategory}>
-                                <option value={-1} disabled selected>선택하기</option>
+                            <Form.Select size="lg" defaultValue={-1} onChange={(e) => categoryChange(Number(e.target.value))} isInvalid={invalidCategory}>
+                                <option value={-1} disabled >선택하기</option>
                                 {mojongs.map((mojong, index) => (
                                     <option key={index} value={index}>{mojong.name}</option>
                                 ))}
