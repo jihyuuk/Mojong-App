@@ -11,9 +11,10 @@ function CustomItem() {
     //뒤로가기
     const [params] = useSearchParams();
     const fromHome = params.get('fromHome');
+    const itemName = params.get('itemName');
 
     //인풋값
-    const [name, setName] = useState('');
+    const [name, setName] = useState(itemName ? itemName : '');
     const [price, setPrice] = useState(0);
     const [quantity, setQuantity] = useState(0);
     const [total, setTotal] = useState(0);
