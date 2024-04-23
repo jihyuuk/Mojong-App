@@ -77,11 +77,11 @@ function SaleDetailView() {
                     {/* 금액 부분 */}
                     <div className='border border-success-subtle p-3 rounded-3'>
                         {saleItems.map((item, index) => (
-                            <div key={index} className='d-flex justify-content-between'>
+                            <div key={index} className='d-flex flex-wrap mt-1'>
                                 <div>
-                                    {index + 1}. {item.name} x {item.quantity}
+                                    {index + 1}. {item.name} - {item.price.toLocaleString('ko-KR')} x {item.quantity}
                                 </div>
-                                <div>
+                                <div  className='ms-auto'>
                                     {item.total.toLocaleString('ko-KR')}원
                                 </div>
                             </div>

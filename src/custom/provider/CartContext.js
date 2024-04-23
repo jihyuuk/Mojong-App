@@ -33,7 +33,7 @@ export function CartProvider({ children }) {
             //담겨있다면 카운트 합치기
             const copyCart = [...cart];
             //검증
-            if (copyCart[existingIndex].price != addItem.price) {
+            if (copyCart[existingIndex].price !== addItem.price) {
                 //이름은 동일한데 가격은 다른 아이템 추가시
                 console.error("장바구니 추가 에러 발생");
                 alert("동일한 이름, 다른 가격인 아이템이 이미 장바구니에 존재합니다.");
