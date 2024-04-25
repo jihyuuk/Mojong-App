@@ -18,6 +18,7 @@ import ProductPage from './admin/product/ProductPage';
 import AdminRouter from './custom/router/AdminRouter';
 import { AuthProvider } from './custom/provider/AuthContext';
 import { MojongProvider } from './custom/provider/MojongContext';
+import LoginRouter from './custom/router/LoginRouter';
 
 function App() {
 
@@ -32,8 +33,10 @@ function App() {
                 <Routes>
 
                   {/* 로그인 필요 X */}
-                  <Route path='/login' element={<LoginPage />}></Route>
-                  <Route path='/join' element={<JoinPage />}></Route>
+                  <Route element={<LoginRouter/>}>
+                    <Route path='/login' element={<LoginPage />}></Route>
+                    <Route path='/join' element={<JoinPage />}></Route>
+                  </Route>
 
 
                   {/* 로그인 필요 O */}
